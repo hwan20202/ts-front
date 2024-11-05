@@ -21,16 +21,13 @@ CookingStep.propTypes = {
     content: PropTypes.string.isRequired,
 }
 
-const info = [
-    { content: "물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다",},
-    { content: "물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다",},
-    { content: "물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다",},
-    { content: "물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다물을 붓습니다",},
+const CookingStepList = ( { data, className }) => {
 
-];
+    const classList =  `
+    ${className}
+    `
 
-const CookingStepList = () => {
-    const steps = info.map((step, index) => (
+    const steps = data.map((step, index) => (
         <CookingStep
             key={index}
             stepNumber={index + 1}
@@ -39,8 +36,13 @@ const CookingStepList = () => {
     ));
 
     return (
-        <TitleWithItems title='조리 순서' items={steps}/>
+        <TitleWithItems title='조리 순서' items={steps} className={classList}/>
     );
+}
+
+CookingStepList.propTypes = {
+    data: PropTypes.array.isRequired,
+    className: PropTypes.string,
 }
 
 export default CookingStepList;

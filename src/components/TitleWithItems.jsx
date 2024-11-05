@@ -8,13 +8,13 @@ const TitleWithItems = (
         className,
     }) => {
 
-    const combinedClass = `
+    const classList = `
     ${className}
     w-full bg-gray-800 rounded-lg
     `;
 
     return (
-        <div className={combinedClass}>
+        <div className={classList}>
             <h2 className='text-left bg-gray-900 rounded-t-lg'>{title}</h2>
             <ul className='rounded-b-lg py-2'>
             {items.map((ItemComponent, index) => (

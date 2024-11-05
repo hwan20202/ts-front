@@ -10,7 +10,7 @@ const Header = (
         className,
     }) => {
 
-    const combinedClass = `
+    const classList = `
     fixed top-0 left-0
     w-full max-w-body py-3 px-2
     grid grid-cols-3 gap-2
@@ -21,7 +21,7 @@ const Header = (
     `
 
     return (
-        <div className={combinedClass}>
+        <div className={classList}>
             {renderElement(first)}
             {renderElement(second)}
             {renderElement(third)}
