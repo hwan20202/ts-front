@@ -10,7 +10,9 @@ const IngredientItem = (
     }) => {
 
     const purchase = () => {
+        const url = import.meta.env.VITE_APP_COUPANG_URL;
         console.log(`purchase: ${name}`);
+        window.open(`${url}${name}`, '_blank');
     }
 
     return (
@@ -27,31 +29,19 @@ IngredientItem.propTypes = {
     quantity: PropTypes.string.isRequired,
 }
 
-const info = [
-    {
-        name: '양파',
-        quantity: '1/2개',
-    },
-    {
-        name: '마늘',
-        quantity: '3쪽',
-    },
-    {
-        name: '당근',
-        quantity: '1개',
-    }
-];
+
 
 const IngredientList = (
     {
+        data,
         className,
     }) => {
 
-    const combinedClass = `
+    const classList = `
     ${className}
     `;
 
-    const ingredients = info.map((ingredient, index) => (
+    const ingredients = data.map((ingredient, index) => (
         <IngredientItem
             key={index}
             name={ingredient.name}
@@ -60,11 +50,12 @@ const IngredientList = (
     ));
 
     return (
-        <TitleWithItems title='요리 재료' items={ingredients} className={combinedClass}/>
+        <TitleWithItems title='요리 재료' items={ingredients} className={classList}/>
     );
 };
 
 IngredientList.propTypes = {
+    data: PropTypes.array.isRequired,
     className: PropTypes.string,
 }
 

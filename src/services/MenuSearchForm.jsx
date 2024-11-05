@@ -1,21 +1,27 @@
 import React from "react";
 import SearchBar from "../components/SearchBar.jsx";
 import Button from "../components/Button.jsx";
+import {fetchSearchByAI, fetchSearchByMenu} from "../utils/fetchData.jsx";
 
-const MenuSearchForm = () => {
-
-    const searchByMenu = (keyword) => {
-        if (keyword === 'undefined') {
-            console.log('검색 키워드가 없습니다');
-            return ;
-        }
-        console.log('searchByMenu' + keyword);
+const searchByMenu = async ( keyword ) => {
+    if (keyword === 'undefined') {
+        console.log('검색 키워드가 없습니다');
+        return ;
     }
+    const recipes     = await fetchSearchByMenu(keyword);
+    console.log(recipes);
+}
 
-    const searchByAI = () => {
-        console.log('searchByAI');
+const searchByAI = async ( keyword ) => {
+    if (keyword === 'undefined') {
+        console.log('검색 키워드가 없습니다');
+        return ;
     }
+    const recipes     = await fetchSearchByAI(keyword);
+    console.log(recipes);
+}
 
+const MenuSearchForm =  () => {
     return (
         <div>
             <div className='my-3'>
