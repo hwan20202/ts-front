@@ -1,77 +1,95 @@
 import Modal from "../components/Modal.jsx";
 import PropTypes from "prop-types";
-import Dropdown from "../components/Dropdown.jsx";
-import {useEffect, useState} from "react";
-import RadioOptions from "../components/RadioOptions.jsx";
-import Divider from "../components/Divider.jsx";
+import { useState, useEffect } from "react";
+import Button from "../components/Button.jsx";
+import IngredientSearch from "./IngredientSearch.jsx";
+import IngredientItem from "../components/IngredientItem.jsx";
+import { fetchIngredientRegister } from "../utils/fetchIngredient.jsx";
+import Ingredient from "../utils/Ingredient.jsx";
+import { useDashboard } from "../context/DashboardProvider.jsx";
 
-const DateForm = () => {
-    return (
-        <div>
-            <div> {/* 날짜 입력 및 표시 */}
-
-            </div>
-            <div> {/* 날짜 입력 단축키 */}
-
-            </div>
-        </div>
-    );
+// 스타일 변수 정의
+const styles = {
+  container:
+    "flex border p-4 mt-2 rounded-md bg-gray-100 h-full flex flex-col justify-between",
+  button:
+    "w-full bg-green-500 text-white rounded-md hover:bg-green-600 py-2 mt-4",
+  noDataText: "text-gray-500",
 };
 
 const IngredientRegisterModal = ({ onClose }) => {
-    const [foodGroups, setFoodGroups] = useState([]); // 식품군 리스트
-    const [selectedFoodGroup, setSelectedFoodGroup] = useState(""); // 선택된 식품군
-    const [ingredients, setIngredients] = useState([]); // 식품군의 포함된 재료 리스트
-    const [selectedIngredients, setSelectedIngredients] = useState([]); // 선택된 식재료
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const { addIngredient } = useDashboard();
 
-    useEffect(() => {
-        setFoodGroups(['list1', 'list2', 'list3']);
-    }, []);
+  useEffect(() => {
+    console.log(selectedIngredients);
+  }, [selectedIngredients]);
 
-    useEffect(() => {
-        console.log(`get list of ${selectedFoodGroup}`);
-    }, [selectedFoodGroup]);
+  const handleSelectIngredient = (items) => {
+    setSelectedIngredients((prev) => {
+      const newIngredients = items.map((item) => {
+        return new Ingredient({ name: item.name });
+      });
+      return [...prev, ...newIngredients];
+    });
+  };
 
-    useEffect(() => {
-        console.log(ingredients);
-    }, [ingredients]);
+  const handleRemoveIngredient = (index) => {
+    setSelectedIngredients((prev) => prev.filter((_, i) => i !== index));
+  };
 
-    const handleSelectFoodGruop = ( title ) => {
-        setSelectedFoodGroup(title);
-        setIngredients(['op1', 'op2', 'op3', 'op4']);
-    }
+  const handleRegisterToDashboard = async (list) => {
+    list.map(async (ingredient) => {
+      addIngredient(ingredient);
+    });
+  };
 
-    const handleSelectIngredient = ( item ) => {
-        setSelectedIngredients([...selectedIngredients, item]);
-        return selectedIngredients;
-    }
+  const handleSave = (updatedIngredient) => {
+    setSelectedIngredients((prev) =>
+      prev.map((ingredient) =>
+        ingredient.id === updatedIngredient.id ? updatedIngredient : ingredient
+      )
+    );
+  };
 
-    const handleDeleteIngredient = (item) => {
-        const tmp = selectedIngredients.filter((ing)=>ing!==item);
-        setSelectedIngredients(tmp);
-        return selectedIngredients;
-    }
+  return (
+    <Modal onClose={onClose}>
+      <div>
+        <IngredientSearch
+          onConfirm={(items) => handleSelectIngredient(items)}
+        />
 
-    return (
-        <Modal onClose={onClose}>
-            <div className='grid grid-cols-2'>
-                <div>
-                    <Dropdown list={foodGroups} setSelected={handleSelectFoodGruop} />
-                    <RadioOptions options={ingredients} onBtnClick={handleSelectIngredient}></RadioOptions>
-                    <Divider />
-                    <RadioOptions options={selectedIngredients} onBtnClick={handleDeleteIngredient} ></RadioOptions>
-                    <Divider />
-                </div>
-                <div>
-
-                </div>
-            </div>
-        </Modal>
-        );
-}
+        {/* 추가 정보 */}
+        <div className={styles.container}>
+          <div>
+            {selectedIngredients.length > 0 ? (
+              selectedIngredients.map((data, index) => (
+                <IngredientItem
+                  key={index}
+                  ingredient={data}
+                  onClick={() => handleRemoveIngredient(index)}
+                  onSave={(ingredient) => handleSave(ingredient)}
+                />
+              ))
+            ) : (
+              <p className={styles.noDataText}>등록된 정보가 없습니다.</p>
+            )}
+          </div>
+          <Button
+            onClick={() => {
+              handleRegisterToDashboard(selectedIngredients);
+            }}
+            label="대시보드에 등록"
+            className={styles.button}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
 
 IngredientRegisterModal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-}
+  onClose: PropTypes.func.isRequired,
+};
 
 export default IngredientRegisterModal;
