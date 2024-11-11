@@ -16,8 +16,8 @@ export const fetchUserInfo = async () => {
     });
 
     if (response.ok) {
-      console.log(response);
-      const data = await response.json();
+      // const data = await response.json();
+      const data = response;
       return { success: true, data }; // 성공 시 사용자 데이터 반환
     } else {
       // 서버에서 200 이외의 상태 코드를 반환한 경우
@@ -30,17 +30,28 @@ export const fetchUserInfo = async () => {
   }
 };
 
-export const fetchRecipe = async () => {
+export const fetchRecipe = async (keyword) => {
+  if (!keyword) {
+    return parseRecipe();
+  }
+
+  const path = "/api/recipe";
+  const query = "?type=" + key;
   try {
-    const response = await fetch(serverUrl);
-    if (response) {
+    const response = await fetch(`${serverUrl}${path}${query}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    if (response.ok) {
       // recipe parse
-      return parseRecipe();
+      const data = await response.json();
+
+      return parseRecipe(data);
     } else {
       return;
     }
   } catch (e) {
-    return parseRecipe();
+    console.log(e.message);
   }
 };
 
@@ -52,6 +63,7 @@ export const fetchSearchByMenu = async (keyword) => {
   try {
     const response = await fetch(`${serverUrl}${path}`, {
       method: "post",
+      credentials: "include",
       body: JSON.stringify(body),
     });
     if (response) {
@@ -132,13 +144,15 @@ const getRandomExpirationDate = (minDays, maxDays) => {
 };
 
 export const fetchDashboard = async () => {
-  const path = "/api/dashboard";
+  const path = "/api/food/my_foods";
   try {
     const response = await fetch(`${serverUrl}${path}`, {
       method: "get",
+      credentials: "include",
     });
     if (response.ok) {
-      return response.json();
+      const data = await response.json();
+      return data;
     } else {
       return [
         {
