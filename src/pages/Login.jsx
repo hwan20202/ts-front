@@ -1,14 +1,21 @@
-import React from 'react';
-import Button from "../components/Button.jsx";
-import {login} from "../utils/fetchData.jsx";
+import React from "react";
+import { login } from "../utils/fetchData.jsx";
+
+const style = {
+  container: "flex flex-col justify-center items-center h-screen",
+  title: "text-black text-2xl font-bold mb-10",
+  button: "h-12 bg-yellow-400 rounded-lg text-bold px-10",
+};
 
 const Login = () => {
-    return (
-        <div className="login-page">
-            <h1>Login</h1>
-            <Button label="Log In" onClick={login} size='xl' />
-        </div>
-    );
+  return (
+    <div className={style.container}>
+      <h1 className={style.title}>Login</h1>
+      <button onClick={login} className={style.button}>
+        카카오로 로그인
+      </button>
+    </div>
+  );
 };
 
 export default Login;

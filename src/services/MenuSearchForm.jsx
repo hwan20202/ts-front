@@ -1,6 +1,5 @@
 import React from "react";
-import SearchBar from "../components/SearchBar.jsx";
-import Button from "../components/Button.jsx";
+import SearchBar from "../components/common/SearchBar.jsx";
 import { fetchSearchByAI, fetchSearchByMenu } from "../utils/fetchData.jsx";
 
 const searchByMenu = async (keyword) => {

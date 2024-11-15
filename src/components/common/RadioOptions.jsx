@@ -33,12 +33,13 @@ RadioButton.propTypes = {
 
 const RadioOptions = ({
   options,
-  onBtnClick,
+  onBtnClick = () => {},
   allowDuplicates = true,
   selectedOptions = [],
+  editable = true,
 }) => {
   const handleBtnClick = (op) => {
-    if (allowDuplicates || !selectedOptions.includes(op)) {
+    if (editable && (allowDuplicates || !selectedOptions.includes(op))) {
       onBtnClick(op);
     }
   };
@@ -51,7 +52,7 @@ const RadioOptions = ({
             key={index}
             label={op}
             onClick={() => handleBtnClick(op)}
-            disabled={selectedOptions.includes(op)}
+            disabled={!editable || selectedOptions.includes(op)}
           />
         ))}
     </div>
@@ -63,6 +64,7 @@ RadioOptions.propTypes = {
   onBtnClick: PropTypes.func,
   allowDuplicates: PropTypes.bool,
   selectedOptions: PropTypes.array,
+  editable: PropTypes.bool,
 };
 
 export default RadioOptions;

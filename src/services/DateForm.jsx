@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import getCurrentDate from "../utils/getCurrentDate.jsx";
-import Button from "../components/Button.jsx";
+import Button from "../components/common/Button.jsx";
 
 // 날짜에 특정 일수를 더하는 함수
 const addDays = (date, days) => {

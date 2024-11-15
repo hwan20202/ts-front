@@ -7,18 +7,22 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
+import Profile from "./pages/Profile.jsx";
 import MainHeader from "./services/MainHeader.jsx";
-import Recipe from "./pages/Recipe.jsx";
+import RecipePage from "./pages/RecipePage.jsx";
 import NavBar from "./components/NavBar.jsx";
-import IconButton from "./components/IconButton.jsx";
+import IconButton from "./components/common/IconButton.jsx";
 import { AuthProvider } from "./context/AuthProvider.jsx";
+import UserProvider from "./context/UserProvider.jsx";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <MainHeader />
-        <AppContent />
+        <UserProvider>
+          <MainHeader />
+          <AppContent />
+        </UserProvider>
       </AuthProvider>
     </Router>
   );
@@ -45,6 +49,12 @@ function AppContent() {
       onClick={() => redirect("/recipe")}
       label="Recipe"
     />,
+    <IconButton
+      key="fourth"
+      icon={<i className="fa-solid fa-user"></i>}
+      onClick={() => redirect("/profile")}
+      label="Profile"
+    />,
   ];
 
   return (
@@ -52,7 +62,8 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/recipe" element={<Recipe />} />
+        <Route path="/recipe" element={<RecipePage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <NavBar buttons={buttons} />
     </>

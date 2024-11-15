@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
-import Dropdown from "./Dropdown";
+import Button from "./common/Button";
+import Dropdown from "./common/Dropdown";
 import Ingredient from "../utils/Ingredient";
 import PropTypes from "prop-types";
 const buttonStyle =
