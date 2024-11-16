@@ -1,6 +1,6 @@
 #root {
-  @apply w-full bg-gray-100;
-  margin: 0 auto;
+  @apply bg-gray-100 font-sans;
+  margin: 0 auto; /* 헤더 높이 수정 */
   max-width: 640px;
   min-width: 320px;
 }

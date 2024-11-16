@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import IngredientList from "../components/recipe/IngredientList.jsx";
-import MealDoneButton from "../components/recipe/MealDoneButton.jsx";
 import { fetchRecipe } from "../utils/fetchData.jsx";
 import RecipeProfile from "../components/recipe/RecipeProfile.jsx";
 import RecipeDescription from "../components/recipe/RecipeDescription.jsx";

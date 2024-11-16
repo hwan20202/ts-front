@@ -10,12 +10,12 @@ const parseRecipe = () => {
     profileImage:
       "https://recipe1.ezmember.co.kr/cache/recipe/2019/03/14/4c1d1794eb908c1bfec012999d7b43cc1.jpg",
     ingredients: [
-      { name: "김치", quantity: "1 cup" },
-      { name: "밥", quantity: "2 cups" },
-      { name: "대파", quantity: "1 stalk" },
-      { name: "간장", quantity: "1 tbsp" },
-      { name: "참기름", quantity: "1 tsp" },
-      { name: "계란", quantity: "1" },
+      { id: 1, name: "김치", quantity: "1 cup" },
+      { id: 2, name: "밥", quantity: "2 cups" },
+      { id: 3, name: "대파", quantity: "1 stalk" },
+      { id: 4, name: "간장", quantity: "1 tbsp" },
+      { id: 5, name: "참기름", quantity: "1 tsp" },
+      { id: 6, name: "계란", quantity: "1" },
     ],
     cookingTime: "15 minutes",
     cookingImgs: [
