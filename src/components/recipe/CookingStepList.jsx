@@ -11,28 +11,12 @@ const styles = {
   },
 };
 
-// const CookingStep = ({ stepNumber, content }) => {
-//   return (
-//     <div className="flex">
-//       <div className="text-4xl p-1 leading-none font-sans font-semibold">
-//         {stepNumber}
-//       </div>
-//       <div className="p-2 leading-[2] font-sans">{content}</div>
-//     </div>
-//   );
-// };
-
-// CookingStep.propTypes = {
-//   stepNumber: PropTypes.number,
-//   content: PropTypes.string.isRequired,
-// };
-
 const CookingStepList = ({ orders, className }) => {
   return (
     <div className={styles.container}>
       {orders && orders.length > 0
         ? orders.map((order, index) => (
-            <div className={styles.step.container}>
+            <div className={styles.step.container} key={index}>
               <div className={styles.step.stepNumber}>{`${
                 index + 1
               } 단계`}</div>

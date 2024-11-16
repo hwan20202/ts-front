@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../components/Header.jsx";
-import IconButton from "../components/common/IconButton.jsx";
-import { useAuth } from "../context/AuthProvider.jsx";
+import Header from "./Header.jsx";
+import IconButton from "../common/IconButton.jsx";
+import { useAuth } from "../../context/AuthProvider.jsx";
 
 const Logo = () => {
   return (

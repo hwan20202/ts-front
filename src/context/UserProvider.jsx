@@ -74,6 +74,12 @@ const UserProvider = ({ children }) => {
   ]);
   const [ingredientsBySavingType, setIngredientsBySavingType] = useState({});
   const [expiringIngredients, setExpiringIngredients] = useState([]);
+  const [editingRecipe, setEditingRecipe] = useState(null);
+
+  const updateEditingRecipe = () => {
+    console.log(`updateEditingRecipe`);
+    console.log(editingRecipe);
+  };
 
   useEffect(() => {
     setDislikedIngredientsByGroup(
@@ -105,6 +111,9 @@ const UserProvider = ({ children }) => {
         ingredients,
         ingredientsBySavingType,
         expiringIngredients,
+        editingRecipe,
+        setEditingRecipe,
+        updateEditingRecipe,
         addIngredient,
       }}
     >

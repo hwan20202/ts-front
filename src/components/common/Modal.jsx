@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const Modal = ({ onClose, children, className }) => {
+const style = {
+  container:
+    "fixed inset-0 flex items-center justify-center bg-black bg-opacity-50",
+  modal: "bg-white p-6 rounded-md shadow-lg max-w-xl w-full",
+};
+
+const Modal = ({ onClose, children }) => {
   const closeModal = () => {
     onClose();
   };
@@ -9,14 +15,8 @@ const Modal = ({ onClose, children, className }) => {
   // if (!isOpen) return null; // 모달이 닫혔을 때 렌더링되지 않음
 
   return (
-    <div
-      onClick={closeModal}
-      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ${className}`}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full"
-      >
+    <div onClick={closeModal} className={style.container}>
+      <div onClick={(e) => e.stopPropagation()} className={style.modal}>
         {children}
         <button
           onClick={closeModal}
