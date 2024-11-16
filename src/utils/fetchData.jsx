@@ -45,7 +45,6 @@ export const fetchRecipe = async (keyword) => {
     if (response.ok) {
       // recipe parse
       const data = await response.json();
-
       return parseRecipe(data);
     } else {
       return;
@@ -226,4 +225,12 @@ export const fetchDashboard = async () => {
   } catch (e) {
     console.log("fetchDashboard " + e.message);
   }
+};
+
+export const fetchUserData = async () => {
+  const path = "/api/healthcheck/userinfo";
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "GET",
+    credentials: "include",
+  });
 };

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import SearchBar from "../components/SearchBar.jsx";
-import Ingredient from "../utils/Ingredient.jsx";
+import { useState, useEffect, useRef } from "react";
+import SearchBar from "../common/SearchBar.jsx";
+import Ingredient from "../../utils/Ingredient.jsx";
 
 const ingredientSearchStyle = {
   container: "w-full",
@@ -37,6 +37,13 @@ const resultContainerStyle = {
 
 const ResultContainer = ({ resultList, onClick }) => {
   const [selectedItems, setSelectedItems] = useState([]);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      buttonRef.current.focus();
+    }
+  }, []);
 
   const toggleSelectItem = (item) => {
     setSelectedItems((prevSelected) => {
@@ -83,9 +90,13 @@ const IngredientSearch = ({ onConfirm }) => {
       return;
     }
     // 검색 로직을 여기에 추가
+    const userKeyword = keyword;
+    // cosnt resultList = fetch();
     setResults([
-      new Ingredient({ name: "우유" }),
-      new Ingredient({ name: "요거트" }),
+      new Ingredient({ name: userKeyword }),
+      new Ingredient({ name: "딸기 우유" }),
+      new Ingredient({ name: "초코 우유" }),
+      new Ingredient({ name: "바나나 우유" }),
     ]);
   };
 

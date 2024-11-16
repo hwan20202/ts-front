@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import Button from "../components/Button.jsx";
+import Button from "../components/common/Button.jsx";
 
 const StorageForm = ({
   initialMethod = "",

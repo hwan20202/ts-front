@@ -14,6 +14,29 @@ export default class Ingredient {
     return date.toISOString().split("T")[0];
   }
 
+  //return object {group: [ingredients]}
+  static getIngredientsByGroups(ingredients) {
+    const ingredientsByGroups = {};
+    ingredients.forEach((ingredient) => {
+      if (!ingredientsByGroups[ingredient.group]) {
+        ingredientsByGroups[ingredient.group] = [];
+      }
+      ingredientsByGroups[ingredient.group].push(ingredient);
+    });
+    return ingredientsByGroups;
+  }
+
+  static getIngredientsBySavingType(ingredients) {
+    const ingredientsBySavingType = {};
+    ingredients.forEach((ingredient) => {
+      if (!ingredientsBySavingType[ingredient.savingType]) {
+        ingredientsBySavingType[ingredient.savingType] = [];
+      }
+      ingredientsBySavingType[ingredient.savingType].push(ingredient);
+    });
+    return ingredientsBySavingType;
+  }
+
   getDaysUntilExpiration() {
     const today = new Date();
     const expirationDate = new Date(this.expirationDate); // 문자열을 Date 객체로 변환
@@ -21,7 +44,7 @@ export default class Ingredient {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
-  isExpiringSoon(threshold = 3) {
-    return this.getDaysUntilExpiration() <= threshold;
+  static isExpiringSoon(ingredient, threshold = 3) {
+    return ingredient.getDaysUntilExpiration() <= threshold;
   }
 }

@@ -1,25 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import MenuSearchForm from "../services/MenuSearchForm.jsx";
-import Dashboard from "../services/Dashboard.jsx";
-import { DashboardProvider } from "../context/DashboardProvider.jsx";
-import IngredientSearch from "../services/IngredientSearch.jsx";
+import DislikedIngredientsView from "../components/ingredient/DislikedIngredientsView.jsx";
+import IngredientDashboard from "../components/ingredient/IngredientDashboard.jsx";
+import { useUserContext } from "../context/UserProvider.jsx";
+
+const style = {
+  container: "flex flex-col justify-center items-center h-screen",
+};
 
 const Home = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  const { ingredients } = useUserContext();
 
   return (
-    <div className="Home-page w-full">
+    <div className={style.container}>
       <MenuSearchForm />
-      <DashboardProvider>
-        <Dashboard />
-      </DashboardProvider>
+      <IngredientDashboard ingredientsList={ingredients} />
+      <DislikedIngredientsView />
     </div>
   );
 };
