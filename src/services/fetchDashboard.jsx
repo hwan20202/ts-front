@@ -1,4 +1,4 @@
-const serverUrl = import.meta.env.VITE_APP_SERVER_URL;
+const serverUrl = import.meta.env.VITE_APP_SERVER_URL || "";
 
 export const getMyIngredients = async () => {
   const endpoint = `${serverUrl}/api/food/my_foods`;

@@ -1,4 +1,4 @@
-const serverUrl = import.meta.env.VITE_APP_SERVER_URL;
+const serverUrl = import.meta.env.VITE_APP_SERVER_URL || "";
 
 const getIngredientListByName = async (keyword) => {
   const endpoint = `${serverUrl}/api/food/search?food=${keyword}`;
