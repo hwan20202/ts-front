@@ -1,4 +1,4 @@
-const serverUrl = import.meta.env.VITE_APP_SERVER_URL;
+const serverUrl = import.meta.env.VITE_APP_SERVER_URL || "";
 
 // 레시피 북마크
 

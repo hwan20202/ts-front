@@ -1,6 +1,4 @@
-import parseRecipe from "./parseRecipe.jsx";
-
-const serverUrl = import.meta.env.VITE_APP_SERVER_URL;
+const serverUrl = import.meta.env.VITE_APP_SERVER_URL || "";
 
 export const login = async () => {
   const path = "/api/oauth2/authorization/kakao";
