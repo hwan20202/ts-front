@@ -1,9 +1,8 @@
 #root {
-  @apply w-full;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  @apply bg-gray-100 font-sans;
+  margin: 0 auto; /* 헤더 높이 수정 */
+  max-width: 640px;
+  min-width: 320px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -11,4 +10,3 @@
     animation: logo-spin infinite 20s linear;
   }
 }
-

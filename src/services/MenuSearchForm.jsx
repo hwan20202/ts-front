@@ -1,35 +1,38 @@
 import React from "react";
-import SearchBar from "../components/SearchBar.jsx";
-import Button from "../components/Button.jsx";
+import SearchBar from "../components/common/SearchBar.jsx";
+import { fetchSearchByAI, fetchSearchByMenu } from "../utils/fetchData.jsx";
+
+const searchByMenu = async (keyword) => {
+  if (keyword === "undefined") {
+    console.log("검색 키워드가 없습니다");
+    return;
+  }
+  const recipes = await fetchSearchByMenu(keyword);
+  console.log(recipes);
+};
+
+const searchByAI = async (keyword) => {
+  if (keyword === "undefined") {
+    console.log("검색 키워드가 없습니다");
+    return;
+  }
+  const recipes = await fetchSearchByAI(keyword);
+  console.log(recipes);
+};
 
 const MenuSearchForm = () => {
+  return (
+    <div>
+      <div className="my-3">
+        <SearchBar label="검색" onSearch={searchByMenu} />
+      </div>
 
-    const searchByMenu = (keyword) => {
-        if (keyword === 'undefined') {
-            console.log('검색 키워드가 없습니다');
-            return ;
-        }
-        console.log('searchByMenu' + keyword);
-    }
-
-    const searchByAI = () => {
-        console.log('searchByAI');
-    }
-
-    return (
-        <div>
-            <div className='my-3'>
-                <h3>오늘 먹고 싶은 음식은?(메뉴명으로 검색)</h3>
-                <SearchBar label='검색' onSearch={searchByMenu}/>
-            </div>
-
-            <div className='flex justify-center'>
+      {/* <div className='flex justify-center'>
             <h3>오늘은 냉장고 파먹는 날!</h3>
                 <Button label='AI 추천받기' size='sm' onClick={searchByAI}/>
-            </div>
-
-        </div>
-    );
+            </div> */}
+    </div>
+  );
 };
 
 export default MenuSearchForm;
