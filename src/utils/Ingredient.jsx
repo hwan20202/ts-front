@@ -1,13 +1,15 @@
-import { SavingTypeEnum } from "./savingType.jsx";
+import { createSavingTypeEnum } from "./createSavingTypeEnum.jsx";
+
+const SavingTypeEnum = createSavingTypeEnum();
 
 export default class Ingredient {
-  constructor({ id, name, expirationDate, savingType, group }) {
+  constructor({ id, foodName, expirationDate, savingType, foodType }) {
     this.id = id ? id : null;
-    this.name = name; //required
+    this.foodName = foodName; //required
     this.expirationDate =
       expirationDate || Ingredient.formatDateToYYYYMMDD(new Date());
-    this.savingType = savingType || SavingTypeEnum.실온;
-    this.group = group || "기타";
+    this.savingType = savingType || SavingTypeEnum.defaultKey();
+    this.foodType = foodType || "기타";
   }
 
   static formatDateToYYYYMMDD(date) {
@@ -15,15 +17,15 @@ export default class Ingredient {
   }
 
   //return object {group: [ingredients]}
-  static getIngredientsByGroups(ingredients) {
-    const ingredientsByGroups = {};
+  static getIngredientsByFoodType(ingredients) {
+    const ingredientsByFoodType = {};
     ingredients.forEach((ingredient) => {
-      if (!ingredientsByGroups[ingredient.group]) {
-        ingredientsByGroups[ingredient.group] = [];
+      if (!ingredientsByFoodType[ingredient.foodType]) {
+        ingredientsByFoodType[ingredient.foodType] = [];
       }
-      ingredientsByGroups[ingredient.group].push(ingredient);
+      ingredientsByFoodType[ingredient.foodType].push(ingredient);
     });
-    return ingredientsByGroups;
+    return ingredientsByFoodType;
   }
 
   static getIngredientsBySavingType(ingredients) {
@@ -39,8 +41,8 @@ export default class Ingredient {
 
   getDaysUntilExpiration() {
     const today = new Date();
-    const expirationDate = new Date(this.expirationDate); // 문자열을 Date 객체로 변환
-    const diffTime = expirationDate.getTime() - today.getTime();
+    const expirationDateObj = new Date(this.expirationDate); // 문자열을 Date 객체로 변환
+    const diffTime = expirationDateObj.getTime() - today.getTime();
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 

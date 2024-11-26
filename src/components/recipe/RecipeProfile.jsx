@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 
 const style = {
-  container: "flex flex-col justify-start bg-white rounded-xl",
-  image: "w-full h-full object-cover",
+  container:
+    "flex flex-col w-full h-[200px] overflow-hidden justify-center items-center bg-white",
+  image: "object-cover object-center",
 };
 
 const RecipeProfile = ({ image }) => {

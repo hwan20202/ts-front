@@ -6,8 +6,8 @@ const cardSize = "w-32 h-32 md:w-48 md:h-48";
 
 const styles = {
   card: {
-    base: `relative ${cardSize} overflow-hidden rounded-lg shadow-lg`,
-    img: "w-full h-full object-cover",
+    base: `relative ${cardSize} overflow-hidden rounded-lg shadow-lg flex-shrink-0`,
+    img: "w-full h-full object-covernpm install tailwind-scrollbar-hide",
     info: "absolute bottom-0 left-0 w-full bg-black/70 text-white p-4 overflow-y-auto",
     title: "text-lg font-bold",
     description: "text-sm",

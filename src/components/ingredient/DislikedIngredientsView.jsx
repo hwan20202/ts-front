@@ -4,13 +4,7 @@ import IngredientRegisterModal from "./IngredientRegisterModal.jsx";
 import RadioOptions from "../common/RadioOptions.jsx";
 
 const styles = {
-  container: "container mx-auto p-2 bg-white",
-  header: {
-    container: "flex justify-between items-center my-4",
-    title: "text-md font-bold text-black",
-    button:
-      "text-sm font-bold text-green-300 border border-green-300 px-3 py-1 rounded-md hover:bg-green-300 hover:text-white",
-  },
+  container: "container mx-auto px-2 py-4 bg-white mb-4",
   body: {
     foodGroup: {
       container: "grid items-center justify-center grid-cols-[1fr_5fr]",
@@ -19,8 +13,8 @@ const styles = {
   },
   modal: {
     selectedIngredientsList: {
-      container:
-        "flex border p-4 mt-2 rounded-md bg-gray-100 h-full flex flex-col justify-between",
+      container: "flex border p-4 mt-2 rounded-md bg-gray-100 h-full",
+      noDataText: "text-gray-500",
     },
   },
 };
@@ -40,25 +34,9 @@ const SelectedIngredientsList = ({ ingredients }) => {
 
 const DislikedIngredientsView = () => {
   const { dislikedIngredientsByGroup } = useUserContext();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
 
   return (
     <div className={styles.container}>
-      {/* header */}
-      <div className={styles.header.container}>
-        <span className={styles.header.title}>싫어하는 재료</span>
-        <button className={styles.header.button} onClick={openModal}>
-          재료 등록
-        </button>
-      </div>
-
       {/* body */}
       {Object.keys(dislikedIngredientsByGroup).map((foodGroup, index) => (
         <div
@@ -77,15 +55,9 @@ const DislikedIngredientsView = () => {
           </div>
         </div>
       ))}
-
-      {/* modal */}
-      {isOpen && (
-        <IngredientRegisterModal onClose={closeModal} className="z-50">
-          <SelectedIngredientsList />
-        </IngredientRegisterModal>
-      )}
     </div>
   );
 };
 
 export default DislikedIngredientsView;
+export { SelectedIngredientsList };

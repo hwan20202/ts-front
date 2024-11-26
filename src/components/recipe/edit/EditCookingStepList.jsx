@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
 const styles = {
@@ -14,33 +14,77 @@ const styles = {
   },
 };
 
-const EditCookingStepList = ({ orders, onChange = () => {} }) => {
+const EditCookingStepItem = ({
+  order,
+  index,
+  onImgChange = () => {},
+  onChange = () => {},
+}) => {
+  const fileInputRef = useRef(null);
+
+  const handleFileInputClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  return (
+    <div className={styles.step.container} key={index}>
+      <div className={styles.step.stepNumber}>{`${index + 1} 단계`}</div>
+      <div
+        className="w-full h-24 flex justify-center items-center border-2 border-gray-300 rounded-md"
+        onClick={handleFileInputClick}
+      >
+        <i className="fa-solid fa-circle-plus"></i>
+        <input
+          type="file"
+          accept="image/*"
+          hidden
+          ref={fileInputRef}
+          onChange={(e) => onImgChange({ index, img: e.target.files[0] })}
+        />
+      </div>
+      <textarea
+        type="text"
+        defaultValue={order}
+        onChange={(e) => onChange({ index, order: e.target.value })}
+        className={styles.step.textarea}
+      />
+    </div>
+  );
+};
+
+const EditCookingStepList = ({
+  cookingOrder,
+  cookingImg,
+  editCookingImg,
+  editCookingOrder,
+}) => {
   // add orders
 
   // delete orders
 
+  const handleImgChange = (index, img) => {
+    console.log(index, img);
+    editCookingImg({ index, img });
+  };
+
   const handleOrderChange = (index, value) => {
-    console.log(`handleOrderChange: ${index} ${value}`);
-    onChange(index, value);
+    editCookingOrder({ index, order: value });
   };
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>조리 순서</h2>
-      {orders && orders.length > 0
-        ? orders.map((order, index) => (
-            <div className={styles.step.container} key={index}>
-              <div className={styles.step.stepNumber}>{`${
-                index + 1
-              } 단계`}</div>
-              {/* <div className={styles.step.content}>{order}</div> */}
-              <textarea
-                type="text"
-                defaultValue={order}
-                onChange={(e) => handleOrderChange(index, e.target.value)}
-                className={styles.step.textarea}
-              />
-            </div>
+      {cookingOrder && cookingOrder.length > 0
+        ? cookingOrder.map((order, index) => (
+            <EditCookingStepItem
+              order={order}
+              img={cookingImg[index]}
+              index={index}
+              onChange={handleOrderChange}
+              onImgChange={handleImgChange}
+            />
           ))
         : "조리 순서 없음"}
     </div>
@@ -48,8 +92,10 @@ const EditCookingStepList = ({ orders, onChange = () => {} }) => {
 };
 
 EditCookingStepList.propTypes = {
-  orders: PropTypes.array.isRequired,
-  className: PropTypes.string,
+  cookingOrder: PropTypes.array.isRequired,
+  cookingImg: PropTypes.array.isRequired,
+  editCookingOrder: PropTypes.func.isRequired,
+  editCookingImg: PropTypes.func.isRequired,
 };
 
 export default EditCookingStepList;

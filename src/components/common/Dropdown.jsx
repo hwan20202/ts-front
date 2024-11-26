@@ -9,23 +9,22 @@ const colors = {
 
 const styles = {
   container: "relative",
-  bar: `flex items-center justify-between gap-2 w-full px-4 py-2 bg-gray-200 rounded-lg cursor-pointer hover:bg-gray-300 ${colors.text}`,
-  label: `font-medium ${colors.text}`,
+  bar: "bg-white rounded-md outline-none shadow-sm cursor-pointer text-black",
+  option: `px-4 py-2 cursor-pointer hover:bg-gray-100 ${colors.text}`,
   menu: "absolute mt-2 bg-white border border-gray-200 rounded-lg shadow-lg w-full z-50",
-  menuItem: `px-4 py-2 cursor-pointer hover:bg-gray-100 ${colors.text}`,
 };
 
 const DropdownBar = ({ label, onClick }) => {
   return (
     <div className={styles.container}>
       <div className={styles.bar} onClick={onClick}>
-        <span className={styles.label}>{label || ""}</span>
-        <IconButton
+        <span className={styles.label}>{label || "3"}</span>
+        {/* <IconButton
           label="Toggle dropdown"
-          icon={<i className="fa-solid fa-caret-down"></i>}
+          // icon={<i className="fa-solid fa-caret-down"></i>}
           className="w-4 h-4"
           onClick={onClick}
-        />
+        /> */}
       </div>
     </div>
   );
@@ -60,26 +59,31 @@ DropdownMenu.propTypes = {
   list: PropTypes.array.isRequired,
 };
 
-const DropdownContainer = ({ list, onSelect }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("");
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const onBtnClick = (title) => {
-    setSelected(title);
-    onSelect(title);
-    setIsOpen(false);
+const DropdownContainer = ({ list, selected, onSelect }) => {
+  const handleSelect = (e) => {
+    onSelect(parseInt(e.target.value));
   };
 
   return (
     <div className={styles.container}>
-      <DropdownBar label={selected} onClick={toggleMenu} />
-      {isOpen && list.length > 0 && (
-        <DropdownMenu onClick={onBtnClick} list={list} />
-      )}
+      <form>
+        <select
+          className={styles.bar}
+          defaultValue={selected}
+          onChange={handleSelect}
+        >
+          {list.map((l, i) => (
+            <option
+              key={i}
+              value={l}
+              className={styles.option}
+              onClick={handleSelect}
+            >
+              {l}
+            </option>
+          ))}
+        </select>
+      </form>
     </div>
   );
 };
@@ -89,12 +93,16 @@ DropdownContainer.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-const Dropdown = ({ list, setSelected }) => {
-  return <DropdownContainer list={list} onSelect={setSelected} />;
+const Dropdown = ({ list, selected, setSelected }) => {
+  return (
+    <DropdownContainer list={list} selected={selected} onSelect={setSelected} />
+  );
 };
 
 Dropdown.propTypes = {
   list: PropTypes.array.isRequired,
+  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   setSelected: PropTypes.func.isRequired,
 };
 

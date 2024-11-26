@@ -22,7 +22,7 @@ const Title = () => {
 const UserMenu = () => {
   const { logout } = useAuth();
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end text-black">
       <IconButton
         icon={<i className="fa-solid fa-bars"></i>}
         label="메뉴"

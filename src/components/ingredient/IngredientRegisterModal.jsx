@@ -8,14 +8,21 @@ import Button from "../common/Button.jsx";
 const styles = {
   register: {
     container:
-      "flex border p-4 mt-2 rounded-md bg-gray-100 h-full flex flex-col justify-between",
+      "flex border leading-none p-2 mt-2 rounded-md bg-gray-100 h-full flex flex-col justify-between",
     button:
-      "w-full bg-green-500 text-white rounded-md hover:bg-green-600 py-2 mt-4",
-    noDataText: "text-gray-500",
+      "w-full bg-green-300 text-white rounded-md hover:bg-green-400 py-2 mt-4",
+    buttonDisabled:
+      "w-full bg-gray-300 text-white rounded-md hover:bg-gray-300 py-2 mt-4",
+    noDataText: "text-gray-400 m-2 font-semibold",
   },
 };
 
-const IngredientRegisterModal = ({ children, onClose, className }) => {
+const IngredientRegisterModal = ({
+  children,
+  onClose,
+  onConfirm,
+  className,
+}) => {
   const [ingredients, setIngredients] = useState([]);
 
   const handleSelectIngredient = (items) => {
@@ -35,7 +42,7 @@ const IngredientRegisterModal = ({ children, onClose, className }) => {
           {ingredients && ingredients.length > 0 ? (
             React.Children.map(children, (child) =>
               React.isValidElement(child)
-                ? cloneElement(child, { ingredients })
+                ? cloneElement(child, { ingredients, setIngredients })
                 : child
             )
           ) : (
@@ -44,9 +51,16 @@ const IngredientRegisterModal = ({ children, onClose, className }) => {
             </p>
           )}
           <Button
-            onClick={() => {}}
+            onClick={() => {
+              onConfirm(ingredients);
+            }}
             label="등록"
-            className={styles.register.button}
+            disabled={ingredients.length === 0}
+            className={
+              ingredients.length === 0
+                ? styles.register.buttonDisabled
+                : styles.register.button
+            }
           />
         </div>
       </div>

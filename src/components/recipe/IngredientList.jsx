@@ -7,16 +7,16 @@ const style = {
   title: "text-left text-xl font-bold text-black p-0 mb-4",
   ingredient: {
     container:
-      "grid grid-cols-[1fr_1fr_auto] items-center text-md font-semibold text-gray-500 py-2 mb-2",
-    name: "text-left font-semibold",
-    quantity: "text-left",
+      "grid grid-cols-[2fr_3fr_1fr] items-center text-gray-500 py-2 mb-1 mx-4",
+    name: "text-left text-xs font-bold",
+    quantity: "text-left text-xs text-gray-400 font-semibold",
     button:
-      "flex justify-end text-sm text-white px-6 py-1 rounded-full bg-green-500 font-semibold",
+      "flex justify-end text-xs whitespace-nowrap text-white px-4 leading-none py-0.5 rounded-full bg-green-500 font-semibold",
   },
-  divider: "border-t border-gray-200",
+  divider: "border-t border-1 border-gray-100 mx-2",
 };
 
-const IngredientItem = ({ name, quantity }) => {
+const IngredientItem = ({ name, amount }) => {
   const purchase = () => {
     const url = import.meta.env.VITE_APP_COUPANG_URL;
     console.log(`purchase: ${name}`);
@@ -26,7 +26,7 @@ const IngredientItem = ({ name, quantity }) => {
   return (
     <div className={style.ingredient.container}>
       <span className={style.ingredient.name}>{name}</span>
-      <span className={style.ingredient.quantity}>{quantity}</span>
+      <span className={style.ingredient.quantity}>{amount}</span>
       <span className={style.ingredient.button}>
         <button onClick={purchase}>구입</button>
       </span>
@@ -36,24 +36,21 @@ const IngredientItem = ({ name, quantity }) => {
 
 IngredientItem.propTypes = {
   name: PropTypes.string.isRequired,
-  quantity: PropTypes.string.isRequired,
+  amount: PropTypes.string.isRequired,
 };
 
-const IngredientList = ({ ingredients, className }) => {
-  const classList = `
-    ${className}
-    `;
-
+const IngredientList = ({ ingredients }) => {
+  // console.log(ingredients);
+  const parsedIngredients = ingredients.map((ingredient) =>
+    JSON.parse(ingredient)
+  );
   return (
-    <div className={`${style.container} ${classList}`}>
+    <div className={style.container}>
       <h2 className={style.title}>요리 재료</h2>
-      {ingredients &&
-        ingredients.map((ingredient, index) => (
+      {parsedIngredients &&
+        parsedIngredients.map((ingredient, index) => (
           <div key={index}>
-            <IngredientItem
-              name={ingredient.name}
-              quantity={ingredient.quantity}
-            />
+            <IngredientItem {...ingredient} />
             <hr className={style.divider} />
           </div>
         ))}
@@ -63,7 +60,6 @@ const IngredientList = ({ ingredients, className }) => {
 
 IngredientList.propTypes = {
   ingredients: PropTypes.array.isRequired,
-  className: PropTypes.string,
 };
 
 export default IngredientList;

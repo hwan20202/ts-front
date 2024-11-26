@@ -5,9 +5,9 @@ import renderElement from "../utils/renderElement.jsx";
 const NavBar = ({ className, buttons = [] }) => {
   const classList = `
     fixed bottom-0 left-0
-    w-full max-w-body py-3 px-2
+    w-full max-w-body py-1 px-2
     grid grid-cols-${buttons.length}
-    text-xl font-bold
+    text-md font-bold
     bg-gray-400  
     
     ${className}

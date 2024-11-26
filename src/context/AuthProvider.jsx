@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { fetchUserInfo } from "../utils/fetchData.jsx";
@@ -29,6 +29,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,13 +39,16 @@ export const AuthProvider = ({ children }) => {
       if (!isValidSession) {
         navigate("/login"); // 세션이 유효하지 않으면 로그인 페이지로 이동
       }
+      setIsLoggedIn(isValidSession);
     };
 
     validateSession();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ logout }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ logout, isLoggedIn }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

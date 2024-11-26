@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-
+import { createContext, useContext, useEffect, useState } from "react";
+import { getIngredientListByName } from "../services/fetchIngredient.jsx";
 const IngredientContext = createContext();
 
 const useIngredient = () => {
@@ -7,16 +7,18 @@ const useIngredient = () => {
 };
 
 const IngredientProvider = ({ children }) => {
-  const [ingredients, setIngredients] = useState([]);
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const searchIngredient = async (keyword) => {
+    const resultList = await getIngredientListByName(keyword);
+    if (resultList) {
+      return resultList;
+    }
+    return [];
+  };
 
   return (
     <IngredientContext.Provider
       value={{
-        ingredients,
-        setIngredients,
-        selectedIngredients,
-        setSelectedIngredients,
+        searchIngredient,
       }}
     >
       {children}

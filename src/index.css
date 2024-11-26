@@ -97,7 +97,3 @@ body {
     background-color: #f9f9f9;
   }
 }
-
-*::selection {
-  @apply bg-gray-500 text-white;
-}

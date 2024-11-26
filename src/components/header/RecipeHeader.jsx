@@ -1,5 +1,8 @@
 import Header from "./Header.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useUserContext } from "../../context/UserProvider.jsx";
+import { useEffect, useState } from "react";
+import { getIsBookmarked } from "../../services/fetchRecipe.jsx";
 
 const styles = {
   icon: "text-gray-500 text-sm p-1",
@@ -7,6 +10,20 @@ const styles = {
 
 const RecipeHeader = () => {
   const navigate = useNavigate();
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const { recipeId } = useParams();
+  const { addBookmarkedRecipe } = useUserContext();
+
+  useEffect(() => {
+    const fetchGetIsBookmarked = async () => {
+      const data = await getIsBookmarked(recipeId);
+      if (data) {
+        console.log(data);
+        setIsBookmarked(data);
+      }
+    };
+    // fetchGetIsBookmarked();
+  }, []);
 
   const goBack = () => {
     navigate(-1);
@@ -18,16 +35,14 @@ const RecipeHeader = () => {
 
   const bookmark = () => {
     console.log("bookmark");
+    addBookmarkedRecipe(recipeId);
   };
 
   const edit = () => {
-    const recipeId = "123";
     console.log("edit");
     navigate(`/recipe/${recipeId}/edit`);
   };
 
-  // first: 뒤로가기 버튼
-  // third: 공유 버튼
   return (
     <Header
       first={
@@ -44,7 +59,9 @@ const RecipeHeader = () => {
             onClick={share}
           ></i>
           <i
-            className={`fa-solid fa-bookmark ${styles.icon}`}
+            className={`${
+              isBookmarked ? "fa-solid" : "fa-regular"
+            } fa-bookmark ${styles.icon}`}
             onClick={bookmark}
           ></i>
           <i
