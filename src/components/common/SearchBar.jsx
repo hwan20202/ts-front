@@ -1,16 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "./Button.jsx";
-import IconButton from "./IconButton.jsx";
+
+const styles = {
+  form: "flex w-full",
+  input:
+    "outline-none w-full bg-white border border-gray-300 rounded-md p-2 mr-2 font-semibold text-gray-500",
+  inputFocus: "focus:border focus:border-green-300 focus:bg-gray-50",
+  button: "outline-none text-green-300 border-gray-300 border p-2 rounded-md",
+  buttonFocus:
+    "focus:border focus:border-green-300 focus:bg-green-300 focus:text-white focus:font-bold",
+};
 
 const SearchBar = ({
-  label,
   onSearch = () => {
     console.log("search event is not defined");
   },
-  className = "",
-  inputStyle = "",
-  buttonStyle = "",
 }) => {
   const search = (e) => {
     e.preventDefault();
@@ -19,21 +23,21 @@ const SearchBar = ({
     e.target.keyword.value = "";
   };
 
-  const formClassList = `flex w-full ${className}`;
-  const inputClassList = `w-full ${inputStyle}`;
-  const buttonClassList = `${buttonStyle}`;
-
   return (
-    <form onSubmit={(e) => search(e)} className={formClassList}>
-      <input type="text" name="keyword" className={inputClassList} />
-      <IconButton
-        icon={<i className="fa-solid fa-magnifying-glass"></i>}
-        type="submit"
-        label={label}
-        size="sm"
-        className={buttonClassList}
-        onClick={() => {}}
+    <form onSubmit={(e) => search(e)} className={styles.form}>
+      <input
+        type="text"
+        name="keyword"
+        autoComplete="off"
+        className={`${styles.input} ${styles.inputFocus}`}
       />
+      <button
+        type="submit"
+        className={`${styles.button} ${styles.buttonFocus}`}
+        onClick={() => {}}
+      >
+        <i className="fa-solid fa-magnifying-glass"></i>
+      </button>
     </form>
   );
 };

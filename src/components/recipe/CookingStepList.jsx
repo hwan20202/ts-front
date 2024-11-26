@@ -6,12 +6,13 @@ const styles = {
   step: {
     container:
       "flex flex-col justify-center items-start gap-2 mb-4 bg-gray-100 p-4 rounded-lg",
-    stepNumber: "text-md text-gray-400 leading-none font-sans font-semibold",
-    content: "text-lg text-gray-500 leading-[2] font-sans font-semibold",
+    stepNumber: "text-sm text-gray-400 leading-none font-sans font-semibold",
+    content: "text-sm text-gray-500 leading-[2] font-sans font-semibold",
   },
 };
 
-const CookingStepList = ({ orders, className }) => {
+const CookingStepList = ({ orders, images }) => {
+  console.log(orders);
   return (
     <div className={styles.container}>
       {orders && orders.length > 0
@@ -20,6 +21,7 @@ const CookingStepList = ({ orders, className }) => {
               <div className={styles.step.stepNumber}>{`${
                 index + 1
               } 단계`}</div>
+              <img src={images[index]} alt={`step ${index + 1}`} />
               <div className={styles.step.content}>{order}</div>
             </div>
           ))

@@ -9,10 +9,7 @@ export const fetchIngredientRegister = async (ingredients) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      foodName: ingredients.name,
-      expirationDate: ingredients.expirationDate,
-      savingType: ingredients.savingType,
-      group: ingredients.group,
+      ...ingredients,
     }),
   });
   if (!response.ok) {

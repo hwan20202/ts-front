@@ -1,4 +1,4 @@
-import Recipe from "../services/Recipe.jsx";
+import Recipe from "../models/Recipe";
 
 const parseRecipe = () => {
   const mockRecipe = new Recipe({

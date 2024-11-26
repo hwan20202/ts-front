@@ -15,7 +15,7 @@ export default {
         },
       },
       maxWidth: {
-        body: "1280px", // body에 사용할 max-width를 정의
+        body: "640px", // body에 사용할 max-width를 정의
       },
       screens: {
         "max-body": { max: "1200px" }, // 특정 요소의 미디어 쿼리에서 사용 가능
@@ -23,7 +23,11 @@ export default {
       fontSize: {
         xxs: "0.625rem",
       },
+      boxShadow: {
+        lg: "0 0 10px 0 rgba(0, 0, 0, 0.15)",
+        sm: "0 0 5px 0 rgba(0, 0, 0, 0.15)",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };

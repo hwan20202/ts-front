@@ -11,13 +11,16 @@ const styles = {
   buttonColorOrange: "bg-orange-300 text-white hover:bg-orange-400",
 };
 
-const RecipeFooter = ({ aiTransform = () => {}, eatComplete = () => {} }) => {
+const RecipeEditFooter = ({
+  aiTransform = () => {},
+  editComplete = () => {},
+}) => {
   const handleAITransform = () => {
     aiTransform();
   };
 
-  const handleEatComplete = () => {
-    eatComplete();
+  const handleEditComplete = () => {
+    editComplete();
   };
 
   return (
@@ -26,21 +29,21 @@ const RecipeFooter = ({ aiTransform = () => {}, eatComplete = () => {} }) => {
         className={`${styles.button} ${styles.buttonColorOrange}`}
         onClick={handleAITransform}
       >
-        AI 변환
+        AI 재변환
       </button>
       <button
         className={`${styles.button} ${styles.buttonColorGreen}`}
-        onClick={handleEatComplete}
+        onClick={handleEditComplete}
       >
-        조리 완료
+        편집 완료
       </button>
     </div>
   );
 };
 
-RecipeFooter.propTypes = {
+RecipeEditFooter.propTypes = {
   aiTransform: PropTypes.func,
-  eatComplete: PropTypes.func,
+  editComplete: PropTypes.func,
 };
 
-export default RecipeFooter;
+export default RecipeEditFooter;

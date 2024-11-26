@@ -24,7 +24,6 @@ const MenuSearchForm = () => {
   return (
     <div>
       <div className="my-3">
-        <h3>오늘 먹고 싶은 음식은?(메뉴명으로 검색)</h3>
         <SearchBar label="검색" onSearch={searchByMenu} />
       </div>
 

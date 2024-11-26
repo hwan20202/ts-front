@@ -20,28 +20,20 @@ const style = {
 };
 
 const EditIngredientItem = ({
-  id,
+  index,
   name,
-  quantity,
+  amount,
+  onChange = () => {},
   onDelete = () => {},
-  onUpdate = () => {},
 }) => {
-  const deleteIngredient = (id) => {
-    onDelete(id);
-  };
-
-  const updateIngredient = ({ id, quantity }) => {
-    onUpdate({ id, quantity });
-  };
-
   return (
-    <div className={style.ingredient.container}>
+    <div className={style.ingredient.container} key={index}>
       <div className={style.ingredient.first}>{name}</div>
       <div className={style.ingredient.second}>
         <input
           type="text"
-          defaultValue={quantity}
-          onChange={(e) => updateIngredient({ id, quantity: e.target.value })}
+          defaultValue={amount}
+          onChange={(e) => onChange({ index, amount: e.target.value })}
           className={style.ingredient.input}
         />
       </div>
@@ -49,7 +41,7 @@ const EditIngredientItem = ({
         {/* 삭제 버튼 */}
         <i
           className={`fa-solid fa-circle-xmark ${style.ingredient.deleteIcon}`}
-          onClick={deleteIngredient}
+          onClick={() => onDelete({ index })}
         ></i>
       </div>
     </div>
@@ -57,23 +49,21 @@ const EditIngredientItem = ({
 };
 
 EditIngredientItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  quantity: PropTypes.string.isRequired,
-  onUpdate: PropTypes.func,
+  amount: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
   onDelete: PropTypes.func,
 };
 
-const EditIngredientList = ({ ingredients }) => {
-  const [ingredientList, setIngredientList] = useState(ingredients);
-
-  useEffect(() => {}, [ingredients]);
-
+const EditIngredientList = ({
+  ingredients,
+  onChange = () => {},
+  onDelete = () => {},
+}) => {
   // add ingredient
 
   // delete ingredient
-
-  // update quantity
 
   return (
     <div className={style.container}>
@@ -82,9 +72,10 @@ const EditIngredientList = ({ ingredients }) => {
         ingredients.map((ingredient, index) => (
           <div key={index}>
             <EditIngredientItem
-              id={ingredient.id}
-              name={ingredient.name}
-              quantity={ingredient.quantity}
+              index={index}
+              {...ingredient}
+              onChange={onChange}
+              onDelete={onDelete}
             />
             <hr className={style.divider} />
           </div>
@@ -100,7 +91,8 @@ const EditIngredientList = ({ ingredients }) => {
 
 EditIngredientList.propTypes = {
   ingredients: PropTypes.array.isRequired,
-  className: PropTypes.string,
+  onChange: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default EditIngredientList;

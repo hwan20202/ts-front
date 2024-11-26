@@ -13,31 +13,40 @@ export default class Recipe {
   constructor({
     id,
     type = "",
-    name = "",
-    description = "",
-    profileImage = "",
+    title = "",
+    // description = "",
+    hashtag = [],
+    mainImg = "",
     ingredients = [],
     cookingTime = "",
-    cookingImgs = [],
-    cookingOrders = [],
-    // difficulty = "",
+    cookingImg = [],
+    cookingOrder = [],
+    methodKey = "",
+    recipeType = [],
+    difficulty = "",
+    servings = "",
+    tips = "",
+    typeKey,
     // changes = "",
     // reasonForChanges = "",
     // unchanged_parts_and_reasons = "",
-    // tips = "",
   }) {
     this.id = id;
     this.type = type;
-    this.name = name;
-    this.description = description;
-    this.profileImage = profileImage;
+    this.title = title;
+    // this.description = description;
+    this.hashtag = hashtag;
+    this.mainImg = mainImg;
     this.ingredients = ingredients;
     this.cookingTime = cookingTime;
-    this.cookingImgs = cookingImgs;
-    this.cookingOrders = cookingOrders;
-
-    // this.difficulty = difficulty;
-    // this.tips = tips;
+    this.cookingImg = cookingImg;
+    this.cookingOrder = cookingOrder;
+    this.methodKey = methodKey;
+    this.recipeType = recipeType;
+    this.difficulty = difficulty;
+    this.servings = servings;
+    this.tips = tips;
+    this.typeKey = typeKey;
     // this.changes = changes;
     // this.reasonForChanges = reasonForChanges;
     // this.unchangedPartsAndReasons = unchangedPartsAndReasons;

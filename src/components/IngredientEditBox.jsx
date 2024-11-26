@@ -1,63 +1,57 @@
 import React, { useState, useEffect } from "react";
-import Button from "./common/Button";
 import Dropdown from "./common/Dropdown";
 import Ingredient from "../utils/Ingredient";
 import PropTypes from "prop-types";
-const buttonStyle =
-  "px-2 whitespace-nowrap rounded-none leading-[0] text-sm cursor-pointer";
+import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
+const SavingTypeEnum = createSavingTypeEnum();
 
-const IngredientEditBox = ({ ingredient, onSave }) => {
-  const [selectedButton, setSelectedButton] = useState(
-    ingredient ? ingredient.savingType : "냉장"
-  );
-  const [selectedDays, setSelectedDays] = useState(
-    ingredient ? ingredient.getDaysUntilExpiration() : 0
-  );
+const styles = {
+  container: "flex justify-between items-center gap-2",
+  buttonContainer: "flex overflow-hidden shadow-sm",
+  button:
+    "text-gray-400 p-1 whitespace-nowrap outline-none rounded-none text-xs cursor-pointer",
+  buttonFocus:
+    "focus:bg-green-500 focus:text-white hover:bg-green-500 hover:text-white",
+  buttonSelected: "bg-green-500 text-white",
+  dropdown: "flex",
+};
 
-  useEffect(() => {
-    handleSave();
-  }, [selectedButton, selectedDays]);
-
-  const handleSave = () => {
-    if (!ingredient) return;
-    const updatedIngredient = new Ingredient({
-      id: ingredient.id,
-      name: ingredient.name,
-      expirationDate: new Date(
-        new Date().setDate(new Date().getDate() + selectedDays)
-      ).toISOString(),
-      savingType: selectedButton,
-      group: ingredient.group,
-    });
-    onSave(updatedIngredient);
-  };
-
+const IngredientEditBox = ({
+  defaultSavingType,
+  defaultDays,
+  setSavingType,
+  setDays,
+}) => {
   return (
-    <div className="flex" onClick={(e) => e.stopPropagation()}>
-      <div className="flex rounded-full overflow-hidden h-8 border-2 border-white">
-        {["실온", "냉장", "냉동"].map((item) => (
-          <Button
+    <div className={styles.container} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.buttonContainer}>
+        {SavingTypeEnum.keys().map((item) => (
+          <button
             key={item}
-            label={item}
-            onClick={() => setSelectedButton(item)}
-            className={`${buttonStyle} ${
-              selectedButton === item ? "bg-green-500" : "bg-gray-100"
+            onClick={() => setSavingType(item)}
+            className={`${styles.button} ${styles.buttonFocus} ${
+              defaultSavingType === item ? styles.buttonSelected : ""
             }`}
-          />
+          >
+            {SavingTypeEnum.getValue(item)}
+          </button>
         ))}
       </div>
       <Dropdown
-        list={[1, 3, 7, 14, 30, 60, 90]}
-        setSelected={(value) => setSelectedDays(value)}
-        selected={selectedDays}
+        list={[1, 3, 7, 14, 30, 60, 90, defaultDays].sort((a, b) => a - b)}
+        setSelected={(value) => setDays(value)}
+        selected={defaultDays}
+        className={styles.dropdown}
       />
     </div>
   );
 };
 
 IngredientEditBox.propTypes = {
-  ingredient: PropTypes.instanceOf(Ingredient).isRequired,
-  onSave: PropTypes.func.isRequired,
+  defaultSavingType: PropTypes.string.isRequired,
+  defaultDays: PropTypes.number.isRequired,
+  setSavingType: PropTypes.func.isRequired,
+  setDays: PropTypes.func.isRequired,
 };
 
 export default IngredientEditBox;

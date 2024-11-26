@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import SearchBar from "../common/SearchBar.jsx";
 import Ingredient from "../../utils/Ingredient.jsx";
+import { useIngredient } from "../../context/IngredientProvider.jsx";
 
 const ingredientSearchStyle = {
   container: "w-full",
@@ -23,8 +24,8 @@ const colorStyles = {
 };
 
 const baseStyles = {
-  container: "flex mt-2",
-  item: "inline-flex items-center justify-center text-white h-8 rounded-full m-1 px-3 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400",
+  container: "flex mt-2 max-h-[200px] overflow-y-auto",
+  item: "shrink-0 inline-flex items-center justify-center text-white h-8 rounded-full m-1 px-3 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400",
   confirmButton: "w-full text-white rounded-md py-2 mt-4",
 };
 
@@ -37,24 +38,19 @@ const resultContainerStyle = {
 
 const ResultContainer = ({ resultList, onClick }) => {
   const [selectedItems, setSelectedItems] = useState([]);
-  const buttonRef = useRef(null);
-
-  useEffect(() => {
-    if (buttonRef.current) {
-      buttonRef.current.focus();
-    }
-  }, []);
 
   const toggleSelectItem = (item) => {
     setSelectedItems((prevSelected) => {
       const newSelectedItems = prevSelected.includes(item)
         ? prevSelected.filter((i) => i !== item)
         : [...prevSelected, item];
-
-      onClick(newSelectedItems); // 업데이트된 배열을 직접 사용
       return newSelectedItems;
     });
   };
+
+  useEffect(() => {
+    onClick(selectedItems);
+  }, [selectedItems]);
 
   return (
     <div className={resultContainerStyle.container}>
@@ -69,7 +65,7 @@ const ResultContainer = ({ resultList, onClick }) => {
                 : resultContainerStyle.item
             }`}
           >
-            {item.name}
+            {item.foodName}
           </button>
         ))}
       </div>
@@ -81,23 +77,25 @@ const IngredientSearch = ({ onConfirm }) => {
   const [keyword, setKeyword] = useState("");
   const [results, setResults] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const { searchIngredient } = useIngredient();
 
   useEffect(() => {}, [selectedItems]);
 
-  const handleSearch = (keyword) => {
+  const handleSearch = async (keyword) => {
     if (keyword === "") {
       setResults([]);
       return;
     }
-    // 검색 로직을 여기에 추가
     const userKeyword = keyword;
-    // cosnt resultList = fetch();
-    setResults([
-      new Ingredient({ name: userKeyword }),
-      new Ingredient({ name: "딸기 우유" }),
-      new Ingredient({ name: "초코 우유" }),
-      new Ingredient({ name: "바나나 우유" }),
-    ]);
+    const resultList = await searchIngredient(userKeyword);
+    setResults(
+      resultList.map(
+        (item) =>
+          new Ingredient({
+            ...item,
+          })
+      )
+    );
   };
 
   const handleConfirm = (selectedItems) => {

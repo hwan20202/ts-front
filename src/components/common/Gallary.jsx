@@ -3,8 +3,8 @@ const cardSize = "w-32 h-32 md:w-48 md:h-48";
 
 const styles = {
   gallary: {
-    base: "flex flex-wrap gap-4 scroll-m-20 overflow-hidden",
-    loadMore: `${cardSize} bg-gray-500 text-white p-2 rounded-md`,
+    base: "flex gap-3 overflow-x-scroll overflow-y-hidden  scrollbar-hide bg-white pr-2 my-6",
+    loadMore: `${cardSize} bg-gray-500 text-white whitespace-nowrap p-2 rounded-md flex-shrink-0`,
   },
 };
 
@@ -13,7 +13,9 @@ const Gallary = ({ children, loadMore }) => {
     <div className={styles.gallary.base}>
       {children}
       {/* load more cards    */}
-      <button className={styles.gallary.loadMore}>Load More</button>
+      <button className={styles.gallary.loadMore} onClick={loadMore}>
+        Load More
+      </button>
     </div>
   );
 };

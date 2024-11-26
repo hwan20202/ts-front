@@ -15,49 +15,54 @@ import IconButton from "./components/common/IconButton.jsx";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 import UserProvider from "./context/UserProvider.jsx";
 import RecipeHeader from "./components/header/RecipeHeader.jsx";
-import RecipeFooter from "./components/footer/RecipeFooter.jsx";
+import RecipeFooter from "./components/footer/RecipeEditFooter.jsx";
 import RecipeEdit from "./pages/RecipeEdit.jsx";
-
+import IngredientProvider from "./context/IngredientProvider.jsx";
+import Research from "./pages/Research.jsx";
+import RecipeEditHeader from "./components/header/RecipeEditHeader.jsx";
 function App() {
   return (
     <Router>
       <AuthProvider>
         <UserProvider>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <MainLayout>
-                  <Home />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/recipe"
-              element={
-                <RecipeLayout>
-                  <RecipePage />
-                </RecipeLayout>
-              }
-            />
-            <Route
-              path="/recipe/:recipeId/edit"
-              element={
-                <RecipeEditLayout>
-                  <RecipeEdit />
-                </RecipeEditLayout>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <MainLayout>
-                  <Profile />
-                </MainLayout>
-              }
-            />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+          <IngredientProvider>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <MainLayout>
+                    <Home />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="/recipe/:recipeId"
+                element={
+                  <RecipeLayout>
+                    <RecipePage />
+                  </RecipeLayout>
+                }
+              />
+              <Route
+                path="/recipe/:recipeId/edit"
+                element={
+                  <RecipeEditLayout>
+                    <RecipeEdit />
+                  </RecipeEditLayout>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <MainLayout>
+                    <Profile />
+                  </MainLayout>
+                }
+              />
+              <Route path="/research" element={<Research />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </IngredientProvider>
         </UserProvider>
       </AuthProvider>
     </Router>
@@ -69,7 +74,6 @@ const RecipeLayout = ({ children }) => {
     <>
       <RecipeHeader />
       {children}
-      <RecipeFooter />
     </>
   );
 };
@@ -77,9 +81,8 @@ const RecipeLayout = ({ children }) => {
 const RecipeEditLayout = ({ children }) => {
   return (
     <>
-      <RecipeHeader />
+      <RecipeEditHeader />
       {children}
-      <RecipeFooter editMode={true} />
     </>
   );
 };
@@ -100,12 +103,6 @@ const MainLayout = ({ children }) => {
       label="Home"
     />,
     <IconButton
-      key="third"
-      icon={<i className="fa-solid fa-book"></i>}
-      onClick={() => redirect("/recipe")}
-      label="Recipe"
-    />,
-    <IconButton
       key="fourth"
       icon={<i className="fa-solid fa-user"></i>}
       onClick={() => redirect("/profile")}
@@ -121,25 +118,5 @@ const MainLayout = ({ children }) => {
     </>
   );
 };
-
-// function AppContent() {
-
-//   return (
-//     <>
-//       <Routes>
-//         {/* 로그인 페이지 */}
-//         <Route path="/login" element={<Login />} />
-//         {/* 레시피 페이지 */}
-//         <Route path="/recipe" element={<RecipePage />} />
-//         {/* --- header 및 네비게이션 바 포함 --- */}
-//         {/* 홈 페이지 */}
-//         <Route path="/" element={<Home />} />
-//         {/* 프로필 페이지 */}
-//         <Route path="/profile" element={<Profile />} />
-//       </Routes>
-//       <NavBar buttons={buttons} />
-//     </>
-//   );
-// }
 
 export default App;
