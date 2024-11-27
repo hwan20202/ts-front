@@ -1,4 +1,4 @@
-import { createSavingTypeEnum } from "./createSavingTypeEnum.jsx";
+import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 
 const SavingTypeEnum = createSavingTypeEnum();
 

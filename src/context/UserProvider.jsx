@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import Ingredient from "../utils/Ingredient";
+import Ingredient from "../models/Ingredient";
 import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 
 const SavingTypeEnum = createSavingTypeEnum();
@@ -30,18 +30,6 @@ const useUserContext = () => {
 
 const UserProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
-  const [dislikedIngredients, setDislikedIngredients] = useState([
-    new Ingredient({ id: 1, foodName: "양파", foodType: "채소" }),
-    new Ingredient({ id: 2, foodName: "마늘", foodType: "채소" }),
-    new Ingredient({ id: 3, foodName: "버섯", foodType: "채소" }),
-    new Ingredient({ id: 4, foodName: "오이", foodType: "채소" }),
-    new Ingredient({ id: 5, foodName: "우유", foodType: "유제품" }),
-    new Ingredient({ id: 6, foodName: "초코 우유", foodType: "유제품" }),
-    new Ingredient({ id: 7, foodName: "바나나 우유", foodType: "유제품" }),
-  ]);
-  const [dislikedIngredientsByGroup, setDislikedIngredientsByGroup] = useState(
-    {}
-  );
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsBySavingType, setIngredientsBySavingType] = useState({});
   const [expiringIngredients, setExpiringIngredients] = useState([]);
@@ -111,12 +99,6 @@ const UserProvider = ({ children }) => {
     fetchEatenRecipes();
     fetchMyRecipes();
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    setDislikedIngredientsByGroup(
-      Ingredient.getIngredientsByFoodType(dislikedIngredients)
-    );
-  }, [dislikedIngredients]);
 
   const addIngredient = (ingredient) => {
     const fetchPostIngredient = async () => {
@@ -230,10 +212,7 @@ const UserProvider = ({ children }) => {
         addIngredient,
         updateIngredient,
         deleteIngredient,
-        dislikedIngredients,
-        dislikedIngredientsByGroup,
         ingredientsBySavingType,
-        setDislikedIngredients,
         expiringIngredients,
 
         recommendedRecipes,

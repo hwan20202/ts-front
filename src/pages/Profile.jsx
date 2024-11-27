@@ -9,6 +9,7 @@ import RecipeGallary from "../components/RecipeGallary.jsx";
 import Modal from "../components/common/Modal.jsx";
 import useModal from "../hooks/useModal.jsx";
 import Research from "./Research.jsx";
+import Preference from "../components/Preference.jsx";
 
 const styles = {
   container: "flex flex-col justify-center items-center h-screen",
@@ -63,6 +64,7 @@ const Profile = () => {
         <div className="flex flex-col items-center text-black leading-none">
           <span>이름</span>
           <span>닉네임</span>
+          <Preference />
           <button className={styles.headerButton} onClick={openPreferModal}>
             프로필 수정
           </button>
