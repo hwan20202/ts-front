@@ -4,31 +4,40 @@ import RecipeDescription from "../components/recipe/RecipeDescription";
 import EditIngredientList from "../components/recipe/edit/EditIngredientList";
 import EditCookingStepList from "../components/recipe/edit/EditCookingStepList";
 import useRecipeEdit from "../hooks/useRecipeEdit";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import RecipeEditFooter from "../components/footer/RecipeEditFooter";
+import { useRecipe } from "../context/RecipeProvider";
 const style = {
   page: "flex flex-col w-full h-full justify-start",
 };
 
 const RecipeEdit = () => {
-  const { recipeId } = useParams();
+  const navigate = useNavigate();
+  const { editRecipe, loading } = useRecipe();
   const {
     recipe,
-    loading,
+    loading: loadingEdit,
     editIngredient,
     deleteIngredient,
     editCookingImg,
     editCookingOrder,
     editComplete,
-  } = useRecipeEdit(recipeId);
+  } = useRecipeEdit(editRecipe);
 
-  if (loading) {
-    return <div>Loading...</div>; // 로딩 중일 때 표시
+  if (loadingEdit) {
+    return (
+      <div className="flex justify-center items-center w-full h-screen bg-white text-black">
+        Loading...
+      </div>
+    );
+  }
+  if (!recipe) {
+    return;
   }
 
   return (
     <div className={style.page}>
-      <RecipeProfile image={recipe.mainImg} />
+      <RecipeProfile image={recipe?.mainImg || ""} />
       <RecipeDescription {...recipe} />
       <EditIngredientList
         {...recipe}

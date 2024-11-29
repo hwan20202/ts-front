@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-
+import { useRecipe } from "../../context/RecipeProvider";
+import { useNavigate, useParams } from "react-router-dom";
 const styles = {
   container:
     "fixed bottom-0 left-0 flex justify-center p-2 w-full max-w-body h-12 bg-white gap-2 border-t border-gray-100",
@@ -12,8 +13,12 @@ const styles = {
 };
 
 const RecipeFooter = ({ aiTransform = () => {}, eatComplete = () => {} }) => {
+  const { recipeId } = useParams();
+  const { generateByAI } = useRecipe();
+  const navigate = useNavigate();
   const handleAITransform = () => {
-    aiTransform();
+    generateByAI();
+    navigate(`/recipe/${recipeId}/edit`);
   };
 
   const handleEatComplete = () => {

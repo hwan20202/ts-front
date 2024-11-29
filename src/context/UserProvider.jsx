@@ -11,16 +11,12 @@ import {
   deleteMyIngredient,
 } from "../services/fetchDashboard";
 import {
-  getBookmarkedRecipes,
   putBookmarkedRecipe,
   putEatenRecipe,
-  getEatenRecipes,
   postEditedRecipe,
-  getMyRecipes,
 } from "../services/fetchUserRecipe";
 import { postUserPreferences } from "../services/fetchUserInfo";
 import Recipe from "../models/Recipe";
-import { getRecommendedRecipes } from "../services/fetchUserRecipe";
 import { useAuth } from "./AuthProvider";
 const UserContext = createContext();
 
@@ -33,23 +29,7 @@ const UserProvider = ({ children }) => {
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsBySavingType, setIngredientsBySavingType] = useState({});
   const [expiringIngredients, setExpiringIngredients] = useState([]);
-  const [editingRecipe, setEditingRecipe] = useState(null);
-  const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
-  const [eatenRecipes, setEatenRecipes] = useState([]);
-  const [myRecipes, setMyRecipes] = useState([]);
-  const [recommendedRecipes, setRecommendedRecipes] = useState([]);
 
-  const fetchRecommendedRecipes = async () => {
-    const data = await getRecommendedRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({
-          ...recipe,
-        });
-      });
-      setRecommendedRecipes(recipes);
-    }
-  };
   const fetchIngredients = async () => {
     const data = await getMyIngredients();
     if (data) {
@@ -61,43 +41,10 @@ const UserProvider = ({ children }) => {
       setIngredients(ingredients);
     }
   };
-  const fetchBookmarkedRecipes = async () => {
-    const data = await getBookmarkedRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({
-          ...recipe,
-        });
-      });
-      setBookmarkedRecipes(recipes);
-    }
-  };
-  const fetchEatenRecipes = async () => {
-    const data = await getEatenRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({ ...recipe });
-      });
-      setEatenRecipes(recipes);
-    }
-  };
-  const fetchMyRecipes = async () => {
-    const data = await getMyRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({ ...recipe });
-      });
-      setMyRecipes(recipes);
-    }
-  };
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    fetchRecommendedRecipes();
     fetchIngredients();
-    fetchBookmarkedRecipes();
-    fetchEatenRecipes();
-    fetchMyRecipes();
   }, [isLoggedIn]);
 
   const addIngredient = (ingredient) => {
@@ -214,16 +161,6 @@ const UserProvider = ({ children }) => {
         deleteIngredient,
         ingredientsBySavingType,
         expiringIngredients,
-
-        recommendedRecipes,
-        loadMoreRecommendedRecipes,
-
-        bookmarkedRecipes,
-        addBookmarkedRecipe,
-        eatenRecipes,
-        addEatenRecipe,
-
-        myRecipes,
 
         postUserPreferences,
       }}

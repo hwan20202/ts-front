@@ -65,7 +65,6 @@ const EditCookingStepList = ({
   // delete orders
 
   const handleImgChange = (index, img) => {
-    console.log(index, img);
     editCookingImg({ index, img });
   };
 
@@ -81,7 +80,7 @@ const EditCookingStepList = ({
             <EditCookingStepItem
               order={order}
               img={cookingImg[index]}
-              index={index}
+              key={index}
               onChange={handleOrderChange}
               onImgChange={handleImgChange}
             />
