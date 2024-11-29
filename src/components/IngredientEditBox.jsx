@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Dropdown from "./common/Dropdown";
-import Ingredient from "../utils/Ingredient";
+import Ingredient from "../models/Ingredient";
 import PropTypes from "prop-types";
 import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 const SavingTypeEnum = createSavingTypeEnum();

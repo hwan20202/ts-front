@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUserContext } from "../../context/UserProvider.jsx";
 import { useEffect, useState } from "react";
 import { getIsBookmarked } from "../../services/fetchRecipe.jsx";
+import { useRecipe } from "../../context/RecipeProvider.jsx";
 
 const styles = {
   icon: "text-gray-500 text-sm p-1",
@@ -13,7 +14,7 @@ const RecipeHeader = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { recipeId } = useParams();
   const { addBookmarkedRecipe } = useUserContext();
-
+  const { editByUser } = useRecipe();
   useEffect(() => {
     const fetchGetIsBookmarked = async () => {
       const data = await getIsBookmarked(recipeId);
@@ -40,6 +41,7 @@ const RecipeHeader = () => {
 
   const edit = () => {
     console.log("edit");
+    editByUser();
     navigate(`/recipe/${recipeId}/edit`);
   };
 

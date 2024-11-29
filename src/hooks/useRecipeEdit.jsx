@@ -3,20 +3,18 @@ import { getRecipe } from "../services/fetchRecipe";
 import { postEditedRecipe } from "../services/fetchUserRecipe";
 import Recipe from "../models/Recipe";
 import { useNavigate } from "react-router-dom";
-const useRecipeEdit = (defaultRecipeId) => {
+
+const useRecipeEdit = (initialRecipe) => {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const recipe = await getRecipe(defaultRecipeId);
-      const newIngredients = recipe.ingredients.map((i) => JSON.parse(i));
-      setRecipe(new Recipe({ ...recipe, ingredients: newIngredients }));
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
+    if (!initialRecipe) return;
+    const newIngredients = initialRecipe.ingredients.map((i) => JSON.parse(i));
+    setRecipe(new Recipe({ ...initialRecipe, ingredients: newIngredients }));
+    setLoading(false);
+  }, [initialRecipe]);
 
   const editComplete = () => {
     const newIngredients = recipe.ingredients.map((i) => JSON.stringify(i));

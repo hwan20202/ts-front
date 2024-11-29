@@ -1,4 +1,6 @@
-const serverUrl = import.meta.env.VITE_APP_SERVER_URL;
+import Ingredient from "../models/Ingredient";
+
+const serverUrl = import.meta.env.VITE_APP_SERVER_URL || "";
 
 const fakePreferencesTags = {
   methodKey: [
@@ -39,8 +41,10 @@ const fakePreferencesTags = {
 };
 
 export const getFakePreferencesTags = () => {
-  const values = fakePreferencesTags;
-  const categories = Object.keys(values);
+  const tags = fakePreferencesTags;
+  const categories = Object.keys(tags);
+  const values = [];
+  categories.map((category) => values.push(...tags[category]));
   const categoryNamesEnum = {
     nutrition: "영양",
     healthObjective: "건강목표",
@@ -51,11 +55,17 @@ export const getFakePreferencesTags = () => {
   };
 
   return {
+    getTags() {
+      return tags;
+    },
     getCategory() {
       return categories;
     },
     getValues(category) {
-      return values[category];
+      if (!category) {
+        return values;
+      }
+      return fakePreferencesTags[category];
     },
     getNameCategory(category) {
       return categoryNamesEnum[category];
@@ -64,8 +74,8 @@ export const getFakePreferencesTags = () => {
 };
 
 export const postUserPreferences = async (tags) => {
-  const endpoint = `${serverUrl}/api/userinfo/prefer`;
-  const response = await fetch(endpoint, {
+  const path = `/api/userinfo/prefer`;
+  const response = await fetch(`${serverUrl}${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -78,4 +88,29 @@ export const postUserPreferences = async (tags) => {
   }
   const data = await response.json();
   return data;
+};
+
+export const getFakeDislikedIngredients = () => {
+  return [
+    new Ingredient({ id: 1, foodName: "양파", foodType: "채소" }),
+    new Ingredient({ id: 2, foodName: "마늘", foodType: "채소" }),
+    new Ingredient({ id: 3, foodName: "버섯", foodType: "채소" }),
+    new Ingredient({ id: 4, foodName: "오이", foodType: "채소" }),
+    new Ingredient({ id: 5, foodName: "우유", foodType: "유제품" }),
+    new Ingredient({ id: 6, foodName: "초코 우유", foodType: "유제품" }),
+    new Ingredient({ id: 7, foodName: "바나나 우유", foodType: "유제품" }),
+  ];
+};
+
+export const getFakeAllergies = () => {
+  return [
+    "대두",
+    "우유",
+    "땅콩",
+    "견과류",
+    "생선",
+    "조개류",
+    "난류",
+    "아황산류",
+  ];
 };

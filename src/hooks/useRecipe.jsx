@@ -2,6 +2,7 @@ import { getRecipe } from "../services/fetchRecipe.jsx";
 import Recipe from "../models/Recipe.jsx";
 import { useState, useEffect } from "react";
 import { putEatenRecipe } from "../services/fetchUserRecipe.jsx";
+
 const useRecipe = (recipeId) => {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);

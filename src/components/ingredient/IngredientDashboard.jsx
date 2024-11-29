@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import IngredientItem from "../IngredientItem.jsx";
 import PropTypes from "prop-types";
-import Ingredient from "../../utils/Ingredient.jsx";
-import { useUserContext } from "../../context/UserProvider.jsx";
-import { createSavingTypeEnum } from "../../utils/createSavingTypeEnum.jsx";
+import Ingredient from "../../models/Ingredient";
+import { useUserContext } from "../../context/UserProvider";
+import { createSavingTypeEnum } from "../../utils/createSavingTypeEnum";
 import IngredientEditBox from "../IngredientEditBox.jsx";
 const SavingTypeEnum = createSavingTypeEnum();
 

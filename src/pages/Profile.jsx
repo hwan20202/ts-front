@@ -1,14 +1,8 @@
-import Gallary from "../components/common/Gallary.jsx";
-import GallaryCard from "../components/common/GallaryCard.jsx";
-import DislikedIngredientsView from "../components/ingredient/DislikedIngredientsView.jsx";
-import { useEffect, useState } from "react";
-import IngredientRegisterModal from "../components/ingredient/IngredientRegisterModal.jsx";
-import { SelectedIngredientsList } from "../components/ingredient/DislikedIngredientsView.jsx";
 import { useUserContext } from "../context/UserProvider.jsx";
 import RecipeGallary from "../components/RecipeGallary.jsx";
-import Modal from "../components/common/Modal.jsx";
-import useModal from "../hooks/useModal.jsx";
-import Research from "./Research.jsx";
+import useRecipeList from "../hooks/useRecipeList.jsx";
+import { recipePath } from "../services/fetchRecipe.jsx";
+import Preference from "../components/Preference.jsx";
 
 const styles = {
   container: "flex flex-col justify-center items-center h-screen",
@@ -34,28 +28,32 @@ const Section = ({ title, children, buttonLabel, onButtonClick }) => (
 );
 
 const Profile = () => {
-  const { myRecipes, bookmarkedRecipes, eatenRecipes } = useUserContext();
-  const [isOpen, setIsOpen] = useState(false);
   const {
-    isOpen: preferModalIsOpen,
-    openModal: openPreferModal,
-    closeModal: closePreferModal,
-  } = useModal();
+    recipes: bookmarkedRecipes,
+    loading: bookmarkedLoading,
+    error: bookmarkedError,
+    loadMore: bookmarkedLoadMore,
+  } = useRecipeList({
+    path: recipePath.bookmarked,
+  });
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  const {
+    recipes: eatenRecipes,
+    loading: eatenLoading,
+    error: eatenError,
+    loadMore: eatenLoadMore,
+  } = useRecipeList({
+    path: recipePath.eaten,
+  });
 
-  useEffect(() => {
-    console.log(bookmarkedRecipes);
-  }, [bookmarkedRecipes]);
-
-  if (!bookmarkedRecipes) {
-    return <div>Loading...</div>;
-  }
+  const {
+    recipes: myRecipes,
+    loading: myLoading,
+    error: myError,
+    loadMore: myLoadMore,
+  } = useRecipeList({
+    path: recipePath.my,
+  });
 
   return (
     <div>
@@ -63,41 +61,36 @@ const Profile = () => {
         <div className="flex flex-col items-center text-black leading-none">
           <span>이름</span>
           <span>닉네임</span>
-          <button className={styles.headerButton} onClick={openPreferModal}>
-            프로필 수정
-          </button>
-          {preferModalIsOpen && (
-            <Modal onClose={closePreferModal} className="z-50">
-              <Research />
-            </Modal>
-          )}
+          <Preference />
         </div>
       </Section>
 
       <Section title="내 레시피">
-        <RecipeGallary recipes={myRecipes} loadRecipes={() => {}} />
+        <RecipeGallary
+          recipes={myRecipes}
+          loading={myLoading}
+          error={myError}
+          loadRecipes={myLoadMore}
+        />
       </Section>
 
       <Section title="먹었어요">
-        <RecipeGallary recipes={eatenRecipes} loadRecipes={() => {}} />
+        <RecipeGallary
+          recipes={eatenRecipes}
+          loading={eatenLoading}
+          error={eatenError}
+          loadRecipes={eatenLoadMore}
+        />
       </Section>
 
       <Section title="먹고 싶어요">
-        <RecipeGallary recipes={bookmarkedRecipes} loadRecipes={() => {}} />
+        <RecipeGallary
+          recipes={bookmarkedRecipes}
+          loading={bookmarkedLoading}
+          error={bookmarkedError}
+          loadRecipes={bookmarkedLoadMore}
+        />
       </Section>
-
-      {/* <Section
-        title="싫어하는 재료"
-        buttonLabel="재료 등록"
-        onButtonClick={openModal}
-      >
-        {/* <DislikedIngredientsView /> */}
-      {/* {isOpen && ( 
-          <IngredientRegisterModal onClose={closeModal} className="z-50">
-            <SelectedIngredientsList />
-          </IngredientRegisterModal>
-        )}
-      </Section> */}
     </div>
   );
 };
