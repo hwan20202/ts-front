@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import SearchBar from "../common/SearchBar.jsx";
-import Ingredient from "../../utils/Ingredient.jsx";
-import { useIngredient } from "../../context/IngredientProvider.jsx";
+import Ingredient from "../../models/Ingredient";
+import { useIngredient } from "../../context/IngredientProvider";
 
 const ingredientSearchStyle = {
   container: "w-full",

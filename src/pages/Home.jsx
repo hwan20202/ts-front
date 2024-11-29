@@ -5,6 +5,8 @@ import IngredientRegisterModal from "../components/ingredient/IngredientRegister
 import { SelectedIngredientsList } from "../components/ingredient/IngredientDashboard.jsx";
 import SearchBar from "../components/common/SearchBar.jsx";
 import RecipeGallery from "../components/RecipeGallary.jsx";
+import useRecipeList from "../hooks/useRecipeList.jsx";
+import { recipePath } from "../services/fetchRecipe.jsx";
 
 const styles = {
   container: "flex flex-col justify-center items-center overflow-y-auto pb-10",
@@ -37,12 +39,15 @@ const Section = ({ title, children, buttonLabel, onButtonClick }) => (
 );
 
 const Home = () => {
+  const { ingredients, addIngredient } = useUserContext();
   const {
-    ingredients,
-    addIngredient,
-    recommendedRecipes,
-    loadMoreRecommendedRecipes,
-  } = useUserContext();
+    recipes: recommendedRecipes,
+    loading: recommendedRecipesLoading,
+    loadMore: loadMoreRecommendedRecipes,
+    error: recommendedRecipesError,
+  } = useRecipeList({
+    path: recipePath.recommended,
+  });
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {}, [recommendedRecipes]);
@@ -70,6 +75,8 @@ const Home = () => {
         <RecipeGallery
           recipes={recommendedRecipes}
           loadRecipes={loadMoreRecommendedRecipes}
+          loading={recommendedRecipesLoading}
+          error={recommendedRecipesError}
         />
       </Section>
 

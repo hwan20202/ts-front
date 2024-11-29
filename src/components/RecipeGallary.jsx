@@ -33,9 +33,9 @@ const Card = ({ id, mainImg, title, hashtag }) => {
   );
 };
 
-const RecipeGallary = ({ recipes, loadRecipes }) => {
+const RecipeGallary = ({ recipes, loadRecipes, loading, error }) => {
   return (
-    <Gallary loadMore={loadRecipes}>
+    <Gallary loadMore={loadRecipes} loading={loading} error={error}>
       {recipes &&
         recipes.length > 0 &&
         recipes.map((recipe, index) => <Card key={index} {...recipe} />)}

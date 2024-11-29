@@ -12,7 +12,6 @@ const styles = {
 };
 
 const CookingStepList = ({ orders, images }) => {
-  console.log(orders);
   return (
     <div className={styles.container}>
       {orders && orders.length > 0

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import Ingredient from "../utils/Ingredient";
+import Ingredient from "../models/Ingredient";
 import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 
 const SavingTypeEnum = createSavingTypeEnum();
@@ -11,16 +11,12 @@ import {
   deleteMyIngredient,
 } from "../services/fetchDashboard";
 import {
-  getBookmarkedRecipes,
   putBookmarkedRecipe,
   putEatenRecipe,
-  getEatenRecipes,
   postEditedRecipe,
-  getMyRecipes,
 } from "../services/fetchUserRecipe";
 import { postUserPreferences } from "../services/fetchUserInfo";
 import Recipe from "../models/Recipe";
-import { getRecommendedRecipes } from "../services/fetchUserRecipe";
 import { useAuth } from "./AuthProvider";
 const UserContext = createContext();
 
@@ -30,38 +26,10 @@ const useUserContext = () => {
 
 const UserProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
-  const [dislikedIngredients, setDislikedIngredients] = useState([
-    new Ingredient({ id: 1, foodName: "양파", foodType: "채소" }),
-    new Ingredient({ id: 2, foodName: "마늘", foodType: "채소" }),
-    new Ingredient({ id: 3, foodName: "버섯", foodType: "채소" }),
-    new Ingredient({ id: 4, foodName: "오이", foodType: "채소" }),
-    new Ingredient({ id: 5, foodName: "우유", foodType: "유제품" }),
-    new Ingredient({ id: 6, foodName: "초코 우유", foodType: "유제품" }),
-    new Ingredient({ id: 7, foodName: "바나나 우유", foodType: "유제품" }),
-  ]);
-  const [dislikedIngredientsByGroup, setDislikedIngredientsByGroup] = useState(
-    {}
-  );
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsBySavingType, setIngredientsBySavingType] = useState({});
   const [expiringIngredients, setExpiringIngredients] = useState([]);
-  const [editingRecipe, setEditingRecipe] = useState(null);
-  const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
-  const [eatenRecipes, setEatenRecipes] = useState([]);
-  const [myRecipes, setMyRecipes] = useState([]);
-  const [recommendedRecipes, setRecommendedRecipes] = useState([]);
 
-  const fetchRecommendedRecipes = async () => {
-    const data = await getRecommendedRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({
-          ...recipe,
-        });
-      });
-      setRecommendedRecipes(recipes);
-    }
-  };
   const fetchIngredients = async () => {
     const data = await getMyIngredients();
     if (data) {
@@ -73,50 +41,11 @@ const UserProvider = ({ children }) => {
       setIngredients(ingredients);
     }
   };
-  const fetchBookmarkedRecipes = async () => {
-    const data = await getBookmarkedRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({
-          ...recipe,
-        });
-      });
-      setBookmarkedRecipes(recipes);
-    }
-  };
-  const fetchEatenRecipes = async () => {
-    const data = await getEatenRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({ ...recipe });
-      });
-      setEatenRecipes(recipes);
-    }
-  };
-  const fetchMyRecipes = async () => {
-    const data = await getMyRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({ ...recipe });
-      });
-      setMyRecipes(recipes);
-    }
-  };
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    fetchRecommendedRecipes();
     fetchIngredients();
-    fetchBookmarkedRecipes();
-    fetchEatenRecipes();
-    fetchMyRecipes();
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    setDislikedIngredientsByGroup(
-      Ingredient.getIngredientsByFoodType(dislikedIngredients)
-    );
-  }, [dislikedIngredients]);
 
   const addIngredient = (ingredient) => {
     const fetchPostIngredient = async () => {
@@ -230,21 +159,8 @@ const UserProvider = ({ children }) => {
         addIngredient,
         updateIngredient,
         deleteIngredient,
-        dislikedIngredients,
-        dislikedIngredientsByGroup,
         ingredientsBySavingType,
-        setDislikedIngredients,
         expiringIngredients,
-
-        recommendedRecipes,
-        loadMoreRecommendedRecipes,
-
-        bookmarkedRecipes,
-        addBookmarkedRecipe,
-        eatenRecipes,
-        addEatenRecipe,
-
-        myRecipes,
 
         postUserPreferences,
       }}
