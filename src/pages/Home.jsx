@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import IngredientDashboard from "../components/ingredient/IngredientDashboard.jsx";
 import { useUserContext } from "../context/UserProvider.jsx";
 import IngredientRegisterModal from "../components/ingredient/IngredientRegisterModal.jsx";
-import { SelectedIngredientsList } from "../components/ingredient/IngredientDashboard.jsx";
 import SearchBar from "../components/common/SearchBar.jsx";
 import RecipeGallery from "../components/RecipeGallary.jsx";
 import useRecipeList from "../hooks/useRecipeList.jsx";
@@ -67,7 +66,6 @@ const Home = () => {
     closeModal();
   };
 
-  const { addBookmarkedRecipe } = useUserContext();
   return (
     <div className={styles.container}>
       <Section title="오늘 뭐 먹지">
@@ -90,9 +88,10 @@ const Home = () => {
 
       {/* 모달 */}
       {isOpen && (
-        <IngredientRegisterModal onClose={closeModal} onConfirm={handleConfirm}>
-          <SelectedIngredientsList />
-        </IngredientRegisterModal>
+        <IngredientRegisterModal
+          onClose={closeModal}
+          onConfirm={handleConfirm}
+        />
       )}
     </div>
   );
