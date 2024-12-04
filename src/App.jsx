@@ -17,7 +17,6 @@ import RecipeProvider from "./context/RecipeProvider.jsx";
 import UserProvider from "./context/UserProvider.jsx";
 import RecipeHeader from "./components/header/RecipeHeader.jsx";
 import RecipeEdit from "./pages/RecipeEdit.jsx";
-import IngredientProvider from "./context/IngredientProvider.jsx";
 import Research from "./pages/Research.jsx";
 import RecipeEditHeader from "./components/header/RecipeEditHeader.jsx";
 
@@ -27,44 +26,42 @@ function App() {
       <AuthProvider>
         <UserProvider>
           <RecipeProvider>
-            <IngredientProvider>
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <MainLayout>
-                      <Home />
-                    </MainLayout>
-                  }
-                />
-                <Route
-                  path="/recipe/:recipeId"
-                  element={
-                    <RecipeLayout>
-                      <RecipePage />
-                    </RecipeLayout>
-                  }
-                />
-                <Route
-                  path="/recipe/:recipeId/edit"
-                  element={
-                    <RecipeEditLayout>
-                      <RecipeEdit />
-                    </RecipeEditLayout>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <MainLayout>
-                      <Profile />
-                    </MainLayout>
-                  }
-                />
-                <Route path="/research" element={<Research />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </IngredientProvider>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <MainLayout>
+                    <Home />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="/recipe/:tag/:recipeId"
+                element={
+                  <RecipeLayout>
+                    <RecipePage />
+                  </RecipeLayout>
+                }
+              />
+              <Route
+                path="/recipe/:recipeId/edit"
+                element={
+                  <RecipeEditLayout>
+                    <RecipeEdit />
+                  </RecipeEditLayout>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <MainLayout>
+                    <Profile />
+                  </MainLayout>
+                }
+              />
+              <Route path="/research" element={<Research />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
           </RecipeProvider>
         </UserProvider>
       </AuthProvider>
@@ -107,12 +104,6 @@ const MainLayout = ({ children }) => {
     />,
     <IconButton
       key="third"
-      icon={<i className="fa-solid fa-book"></i>}
-      onClick={() => redirect("/recipe/6735b9051cd44bdc34d734d7")}
-      label="Recipe"
-    />,
-    <IconButton
-      key="third"
       icon={<i className="fa-solid fa-user"></i>}
       onClick={() => redirect("/profile")}
       label="Profile"
@@ -123,7 +114,6 @@ const MainLayout = ({ children }) => {
     <>
       <MainHeader />
       {children}
-      <NavBar buttons={buttons} />
     </>
   );
 };

@@ -9,7 +9,8 @@ const useRecipeList = ({ path }) => {
   const fetchRecipes = async () => {
     const result = await getRecipeList(path);
     if (result.success) {
-      setRecipes(result.recipes);
+      console.log(result.data);
+      setRecipes(result.data);
       setLoading(false);
     } else {
       setError(true);
@@ -24,7 +25,7 @@ const useRecipeList = ({ path }) => {
     setLoading(true);
     const data = await getRecipeList(path);
     if (data.success) {
-      setRecipes([...recipes, ...data.recipes]);
+      setRecipes([...recipes, ...data]);
       setLoading(false);
     }
   };

@@ -16,29 +16,6 @@ export default class Ingredient {
     return date.toISOString().split("T")[0];
   }
 
-  //return object {group: [ingredients]}
-  static getIngredientsByFoodType(ingredients) {
-    const ingredientsByFoodType = {};
-    ingredients.forEach((ingredient) => {
-      if (!ingredientsByFoodType[ingredient.foodType]) {
-        ingredientsByFoodType[ingredient.foodType] = [];
-      }
-      ingredientsByFoodType[ingredient.foodType].push(ingredient);
-    });
-    return ingredientsByFoodType;
-  }
-
-  static getIngredientsBySavingType(ingredients) {
-    const ingredientsBySavingType = {};
-    ingredients.forEach((ingredient) => {
-      if (!ingredientsBySavingType[ingredient.savingType]) {
-        ingredientsBySavingType[ingredient.savingType] = [];
-      }
-      ingredientsBySavingType[ingredient.savingType].push(ingredient);
-    });
-    return ingredientsBySavingType;
-  }
-
   getDaysUntilExpiration() {
     const today = new Date();
     const expirationDateObj = new Date(this.expirationDate); // 문자열을 Date 객체로 변환

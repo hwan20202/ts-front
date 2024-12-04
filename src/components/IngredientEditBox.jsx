@@ -6,10 +6,10 @@ import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 const SavingTypeEnum = createSavingTypeEnum();
 
 const styles = {
-  container: "flex justify-between items-center gap-2",
+  container: "grid grid-cols-2 justify-between items-center gap-2",
   buttonContainer: "flex overflow-hidden shadow-sm",
   button:
-    "text-gray-400 p-1 whitespace-nowrap outline-none rounded-none text-xs cursor-pointer",
+    "text-gray-400 w-full p-1 whitespace-nowrap outline-none rounded-none text-xs cursor-pointer",
   buttonFocus:
     "focus:bg-green-500 focus:text-white hover:bg-green-500 hover:text-white",
   buttonSelected: "bg-green-500 text-white",
@@ -38,9 +38,9 @@ const IngredientEditBox = ({
         ))}
       </div>
       <Dropdown
-        list={[1, 3, 7, 14, 30, 60, 90, defaultDays].sort((a, b) => a - b)}
-        setSelected={(value) => setDays(value)}
-        selected={defaultDays}
+        options={[1, 3, 7, 14, 30, 60, 90, defaultDays].sort((a, b) => a - b)}
+        defaultValue={defaultDays}
+        onChange={(value) => setDays(value)}
         className={styles.dropdown}
       />
     </div>

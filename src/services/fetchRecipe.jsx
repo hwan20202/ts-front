@@ -11,8 +11,8 @@ export const recipePath = {
 
 // 레시피 조회
 
-export const getRecipe = async (recipeId) => {
-  const path = `/api/recipe/${recipeId}`;
+export const getRecipe = async (tag, recipeId) => {
+  const path = `/api/recipe/${tag}/${recipeId}`;
   try {
     const response = await fetch(`${serverUrl}${path}`, {
       method: "GET",
@@ -41,7 +41,7 @@ export const getRecipeList = async (path) => {
       const data = await response.json();
       return {
         success: true,
-        recipes: data,
+        data,
       };
     } else {
       console.log("fetchRecipeList error");
@@ -54,21 +54,16 @@ export const getRecipeList = async (path) => {
   }
 };
 
-export const getRecipeGeneratedByAI = async ({
-  recipeId,
-  dislikeIngredients,
-  basicSeasoning,
-  mustUseIngredients,
-}) => {
+export const getRecipeGeneratedByAI = async ({ recipeId = "" }) => {
   try {
     const response = await fetch(`${serverUrl}${recipePath.aiGenerate}`, {
       method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         originalRecipeId: recipeId,
-        dislikeIngredients, // [싫어하는 재료]
-        basicSeasoning, // [기본 양념]
-        mustUseIngredients, // [필수 재료]
       }),
     });
     if (response.ok) {
@@ -79,7 +74,7 @@ export const getRecipeGeneratedByAI = async ({
       return { success: false };
     }
   } catch (e) {
-    console.log(e.message);
+    console.log("generateByAI error", e);
   }
 };
 
@@ -89,6 +84,9 @@ export const getRecipeSimplifiedByAI = async ({ recipeId }) => {
       `${serverUrl}${recipePath.aiSimplify}/${recipeId}`,
       {
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
     );
     if (response.ok) {

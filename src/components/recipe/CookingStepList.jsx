@@ -20,7 +20,10 @@ const CookingStepList = ({ orders, images }) => {
               <div className={styles.step.stepNumber}>{`${
                 index + 1
               } 단계`}</div>
-              <img src={images[index]} alt={`step ${index + 1}`} />
+              <img
+                src={images && images.length >= index ? images[index] : ""}
+                alt={`step ${index + 1}`}
+              />
               <div className={styles.step.content}>{order}</div>
             </div>
           ))

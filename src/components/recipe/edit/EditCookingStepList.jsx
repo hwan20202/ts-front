@@ -55,8 +55,8 @@ const EditCookingStepItem = ({
 };
 
 const EditCookingStepList = ({
-  cookingOrder,
-  cookingImg,
+  cooking_order,
+  cooking_img,
   editCookingImg,
   editCookingOrder,
 }) => {
@@ -75,11 +75,15 @@ const EditCookingStepList = ({
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>조리 순서</h2>
-      {cookingOrder && cookingOrder.length > 0
-        ? cookingOrder.map((order, index) => (
+      {cooking_order && cooking_order.length > 0
+        ? cooking_order.map((order, index) => (
             <EditCookingStepItem
               order={order}
-              img={cookingImg[index]}
+              img={
+                cooking_img && cooking_img.length >= index
+                  ? cooking_img[index]
+                  : ""
+              }
               key={index}
               onChange={handleOrderChange}
               onImgChange={handleImgChange}
@@ -91,8 +95,8 @@ const EditCookingStepList = ({
 };
 
 EditCookingStepList.propTypes = {
-  cookingOrder: PropTypes.array.isRequired,
-  cookingImg: PropTypes.array.isRequired,
+  cooking_order: PropTypes.array.isRequired,
+  cooking_img: PropTypes.array.isRequired,
   editCookingOrder: PropTypes.func.isRequired,
   editCookingImg: PropTypes.func.isRequired,
 };
