@@ -22,9 +22,9 @@ const RecipeProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const loadRecipe = async (recipeId) => {
+  const loadRecipe = async (tag, recipeId) => {
     setLoading(true);
-    const result = await getRecipe(recipeId);
+    const result = await getRecipe(tag, recipeId);
     const recipe = new Recipe({ ...result });
     setRecipe(recipe);
     setLoading(false);
@@ -37,6 +37,7 @@ const RecipeProvider = ({ children }) => {
   };
 
   const generateByAI = async (recipeId) => {
+    console.log("generateByAI clicked", recipeId);
     setLoading(true);
     const result = await getRecipeGeneratedByAI({
       recipeId: recipeId,
@@ -44,12 +45,23 @@ const RecipeProvider = ({ children }) => {
       basicSeasoning: [],
       mustUseIngredients: [],
     });
-    const recipe = new Recipe({ ...result });
+    console.log(result);
+    const recipe = new Recipe({
+      ...result.data.before,
+      cooking_order: result.data.after.recipe_cooking_order || [],
+      cooking_time: result.data.after.recipe_cooking_time || "",
+      difficulty: result.data.after.recipe_difficulty || "",
+      ingredients: result.data.after.recipe_ingredients || [],
+      title: result.data.after.recipe_menu_name || "",
+      recipe_type: result.data.after.recipe_recipe_type || [],
+      tips: result.data.after.recipe_tips || [],
+    });
     setEditRecipe(recipe);
     setLoading(false);
   };
 
   const simplifyByAI = async (recipeId) => {
+    console.log("simplifyByAI clicked", recipeId);
     setLoading(true);
     const result = await getRecipeSimplifiedByAI({ recipeId: recipeId });
     const recipe = new Recipe({ ...result });

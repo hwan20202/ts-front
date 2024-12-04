@@ -37,7 +37,7 @@ const RecipeEdit = () => {
 
   return (
     <div className={style.page}>
-      <RecipeProfile image={recipe?.mainImg || ""} />
+      <RecipeProfile image={recipe?.main_img || ""} />
       <RecipeDescription {...recipe} />
       <EditIngredientList
         {...recipe}

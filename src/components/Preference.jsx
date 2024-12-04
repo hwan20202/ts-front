@@ -20,7 +20,7 @@ const styles = {
   tagBox: "flex flex-wrap gap-1",
   tag: "flex items-center justify-center rounded-sm leading-[1.5] px-1 mr-1 text-xs text-gray-600",
   form: "w-full p-2 bg-gray-100 rounded-sm",
-  input: "w-full bg-gray-100 outline-none",
+  input: "w-full bg-gray-100 outline-none text-gray-500",
   focusInput: "focus:border-b-[0.5px] focus:border-b-green-500",
 };
 
@@ -53,7 +53,7 @@ const TitleSection = ({
       <div className={styles.titleWrapper}>
         <div className={styles.title}>{children}</div>
         <button
-          className={styles.button}
+          className={styles.editButton}
           onClick={() => {
             onButtonClick();
           }}

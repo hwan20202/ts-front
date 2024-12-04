@@ -10,13 +10,8 @@ import {
   putMyIngredient,
   deleteMyIngredient,
 } from "../services/fetchDashboard";
-import {
-  putBookmarkedRecipe,
-  putEatenRecipe,
-  postEditedRecipe,
-} from "../services/fetchUserRecipe";
+import { postEditedRecipe } from "../services/fetchUserRecipe";
 import { postUserPreferences } from "../services/fetchUserInfo";
-import Recipe from "../models/Recipe";
 import { useAuth } from "./AuthProvider";
 const UserContext = createContext();
 
@@ -27,12 +22,12 @@ const useUserContext = () => {
 const UserProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
   const [ingredients, setIngredients] = useState([]);
-  const [ingredientsBySavingType, setIngredientsBySavingType] = useState({});
   const [expiringIngredients, setExpiringIngredients] = useState([]);
 
   const fetchIngredients = async () => {
     const data = await getMyIngredients();
     if (data) {
+      console.log(data);
       const ingredients = data.map((ingredient) => {
         return new Ingredient({
           ...ingredient,
@@ -90,52 +85,23 @@ const UserProvider = ({ children }) => {
     fetchPutIngredient();
   };
 
-  // 추천 레시피
-  const loadMoreRecommendedRecipes = async () => {
-    const data = await getRecommendedRecipes();
-    if (data) {
-      const recipes = data.map((recipe) => {
-        return new Recipe({ ...recipe });
-      });
-      setRecommendedRecipes((prev) => [...prev, ...recipes]);
-    }
-  };
-
   // 북마크
 
-  const addBookmarkedRecipe = (recipeId) => {
-    const fetchPutBookmarkedRecipe = async () => {
-      const data = await putBookmarkedRecipe(recipeId);
-      if (data) {
-        fetchBookmarkedRecipes();
-      }
-    };
-    fetchPutBookmarkedRecipe();
-  };
-
-  // 조리 완료
-
-  const addEatenRecipe = (recipeId, type) => {
-    const fetchPutEatenRecipe = async () => {
-      const data = await putEatenRecipe(recipeId, type);
-      if (data) {
-        setEatenRecipes([
-          ...eatenRecipes,
-          new Recipe({
-            ...data,
-          }),
-        ]);
-      }
-    };
-    fetchPutEatenRecipe();
-  };
+  // const addBookmarkedRecipe = (recipeId) => {
+  //   const fetchPutBookmarkedRecipe = async () => {
+  //     const data = await putBookmarkedRecipe(recipeId);
+  //     if (data) {
+  //       fetchBookmarkedRecipes();
+  //     }
+  //   };
+  //   fetchPutBookmarkedRecipe();
+  // };
 
   // 레시피 편집
 
   const updateEditingRecipe = (recipe) => {
     const fetchPostEditingRecipe = async () => {
       const data = await postEditedRecipe(recipe);
-      console.log(data);
       if (data) {
         return data;
       }
@@ -159,7 +125,6 @@ const UserProvider = ({ children }) => {
         addIngredient,
         updateIngredient,
         deleteIngredient,
-        ingredientsBySavingType,
         expiringIngredients,
 
         postUserPreferences,

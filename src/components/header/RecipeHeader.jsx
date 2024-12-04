@@ -4,7 +4,7 @@ import { useUserContext } from "../../context/UserProvider.jsx";
 import { useEffect, useState } from "react";
 import { getIsBookmarked } from "../../services/fetchRecipe.jsx";
 import { useRecipe } from "../../context/RecipeProvider.jsx";
-
+import IconButton from "../common/IconButton.jsx";
 const styles = {
   icon: "text-gray-500 text-sm p-1",
 };
@@ -46,33 +46,39 @@ const RecipeHeader = () => {
   };
 
   return (
-    <Header
-      first={
-        <i
-          className={`fa-solid fa-arrow-left ${styles.icon}`}
+    <Header>
+      <div className="flex w-full justify-between items-center text-black">
+        <IconButton
+          icon={<i className="fa-solid fa-arrow-left"></i>}
           onClick={goBack}
-        ></i>
-      }
-      third={
-        <div>
+          label="뒤로가기"
+        />
+        <div className="flex justify-between items-center">
           {/* 공유, 저장, 편집 */}
-          <i
-            className={`fa-solid fa-share-nodes ${styles.icon}`}
+          <IconButton
+            icon={<i className="fa-solid fa-share-nodes"></i>}
             onClick={share}
-          ></i>
-          <i
-            className={`${
-              isBookmarked ? "fa-solid" : "fa-regular"
-            } fa-bookmark ${styles.icon}`}
+            label="공유"
+          />
+          <IconButton
+            icon={
+              <i
+                className={`${
+                  isBookmarked ? "fa-solid" : "fa-regular"
+                } fa-bookmark`}
+              ></i>
+            }
             onClick={bookmark}
-          ></i>
-          <i
-            className={`fa-solid fa-pen-to-square ${styles.icon}`}
+            label="저장"
+          />
+          <IconButton
+            icon={<i className="fa-solid fa-pen-to-square"></i>}
             onClick={edit}
-          ></i>
+            label="편집"
+          />
         </div>
-      }
-    />
+      </div>
+    </Header>
   );
 };
 

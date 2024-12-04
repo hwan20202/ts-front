@@ -12,11 +12,11 @@ const style = {
 };
 
 const RecipePage = () => {
-  const { recipeId } = useParams();
+  const { tag, recipeId } = useParams();
   const { recipe, loading, loadRecipe } = useRecipe();
 
   useEffect(() => {
-    loadRecipe(recipeId);
+    loadRecipe(tag, recipeId);
   }, []);
 
   if (loading) {
@@ -26,21 +26,22 @@ const RecipePage = () => {
       </div>
     ); // 로딩 중일 때 표시
   }
+
   if (!recipe && !loading) {
     return;
   }
 
   return (
     <div className={style.page}>
-      <RecipeProfile image={recipe?.mainImg || ""} />
+      <RecipeProfile image={recipe?.main_img || ""} />
       {/* <RecipeHeader recipeName={recipe.name} /> */}
       <RecipeDescription {...recipe} />
       {/* Section 1 */}
       <IngredientList ingredients={recipe.ingredients} className="mt-5" />
       {/* Section 2 */}
       <CookingStepList
-        orders={recipe.cookingOrder}
-        images={recipe.cookingImg}
+        orders={recipe.cooking_order}
+        images={recipe.cooking_img}
       />
       <RecipeFooter aiTransform={() => {}} eatComplete={() => {}} />
     </div>

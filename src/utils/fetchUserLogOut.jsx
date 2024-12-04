@@ -5,5 +5,6 @@ export const fetchUserLogOut = async () => {
   const response = await fetch(`${serverUrl}${path}`, {
     method: "POST",
     credentials: "include",
+    mode: "cors",
   });
 };

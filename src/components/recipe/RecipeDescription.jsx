@@ -13,17 +13,17 @@ const style = {
 const RecipeDescription = ({
   title,
   hashtag,
-  recipeType,
-  methodKey,
+  recipe_type,
+  method_key,
   servings,
-  cookingTime,
+  cooking_time,
   difficulty,
 }) => {
   return (
     <div className={style.container}>
       <h1 className={style.title}>{title}</h1>
       <h2 className={style.subtitle}>
-        {hashtag.join(", ")} | {recipeType.join(", ")} | {methodKey}
+        {hashtag.join(", ")} | {recipe_type.join(", ")} | {method_key}
       </h2>
       <div className={style.descriptionContainer}>
         <div className={style.description}>
@@ -32,7 +32,7 @@ const RecipeDescription = ({
         </div>
         <div className={style.description + " " + style.border}>
           <span className="text-sm">조리시간</span>
-          <span className="text-sm">{cookingTime || "-"}</span>
+          <span className="text-sm">{cooking_time || "-"}</span>
         </div>
         <div className={style.description}>
           <span className="text-sm">난이도</span>
