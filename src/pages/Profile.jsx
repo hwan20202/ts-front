@@ -1,8 +1,9 @@
-import { useUserContext } from "../context/UserProvider.jsx";
 import RecipeGallary from "../components/RecipeGallary.jsx";
 import useRecipeList from "../hooks/useRecipeList.jsx";
 import { recipePath } from "../services/fetchRecipe.jsx";
 import Preference from "../components/Preference.jsx";
+import SideSheet from "../components/common/SideSheet.jsx";
+import { useState } from "react";
 
 const styles = {
   container: "flex flex-col justify-center items-center h-screen",
@@ -28,6 +29,8 @@ const Section = ({ title, children, buttonLabel, onButtonClick }) => (
 );
 
 const Profile = () => {
+  const [isPreferenceSheetOpen, setIsPreferenceSheetOpen] = useState(false);
+
   const {
     recipes: bookmarkedRecipes,
     loading: bookmarkedLoading,
@@ -61,9 +64,17 @@ const Profile = () => {
         <div className="flex flex-col items-center text-black leading-none">
           <span>이름</span>
           <span>닉네임</span>
-          <Preference />
+          <button onClick={() => setIsPreferenceSheetOpen(true)}>
+            선호도 설정
+          </button>
         </div>
       </Section>
+      <SideSheet
+        isOpen={isPreferenceSheetOpen}
+        onClose={() => setIsPreferenceSheetOpen(false)}
+      >
+        <Preference />
+      </SideSheet>
 
       <Section title="내 레시피">
         <RecipeGallary

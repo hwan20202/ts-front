@@ -49,8 +49,6 @@ const Home = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {}, [recommendedRecipes]);
-
   const openModal = () => {
     setIsOpen(true);
   };
