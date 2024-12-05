@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import IngredientEditBox from "./IngredientEditBox";
 import { useState, useEffect } from "react";
+import Ingredient from "../models/Ingredient";
 
 const styles = {
   ingredientItem: {
@@ -20,11 +21,15 @@ const IngredientItem = ({ ingredient, onSave, onDelete }) => {
   );
 
   useEffect(() => {
-    onSave({
-      ...ingredient,
-      savingType,
-      expirationDate: new Date(new Date().setDate(new Date().getDate() + days)),
-    });
+    onSave(
+      new Ingredient({
+        ...ingredient,
+        savingType,
+        expirationDate: new Date(
+          new Date().setDate(new Date().getDate() + parseInt(days))
+        ),
+      })
+    );
   }, [savingType, days]);
 
   return (

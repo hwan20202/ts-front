@@ -2,24 +2,25 @@ const { Kakao } = window;
 const apiKey = import.meta.env.VITE_APP_KAKAO_KEY;
 
 export const initKakao = () => {
-    // init 해주기 전에 clean up 을 해준다.
-    Kakao.cleanup();
-    // 자신의 js 키를 넣어준다.
-    Kakao.init(apiKey);
-    // 잘 적용되면 true 를 뱉는다.
-    console.log(Kakao.isInitialized());
-}
+  // init 해주기 전에 clean up 을 해준다.
+  Kakao.cleanup();
+  // 자신의 js 키를 넣어준다.
+  Kakao.init(apiKey);
+  // 잘 적용되면 true 를 뱉는다.
+  console.log(Kakao.isInitialized());
+};
 
-export const share = () => {
-    Kakao.Share.createDefaultButton({
-        container: '#kakaotalk-sharing-btn',
-        objectType: 'text',
-        text:
-            '기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오톡 공유는 다른 템플릿을 이용해 보낼 수 있습니다.',
-        link: {
-            mobileWebUrl: 'https://developers.kakao.com',
-            webUrl: 'https://developers.kakao.com',
-        },
-    });
-    console.log('kakaoUtlis success!');
-}
+export const share = (path) => {
+  // const link = `http://ktb-project-domain.shop/${path}`;
+  const link = `http://localhost:5173/${path}`;
+  Kakao.Share.createDefaultButton({
+    container: "#kakaotalk-sharing-btn",
+    objectType: "text",
+    text: "기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오톡 공유는 다른 템플릿을 이용해 보낼 수 있습니다.",
+    link: {
+      mobileWebUrl: link,
+      webUrl: link,
+    },
+  });
+  console.log("kakaoUtlis success!");
+};

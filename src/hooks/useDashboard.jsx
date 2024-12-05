@@ -2,6 +2,13 @@ import Ingredient from "../models/Ingredient";
 
 const useDashboard = () => {
   const categories = {
+    EXPIRED: {
+      name: "만료",
+      savingType: "EXPIRED",
+      filter: function (_ingredients) {
+        return _ingredients.filter((_ingredient) => _ingredient.isExpired);
+      },
+    },
     EXPIRING_SOON: {
       name: "유통기한 임박",
       savingType: "EXPIRING_SOON",
@@ -17,7 +24,9 @@ const useDashboard = () => {
       filter: function (_ingredients) {
         return _ingredients.filter(
           (_ingredient) =>
-            _ingredient.savingType === "REFRIGERATED" && !_ingredient.isExpired
+            _ingredient.savingType === "REFRIGERATED" &&
+            !_ingredient.isExpired &&
+            !Ingredient.isExpiringSoon(_ingredient)
         );
       },
     },
@@ -27,7 +36,9 @@ const useDashboard = () => {
       filter: function (_ingredients) {
         return _ingredients.filter(
           (_ingredient) =>
-            _ingredient.savingType === "FROZEN" && !_ingredient.isExpired
+            _ingredient.savingType === "FROZEN" &&
+            !_ingredient.isExpired &&
+            !Ingredient.isExpiringSoon(_ingredient)
         );
       },
     },
@@ -38,7 +49,8 @@ const useDashboard = () => {
         return _ingredients.filter(
           (_ingredient) =>
             _ingredient.savingType === "ROOM_TEMPERATURE" &&
-            !_ingredient.isExpired
+            !_ingredient.isExpired &&
+            !Ingredient.isExpiringSoon(_ingredient)
         );
       },
     },

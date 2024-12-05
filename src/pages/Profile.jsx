@@ -78,7 +78,7 @@ const Profile = () => {
 
       <Section title="내 레시피">
         <RecipeGallary
-          recipes={myRecipes}
+          recipes={myRecipes.map((recipe) => ({ ...recipe, tag: "custom" }))}
           loading={myLoading}
           error={myError}
           loadRecipes={myLoadMore}

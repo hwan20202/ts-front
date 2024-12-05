@@ -12,8 +12,8 @@ const style = {
 
 const RecipeDescription = ({
   title,
-  hashtag,
-  recipe_type,
+  hashtag = [],
+  recipe_type = [],
   method_key,
   servings,
   cooking_time,
@@ -23,7 +23,9 @@ const RecipeDescription = ({
     <div className={style.container}>
       <h1 className={style.title}>{title}</h1>
       <h2 className={style.subtitle}>
-        {hashtag.join(", ")} | {recipe_type.join(", ")} | {method_key}
+        {hashtag && hashtag.length > 0 ? hashtag.join(", ") : ""} |{" "}
+        {recipe_type && recipe_type.length > 0 ? recipe_type.join(", ") : ""} |{" "}
+        {method_key}
       </h2>
       <div className={style.descriptionContainer}>
         <div className={style.description}>

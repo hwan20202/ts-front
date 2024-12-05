@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useNavigate,
+  Outlet,
 } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
@@ -20,51 +21,71 @@ import RecipeEdit from "./pages/RecipeEdit.jsx";
 import Research from "./pages/Research.jsx";
 import RecipeEditHeader from "./components/header/RecipeEditHeader.jsx";
 
+function MainWrapper() {
+  return (
+    <AuthProvider>
+      <UserProvider>
+        <Outlet />
+      </UserProvider>
+    </AuthProvider>
+  );
+}
+function RecipeWrapper() {
+  return (
+    <RecipeProvider>
+      <Outlet />
+    </RecipeProvider>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <UserProvider>
-          <RecipeProvider>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <MainLayout>
-                    <Home />
-                  </MainLayout>
-                }
-              />
-              <Route
-                path="/recipe/:tag/:recipeId"
-                element={
-                  <RecipeLayout>
-                    <RecipePage />
-                  </RecipeLayout>
-                }
-              />
-              <Route
-                path="/recipe/:recipeId/edit"
-                element={
-                  <RecipeEditLayout>
-                    <RecipeEdit />
-                  </RecipeEditLayout>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <MainLayout>
-                    <Profile />
-                  </MainLayout>
-                }
-              />
-              <Route path="/research" element={<Research />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-          </RecipeProvider>
-        </UserProvider>
-      </AuthProvider>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/recipe/share/:recipeId"
+          element={<div className="text-black">share</div>}
+        />
+        <Route path="/research" element={<Research />} />
+        <Route path="/" element={<MainWrapper />}>
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <MainLayout>
+                <Profile />
+              </MainLayout>
+            }
+          />
+
+          <Route path="/recipe" element={<RecipeWrapper />}>
+            <Route
+              path="/recipe/:tag/:recipeId"
+              element={
+                <RecipeLayout>
+                  <RecipePage />
+                </RecipeLayout>
+              }
+            />
+            <Route
+              path="/recipe/:recipeId/edit"
+              element={
+                <RecipeEditLayout>
+                  <RecipeEdit />
+                </RecipeEditLayout>
+              }
+            />
+          </Route>
+        </Route>
+      </Routes>
     </Router>
   );
 }

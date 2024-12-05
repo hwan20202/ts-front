@@ -100,7 +100,7 @@ const Draggable = ({ children, onDragStart, onDragEnd }) => {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="touch-none"
+      className="touch-none rounded-md hover:cursor-grabbing hover:scale-105 hover:shadow-md transition-all duration-200"
     >
       {children}
     </div>
