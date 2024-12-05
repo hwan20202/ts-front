@@ -1,8 +1,6 @@
 import Header from "./Header.jsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { useUserContext } from "../../context/UserProvider.jsx";
-import { useEffect, useState } from "react";
-import { getIsBookmarked } from "../../services/fetchRecipe.jsx";
+import { useState } from "react";
 import { useRecipe } from "../../context/RecipeProvider.jsx";
 import IconButton from "../common/IconButton.jsx";
 const styles = {
@@ -11,32 +9,11 @@ const styles = {
 
 const RecipeHeader = () => {
   const navigate = useNavigate();
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const { recipeId } = useParams();
-  const { addBookmarkedRecipe } = useUserContext();
-  const { editByUser } = useRecipe();
-  useEffect(() => {
-    const fetchGetIsBookmarked = async () => {
-      const data = await getIsBookmarked(recipeId);
-      if (data) {
-        console.log(data);
-        setIsBookmarked(data);
-      }
-    };
-    // fetchGetIsBookmarked();
-  }, []);
+  const { editByUser, share, bookmark, isBookmarked } = useRecipe();
 
   const goBack = () => {
     navigate(-1);
-  };
-
-  const share = () => {
-    console.log("share");
-  };
-
-  const bookmark = () => {
-    console.log("bookmark");
-    addBookmarkedRecipe(recipeId);
   };
 
   const edit = () => {
@@ -56,7 +33,12 @@ const RecipeHeader = () => {
         <div className="flex justify-between items-center">
           {/* 공유, 저장, 편집 */}
           <IconButton
-            icon={<i className="fa-solid fa-share-nodes"></i>}
+            icon={
+              <i
+                id="kakaotalk-sharing-btn"
+                className="fa-solid fa-share-nodes"
+              ></i>
+            }
             onClick={share}
             label="공유"
           />

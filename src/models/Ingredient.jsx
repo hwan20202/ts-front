@@ -8,6 +8,7 @@ export default class Ingredient {
     this.foodName = foodName; //required
     this.expirationDate =
       expirationDate || Ingredient.formatDateToYYYYMMDD(new Date());
+    this.isExpired = this.getDaysUntilExpiration() <= 0;
     this.savingType = savingType || SavingTypeEnum.defaultKey();
     this.foodType = foodType || "기타";
   }
@@ -24,6 +25,8 @@ export default class Ingredient {
   }
 
   static isExpiringSoon(ingredient, threshold = 3) {
-    return ingredient.getDaysUntilExpiration() <= threshold;
+    return (
+      ingredient.getDaysUntilExpiration() <= threshold && !ingredient.isExpired
+    );
   }
 }

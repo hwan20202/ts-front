@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import Ingredient from "../models/Ingredient";
 import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
-
+import { initKakao } from "../utils/kakaoUtlis";
 const SavingTypeEnum = createSavingTypeEnum();
 
 import {
@@ -40,6 +40,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     if (!isLoggedIn) return;
     fetchIngredients();
+    initKakao();
   }, [isLoggedIn]);
 
   const addIngredient = (ingredient) => {

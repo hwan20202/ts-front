@@ -16,7 +16,7 @@ const style = {
   divider: "border-t border-1 border-gray-100 mx-2",
 };
 
-const IngredientItem = ({ name, amount }) => {
+const IngredientItem = ({ name }) => {
   const purchase = () => {
     const url = import.meta.env.VITE_APP_COUPANG_URL;
     console.log(`purchase: ${name}`);
@@ -26,7 +26,7 @@ const IngredientItem = ({ name, amount }) => {
   return (
     <div className={style.ingredient.container}>
       <span className={style.ingredient.name}>{name}</span>
-      <span className={style.ingredient.quantity}>{amount}</span>
+      {/* <span className={style.ingredient.quantity}>{amount}</span> */}
       <span className={style.ingredient.button}>
         <button onClick={purchase}>구입</button>
       </span>
@@ -36,14 +36,14 @@ const IngredientItem = ({ name, amount }) => {
 
 IngredientItem.propTypes = {
   name: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
 };
 
 const IngredientList = ({ ingredients }) => {
   // console.log(ingredients);
-  const parsedIngredients = ingredients.map((ingredient) =>
-    JSON.parse(ingredient)
-  );
+  const parsedIngredients = ingredients;
+  // ingredients.map((ingredient) =>
+  //   JSON.parse(ingredient)
+  // );
   return (
     <div className={style.container}>
       <h2 className={style.title}>요리 재료</h2>

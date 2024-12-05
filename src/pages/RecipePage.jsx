@@ -31,6 +31,8 @@ const RecipePage = () => {
     return;
   }
 
+  console.log(recipe);
+
   return (
     <div className={style.page}>
       <RecipeProfile image={recipe?.main_img || ""} />
