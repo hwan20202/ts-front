@@ -30,14 +30,14 @@ const SelectedIngredientsList = ({ ingredients, setIngredients }) => {
   const selectedIngredients = ingredients.map((ingredient) => {
     return new Ingredient({
       ...ingredient,
-      savingType: createSavingTypeEnum().defaultKey(),
+      saving_type: createSavingTypeEnum().defaultKey(),
     });
   });
 
   const handleSaveIngredient = (ingredient) => {
     setIngredients(
       ingredients.map((i) =>
-        i.foodName === ingredient.foodName ? ingredient : i
+        i.food_name === ingredient.food_name ? ingredient : i
       )
     );
   };

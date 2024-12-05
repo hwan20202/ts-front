@@ -13,10 +13,10 @@ const useIngredient = () => {
   const divideByFoodType = (ingredients) => {
     const dividedIngredients = {};
     ingredients.forEach((ingredient) => {
-      if (!dividedIngredients[ingredient.foodType]) {
-        dividedIngredients[ingredient.foodType] = [];
+      if (!dividedIngredients[ingredient.food_type]) {
+        dividedIngredients[ingredient.food_type] = [];
       }
-      dividedIngredients[ingredient.foodType].push(ingredient);
+      dividedIngredients[ingredient.food_type].push(ingredient);
     });
     return dividedIngredients;
   };
@@ -35,7 +35,7 @@ const useIngredient = () => {
       if (Ingredient.isExpiringSoon(ingredient)) {
         dividedIngredients.EXPIRING_SOON.push(ingredient);
       } else {
-        dividedIngredients[ingredient.savingType].push(ingredient);
+        dividedIngredients[ingredient.saving_type].push(ingredient);
       }
     });
     return dividedIngredients;
