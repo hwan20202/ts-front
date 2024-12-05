@@ -4,14 +4,14 @@ const useDashboard = () => {
   const categories = {
     EXPIRED: {
       name: "만료",
-      savingType: "EXPIRED",
+      saving_type: "EXPIRED",
       filter: function (_ingredients) {
-        return _ingredients.filter((_ingredient) => _ingredient.isExpired);
+        return _ingredients.filter((_ingredient) => _ingredient.is_expired);
       },
     },
     EXPIRING_SOON: {
       name: "유통기한 임박",
-      savingType: "EXPIRING_SOON",
+      saving_type: "EXPIRING_SOON",
       filter: function (_ingredients) {
         return _ingredients.filter((_ingredient) =>
           Ingredient.isExpiringSoon(_ingredient)
@@ -20,36 +20,36 @@ const useDashboard = () => {
     },
     REFRIGERATED: {
       name: "냉장",
-      savingType: "REFRIGERATED",
+      saving_type: "REFRIGERATED",
       filter: function (_ingredients) {
         return _ingredients.filter(
           (_ingredient) =>
-            _ingredient.savingType === "REFRIGERATED" &&
-            !_ingredient.isExpired &&
+            _ingredient.saving_type === "REFRIGERATED" &&
+            !_ingredient.is_expired &&
             !Ingredient.isExpiringSoon(_ingredient)
         );
       },
     },
     FROZEN: {
       name: "냉동",
-      savingType: "FROZEN",
+      saving_type: "FROZEN",
       filter: function (_ingredients) {
         return _ingredients.filter(
           (_ingredient) =>
-            _ingredient.savingType === "FROZEN" &&
-            !_ingredient.isExpired &&
+            _ingredient.saving_type === "FROZEN" &&
+            !_ingredient.is_expired &&
             !Ingredient.isExpiringSoon(_ingredient)
         );
       },
     },
     ROOM_TEMPERATURE: {
       name: "실온",
-      savingType: "ROOM_TEMPERATURE",
+      saving_type: "ROOM_TEMPERATURE",
       filter: function (_ingredients) {
         return _ingredients.filter(
           (_ingredient) =>
-            _ingredient.savingType === "ROOM_TEMPERATURE" &&
-            !_ingredient.isExpired &&
+            _ingredient.saving_type === "ROOM_TEMPERATURE" &&
+            !_ingredient.is_expired &&
             !Ingredient.isExpiringSoon(_ingredient)
         );
       },
