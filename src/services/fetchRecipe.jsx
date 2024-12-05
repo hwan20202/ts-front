@@ -111,7 +111,7 @@ export const getIsBookmarked = async (recipeId) => {
     });
     if (response.ok) {
       const data = await response.json();
-      return data.isBookmarked;
+      return data.is_bookmarked;
     } else {
       console.log("fetchIsBookmarked error");
       return;

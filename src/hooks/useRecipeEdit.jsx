@@ -11,8 +11,7 @@ const useRecipeEdit = (initialRecipe) => {
 
   useEffect(() => {
     if (!initialRecipe) return;
-    const newIngredients = initialRecipe.ingredients.map((i) => JSON.parse(i));
-    setRecipe(new Recipe({ ...initialRecipe, ingredients: newIngredients }));
+    setRecipe(new Recipe(initialRecipe));
     setLoading(false);
   }, [initialRecipe]);
 
