@@ -40,7 +40,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     if (!isLoggedIn) return;
     fetchIngredients();
-    initKakao();
+    // initKakao();
   }, [isLoggedIn]);
 
   const addIngredient = (ingredient) => {
