@@ -11,8 +11,7 @@ export const putBookmarkedRecipe = async (recipeId) => {
   if (!response.ok) {
     throw new Error("Failed to post bookmarked recipe");
   }
-  const data = await response.json();
-  return data;
+  return response.ok;
 };
 
 // 레시피 조리 완료
