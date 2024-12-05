@@ -38,7 +38,7 @@ const IngredientEditBox = ({
         ))}
       </div>
       <Dropdown
-        options={[1, 3, 7, 14, 30, 60, 90, defaultDays].sort((a, b) => a - b)}
+        options={[1, 3, 7, 14, 30, 60, 90]}
         defaultValue={defaultDays}
         onChange={(value) => setDays(value)}
         className={styles.dropdown}

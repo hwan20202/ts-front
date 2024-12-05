@@ -12,7 +12,7 @@ export default class Recipe {
 
   constructor({
     id,
-    tag,
+    tag = "original",
     type = "",
     title = "",
     // description = "",

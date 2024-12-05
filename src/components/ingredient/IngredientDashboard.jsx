@@ -15,10 +15,19 @@ const styles = {
   body: {
     container:
       "flex overflow-x-auto overflow-y-hidden scrollbar-hide py-2 gap-1",
-    category: "flex flex-col text-black font-bold",
+    category:
+      "flex w-full flex-col text-black font-bold border-2 border-gray-400 rounded-lg",
     savingType: "p-2 rounded-md",
     minSize: "min-h-[100px] min-w-[150px]",
   },
+};
+
+const Dday = ({ dday }) => {
+  return (
+    <div className="text-xs text-orange-500 flex-shrink-0 border-2 border-orange-400 rounded-full px-2">
+      {dday > 0 ? `D-${dday}` : "만료"}
+    </div>
+  );
 };
 
 const DashboardIngredientView = ({ ingredient }) => {
@@ -30,17 +39,16 @@ const DashboardIngredientView = ({ ingredient }) => {
   };
 
   return (
-    <div className="flex items-center shadow-sm rounded-md px-3 justify-center">
+    <div className="flex items-center rounded-md px-3 justify-center bg-white">
       <div
-        className="flex text-xs text-gray-500 justify-center py-2 whitespace-nowrap"
+        className="flex w-full gap-2 text-xs text-gray-500 justify-between items-center py-2 whitespace-nowrap"
         onClick={toggleEdit}
       >
+        <Dday dday={ingredient.getDaysUntilExpiration()} />
         {ingredient.foodName}
-        {isEdit && (
-          <button onClick={() => deleteIngredient(ingredient)}>
-            <i className="fa-solid fa-trash"></i>
-          </button>
-        )}
+        <button onClick={() => deleteIngredient(ingredient)}>
+          <i className="fa-solid fa-xmark"></i>
+        </button>
       </div>
     </div>
   );
@@ -61,7 +69,7 @@ const FoodTypeSection = ({ title, children }) => {
   );
 };
 
-const SavingTypeContainer = ({ ingredients, isDroppable }) => {
+const FoodTypeContainer = ({ ingredients }) => {
   const { divideByFoodType } = useIngredient();
   const dividedIngredients = divideByFoodType(ingredients);
   const { proxySetData, proxySetDragOverTarget } = useDragAndDropContext();
@@ -78,20 +86,16 @@ const SavingTypeContainer = ({ ingredients, isDroppable }) => {
     <div className={`${styles.body.savingType} ${styles.body.minSize}`}>
       {Object.keys(dividedIngredients).map((foodType, index) => (
         <FoodTypeSection title={foodType} key={index}>
-          {dividedIngredients[foodType].map((ingredient, i) =>
-            isDroppable ? (
-              <Draggable
-                onDragStart={() => handleDragStart(ingredient)}
-                onDragEnd={handleDragEnd}
-                onTouchStart={() => handleTouchStart(ingredient)}
-                key={i}
-              >
-                <DashboardIngredientView ingredient={ingredient} />
-              </Draggable>
-            ) : (
-              <DashboardIngredientView ingredient={ingredient} key={i} />
-            )
-          )}
+          {dividedIngredients[foodType].map((ingredient, i) => (
+            <Draggable
+              onDragStart={() => handleDragStart(ingredient)}
+              onDragEnd={handleDragEnd}
+              onTouchStart={() => handleTouchStart(ingredient)}
+              key={i}
+            >
+              <DashboardIngredientView ingredient={ingredient} />
+            </Draggable>
+          ))}
         </FoodTypeSection>
       ))}
     </div>
@@ -107,7 +111,7 @@ const SavingTypeSection = ({ title, children }) => {
   );
 };
 
-const IngredientDashboardContainer = ({ category }) => {
+const SavingTypeContainer = ({ category }) => {
   const { ingredients } = useUserContext();
   const { updateIngredient } = useUserContext();
   const { data, overlay } = useDragAndDropContext();
@@ -145,36 +149,50 @@ const IngredientDashboardContainer = ({ category }) => {
   };
 
   return (
-    <div className="flex">
-      {category.map(({ name, savingType, filter, isDroppable }, index) => (
+    <div className={styles.body.container}>
+      {category.map(({ name, savingType, filter }, index) => (
         <SavingTypeSection title={name} key={index}>
-          {isDroppable ? (
-            <Droppable
-              onDrop={(ref) => handleDrop(ref, savingType)}
-              onDragOver={handleDragOver}
-              onDragEnter={(ref) => handleDragEnter(ref, filter(ingredients))}
-              onDragLeave={handleDragLeave}
-              data={savingType}
-            >
-              <SavingTypeContainer
-                ingredients={filter(ingredients)}
-                isDroppable={true}
-              />
-            </Droppable>
-          ) : (
-            <SavingTypeContainer
+          <Droppable
+            onDrop={(ref) => handleDrop(ref, savingType)}
+            onDragOver={handleDragOver}
+            onDragEnter={(ref) => handleDragEnter(ref, filter(ingredients))}
+            onDragLeave={handleDragLeave}
+            data={savingType}
+          >
+            <FoodTypeContainer
               ingredients={filter(ingredients)}
-              isDroppable={false}
+              isDroppable={true}
             />
-          )}
+          </Droppable>
         </SavingTypeSection>
       ))}
     </div>
   );
 };
 
+const ExpiringSoonSection = ({ title, children }) => {
+  return (
+    <div className="flex flex-col text-black font-bold">
+      <h2 className="text-black">{title}</h2>
+      {children}
+    </div>
+  );
+};
+
+const ExpiringSoonContainer = ({ ingredients }) => {
+  return (
+    <ExpiringSoonSection title="유통기한 임박">
+      <div className="flex text-black font-bold bg-red-200 p-2 rounded-lg border-2 border-red-400">
+        {ingredients.map((ingredient, index) => (
+          <DashboardIngredientView ingredient={ingredient} key={index} />
+        ))}
+      </div>
+    </ExpiringSoonSection>
+  );
+};
+
 const IngredientDashboardSection = ({ children }) => {
-  return <div className={styles.body.container}>{children}</div>;
+  return <div className="">{children}</div>;
 };
 
 const IngredientDashboard = ({ ingredientsList }) => {
@@ -182,14 +200,21 @@ const IngredientDashboard = ({ ingredientsList }) => {
   return (
     <DragAndDropProvider>
       <IngredientDashboardSection ingredientsList={ingredientsList}>
-        <IngredientDashboardContainer
-          category={[
-            { ...categories.EXPIRING_SOON, isDroppable: false },
-            { ...categories.REFRIGERATED, isDroppable: true },
-            { ...categories.FROZEN, isDroppable: true },
-            { ...categories.ROOM_TEMPERATURE, isDroppable: true },
-          ]}
-        />
+        <div className="flex flex-col gap-2">
+          <ExpiringSoonContainer
+            ingredients={[
+              ...categories.EXPIRED.filter(ingredientsList),
+              ...categories.EXPIRING_SOON.filter(ingredientsList),
+            ]}
+          />
+          <SavingTypeContainer
+            category={[
+              categories.REFRIGERATED,
+              categories.FROZEN,
+              categories.ROOM_TEMPERATURE,
+            ]}
+          />
+        </div>
       </IngredientDashboardSection>
     </DragAndDropProvider>
   );
