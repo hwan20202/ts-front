@@ -50,7 +50,7 @@ const IngredientList = ({ ingredients }) => {
       {parsedIngredients &&
         parsedIngredients.map((ingredient, index) => (
           <div key={index}>
-            <IngredientItem {...ingredient} />
+            <IngredientItem name={ingredient} />
             <hr className={style.divider} />
           </div>
         ))}

@@ -46,9 +46,9 @@ const UserProvider = ({ children }) => {
   const addIngredient = (ingredient) => {
     const fetchPostIngredient = async () => {
       const data = await postMyIngredient({
-        foodName: ingredient.foodName,
-        savingType: ingredient.savingType,
-        expirationDate: ingredient.expirationDate,
+        food_name: ingredient.food_name,
+        saving_type: ingredient.saving_type,
+        expiration_date: ingredient.expiration_date,
       });
       if (data) {
         const newIngredient = new Ingredient({

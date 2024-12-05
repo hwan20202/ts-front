@@ -45,7 +45,7 @@ const DashboardIngredientView = ({ ingredient }) => {
         onClick={toggleEdit}
       >
         <Dday dday={ingredient.getDaysUntilExpiration()} />
-        {ingredient.foodName}
+        {ingredient.food_name}
         <button onClick={() => deleteIngredient(ingredient)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
@@ -56,7 +56,7 @@ const DashboardIngredientView = ({ ingredient }) => {
 
 DashboardIngredientView.propTypes = {
   ingredient: PropTypes.shape({
-    foodName: PropTypes.string.isRequired,
+    food_name: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -84,9 +84,9 @@ const FoodTypeContainer = ({ ingredients }) => {
 
   return (
     <div className={`${styles.body.savingType} ${styles.body.minSize}`}>
-      {Object.keys(dividedIngredients).map((foodType, index) => (
-        <FoodTypeSection title={foodType} key={index}>
-          {dividedIngredients[foodType].map((ingredient, i) => (
+      {Object.keys(dividedIngredients).map((food_type, index) => (
+        <FoodTypeSection title={food_type} key={index}>
+          {dividedIngredients[food_type].map((ingredient, i) => (
             <Draggable
               onDragStart={() => handleDragStart(ingredient)}
               onDragEnd={handleDragEnd}
@@ -116,9 +116,9 @@ const SavingTypeContainer = ({ category }) => {
   const { updateIngredient } = useUserContext();
   const { data, overlay } = useDragAndDropContext();
 
-  const handleDrop = (ref, savingType) => {
+  const handleDrop = (ref, saving_type) => {
     if (data && data.ingredient) {
-      updateIngredient({ ...data.ingredient, savingType });
+      updateIngredient({ ...data.ingredient, saving_type });
     }
     if (ref) {
       const over = ref.querySelector(".overlay");
@@ -150,14 +150,14 @@ const SavingTypeContainer = ({ category }) => {
 
   return (
     <div className={styles.body.container}>
-      {category.map(({ name, savingType, filter }, index) => (
+      {category.map(({ name, saving_type, filter }, index) => (
         <SavingTypeSection title={name} key={index}>
           <Droppable
-            onDrop={(ref) => handleDrop(ref, savingType)}
+            onDrop={(ref) => handleDrop(ref, saving_type)}
             onDragOver={handleDragOver}
             onDragEnter={(ref) => handleDragEnter(ref, filter(ingredients))}
             onDragLeave={handleDragLeave}
-            data={savingType}
+            data={saving_type}
           >
             <FoodTypeContainer
               ingredients={filter(ingredients)}

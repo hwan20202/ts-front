@@ -13,7 +13,7 @@ const styles = {
 };
 
 const IngredientItem = ({ ingredient, onSave, onDelete }) => {
-  const [savingType, setSavingType] = useState(ingredient.savingType);
+  const [savingType, setSavingType] = useState(ingredient.saving_type);
   const [days, setDays] = useState(
     ingredient.getDaysUntilExpiration() !== 0
       ? ingredient.getDaysUntilExpiration()
@@ -24,8 +24,8 @@ const IngredientItem = ({ ingredient, onSave, onDelete }) => {
     onSave(
       new Ingredient({
         ...ingredient,
-        savingType,
-        expirationDate: new Date(
+        saving_type: savingType,
+        expiration_date: new Date(
           new Date().setDate(new Date().getDate() + parseInt(days))
         ),
       })
@@ -35,7 +35,7 @@ const IngredientItem = ({ ingredient, onSave, onDelete }) => {
   return (
     <div className={styles.ingredientItem.container}>
       <span className={styles.ingredientItem.text} onClick={onDelete}>
-        {ingredient.foodName}
+        {ingredient.food_name}
       </span>
       <IngredientEditBox
         defaultSavingType={savingType}
@@ -49,8 +49,8 @@ const IngredientItem = ({ ingredient, onSave, onDelete }) => {
 
 IngredientItem.propTypes = {
   ingredient: PropTypes.shape({
-    foodName: PropTypes.string.isRequired,
-    savingType: PropTypes.string.isRequired,
+    food_name: PropTypes.string.isRequired,
+    saving_type: PropTypes.string.isRequired,
   }).isRequired,
   onSave: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

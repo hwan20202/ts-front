@@ -53,10 +53,10 @@ const RecipeProvider = ({ children }) => {
     console.log("generateByAI clicked", recipeId);
     setLoading(true);
     const result = await getRecipeGeneratedByAI({
-      recipeId: recipeId,
-      dislikeIngredients: [],
-      basicSeasoning: [],
-      mustUseIngredients: [],
+      original_recipe_id: recipeId,
+      dislike_ingredients: [],
+      basic_seasoning: [],
+      must_ues_ingredients: [],
     });
     console.log(result);
     const recipe = new Recipe({
