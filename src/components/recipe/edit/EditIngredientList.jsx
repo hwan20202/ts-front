@@ -22,7 +22,7 @@ const style = {
 const EditIngredientItem = ({
   index,
   name,
-  amount,
+  // amount,
   onChange = () => {},
   onDelete = () => {},
 }) => {
@@ -30,12 +30,12 @@ const EditIngredientItem = ({
     <div className={style.ingredient.container} key={index}>
       <div className={style.ingredient.first}>{name}</div>
       <div className={style.ingredient.second}>
-        <input
+        {/* <input
           type="text"
           defaultValue={amount}
           onChange={(e) => onChange({ index, amount: e.target.value })}
           className={style.ingredient.input}
-        />
+        /> */}
       </div>
       <div className={style.ingredient.third}>
         {/* 삭제 버튼 */}
@@ -73,7 +73,7 @@ const EditIngredientList = ({
           <div key={index}>
             <EditIngredientItem
               index={index}
-              {...ingredient}
+              name={ingredient}
               onChange={onChange}
               onDelete={onDelete}
             />
