@@ -65,7 +65,7 @@ const ResultContainer = ({ resultList, onClick }) => {
                 : resultContainerStyle.item
             }`}
           >
-            {item.foodName}
+            {item.food_name}
           </button>
         ))}
       </div>
