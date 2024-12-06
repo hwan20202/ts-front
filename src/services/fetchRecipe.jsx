@@ -6,7 +6,7 @@ export const recipePath = {
   eaten: "/api/recipe/eat/all",
   my: "/api/recipe/custom/all",
   aiGenerate: "/api/recipe/custom/ai/generate",
-  aiSimplify: "/api/recipe/custom/ai/simplify",
+  aiSimplify: "/api/recipe/custom/simplify",
 };
 
 // 레시피 조회
@@ -58,7 +58,7 @@ export const getRecipeGeneratedByAI = async ({
   original_recipe_id,
   dislike_ingredients,
   basic_seasoning,
-  must_ues_ingredients,
+  must_use_ingredients,
 }) => {
   try {
     const response = await fetch(`${serverUrl}${recipePath.aiGenerate}`, {
@@ -71,7 +71,7 @@ export const getRecipeGeneratedByAI = async ({
         original_recipe_id,
         dislike_ingredients,
         basic_seasoning,
-        must_ues_ingredients,
+        must_use_ingredients,
       }),
     });
     if (response.ok) {
