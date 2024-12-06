@@ -10,7 +10,7 @@ const style = {
 const Login = () => {
   return (
     <div className={style.container}>
-      <h1 className={style.title}>Login</h1>
+      <h1 className={style.title}>Login 해주시기 바랍니다</h1>
       <button onClick={login} className={style.button}>
         카카오로 로그인
       </button>
