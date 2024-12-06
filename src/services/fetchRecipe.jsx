@@ -54,7 +54,12 @@ export const getRecipeList = async (path) => {
   }
 };
 
-export const getRecipeGeneratedByAI = async ({ original_recipe_id }) => {
+export const getRecipeGeneratedByAI = async ({
+  original_recipe_id,
+  dislike_ingredients,
+  basic_seasoning,
+  must_ues_ingredients,
+}) => {
   try {
     const response = await fetch(`${serverUrl}${recipePath.aiGenerate}`, {
       method: "POST",
@@ -64,6 +69,9 @@ export const getRecipeGeneratedByAI = async ({ original_recipe_id }) => {
       },
       body: JSON.stringify({
         original_recipe_id,
+        dislike_ingredients,
+        basic_seasoning,
+        must_ues_ingredients,
       }),
     });
     if (response.ok) {
