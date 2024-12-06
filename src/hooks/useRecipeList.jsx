@@ -25,7 +25,7 @@ const useRecipeList = ({ path }) => {
     setLoading(true);
     const data = await getRecipeList(path);
     if (data.success) {
-      setRecipes([...recipes, ...data]);
+      setRecipes([...recipes, ...data.data]);
       setLoading(false);
     }
   };
