@@ -56,7 +56,7 @@ const RecipeProvider = ({ children }) => {
       original_recipe_id: recipeId,
       dislike_ingredients: [],
       basic_seasoning: [],
-      must_ues_ingredients: [],
+      must_use_ingredients: [],
     });
     console.log(result);
     const recipe = new Recipe({
@@ -77,7 +77,17 @@ const RecipeProvider = ({ children }) => {
     console.log("simplifyByAI clicked", recipeId);
     setLoading(true);
     const result = await getRecipeSimplifiedByAI({ recipeId: recipeId });
-    const recipe = new Recipe({ ...result });
+    console.log(result);
+    const recipe = new Recipe({
+      ...result.data.before,
+      cooking_order: result.data.after.recipe_cooking_order || [],
+      cooking_time: result.data.after.recipe_cooking_time || "",
+      difficulty: result.data.after.recipe_difficulty || "",
+      ingredients: result.data.after.recipe_ingredients || [],
+      title: result.data.after.recipe_menu_name || "",
+      recipe_type: result.data.after.recipe_recipe_type || [],
+      tips: result.data.after.recipe_tips || [],
+    });
     setEditRecipe(recipe);
     setLoading(false);
   };
