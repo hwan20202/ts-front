@@ -50,7 +50,7 @@ const RecipeProvider = ({ children }) => {
   };
 
   const generateByAI = async (recipeId) => {
-    console.log("generateByAI clicked", recipeId);
+    // console.log("generateByAI clicked", recipeId);
     setLoading(true);
     const result = await getRecipeGeneratedByAI({
       original_recipe_id: recipeId,
@@ -107,7 +107,7 @@ const RecipeProvider = ({ children }) => {
     const { id } = recipe;
     const result = await putBookmarkedRecipe(id);
     if (result) {
-      setIsBookmarked(true);
+      setIsBookmarked(!isBookmarked);
     }
   };
 
