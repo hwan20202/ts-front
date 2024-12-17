@@ -6,7 +6,7 @@ import SearchBar from "../components/common/SearchBar.jsx";
 import RecipeGallery from "../components/RecipeGallary.jsx";
 import useRecipeList from "../hooks/useRecipeList.jsx";
 import { recipePath } from "../services/fetchRecipe.jsx";
-
+import { useNavigate } from "react-router-dom";
 const styles = {
   container: "flex flex-col justify-center items-center overflow-y-auto pb-10",
   wrapperContainer: "container mx-auto px-2 py-4 bg-white mb-4",
@@ -38,7 +38,7 @@ const Section = ({ title, children, buttonLabel, onButtonClick }) => (
 );
 
 const Home = () => {
-  const { ingredients, addIngredient } = useUserContext();
+  const { ingredients, addIngredient, isSetPreferences } = useUserContext();
   const {
     recipes: recommendedRecipes,
     loading: recommendedRecipesLoading,
@@ -48,6 +48,7 @@ const Home = () => {
     path: recipePath.recommended,
   });
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const openModal = () => {
     setIsOpen(true);
@@ -57,6 +58,7 @@ const Home = () => {
   };
 
   const handleConfirm = (ingredients) => {
+    console.log(ingredients);
     ingredients.forEach((ingredient) => {
       addIngredient(ingredient);
     });

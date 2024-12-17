@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 const styles = {
   select:
-    "w-full bg-orange-500 border border-gray-300 rounded-md leading-none outline-none ring-0 focus:ring-0 focus:outline-none focus:border-orange-300 hover:cursor-pointer",
+    "leading-none outline-none ring-0 focus:ring-0 focus:outline-non hover:cursor-pointer",
   text: "text-xs text-white text-center",
 };
 
-const Dropdown = ({ options, defaultValue, onChange }) => {
+const Dropdown = ({ options, defaultValue, onChange, className }) => {
   return (
     <select
       defaultValue={defaultValue}
@@ -15,7 +15,7 @@ const Dropdown = ({ options, defaultValue, onChange }) => {
         console.log(e.target.value);
         onChange(e.target.value);
       }}
-      className={`${styles.select} ${styles.text}`}
+      className={`${styles.select} ${styles.text} ${className}`}
     >
       <option value="" disabled>
         Select an option

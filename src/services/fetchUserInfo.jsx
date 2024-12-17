@@ -90,16 +90,51 @@ export const postUserPreferences = async (tags) => {
   return data;
 };
 
-export const getFakeDislikedIngredients = () => {
-  return [
-    new Ingredient({ id: 1, foodName: "양파", foodType: "채소" }),
-    new Ingredient({ id: 2, foodName: "마늘", foodType: "채소" }),
-    new Ingredient({ id: 3, foodName: "버섯", foodType: "채소" }),
-    new Ingredient({ id: 4, foodName: "오이", foodType: "채소" }),
-    new Ingredient({ id: 5, foodName: "우유", foodType: "유제품" }),
-    new Ingredient({ id: 6, foodName: "초코 우유", foodType: "유제품" }),
-    new Ingredient({ id: 7, foodName: "바나나 우유", foodType: "유제품" }),
-  ];
+export const putUserPreferSpicyLevel = async (value) => {
+  const path = `/api/userinfo/settings/spicy-level`;
+  const params = new URLSearchParams();
+  params.append("value", value);
+  const response = await fetch(`${serverUrl}${path}?${params.toString()}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to post user preferences");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const getUserHealthInfo = async () => {
+  const path = `/api/userinfo/me/health/status`;
+  const response = await fetch(`${serverUrl}${path}`, {
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get user health info");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const putUserHealthInfo = async (healthInfo) => {
+  console.log(healthInfo);
+  const path = `/api/userinfo/setting/physical`;
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ...healthInfo }),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to post user health info");
+  }
+  return response.ok;
 };
 
 export const getFakeAllergies = () => {
@@ -113,4 +148,38 @@ export const getFakeAllergies = () => {
     "난류",
     "아황산류",
   ];
+};
+
+export const postUserDislikedIngredients = async (ingredients) => {
+  const path = `/api/userinfo/disliked`;
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ingredients }),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to post user disliked ingredients");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const postUserAllergies = async (allergy) => {
+  const path = `/api/userinfo/allergy`;
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ allergy }),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to post user allergies");
+  }
+  const data = await response.json();
+  return data;
 };

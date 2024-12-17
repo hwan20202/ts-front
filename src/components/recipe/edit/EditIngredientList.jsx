@@ -51,7 +51,6 @@ const EditIngredientItem = ({
 EditIngredientItem.propTypes = {
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   onDelete: PropTypes.func,
 };

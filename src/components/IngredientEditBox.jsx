@@ -6,14 +6,14 @@ import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 const SavingTypeEnum = createSavingTypeEnum();
 
 const styles = {
-  container: "grid grid-cols-2 justify-between items-center gap-2",
-  buttonContainer: "flex overflow-hidden shadow-sm",
+  container: "flex justify-center items-center gap-2 h-full",
+  buttonContainer: "flex h-full justify-center",
   button:
-    "text-gray-400 w-full p-1 whitespace-nowrap outline-none rounded-none text-xs cursor-pointer",
+    "h-full text-gray-400 text-center px-3 whitespace-nowrap outline-none rounded-none text-xs cursor-pointer",
   buttonFocus:
     "focus:bg-green-500 focus:text-white hover:bg-green-500 hover:text-white",
   buttonSelected: "bg-green-500 text-white",
-  dropdown: "flex",
+  dropdown: "",
 };
 
 const IngredientEditBox = ({

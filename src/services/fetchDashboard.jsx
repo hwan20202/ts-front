@@ -52,8 +52,8 @@ export const putMyIngredient = async (ingredient) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      savingType: ingredient.savingType,
-      expirationDate: ingredient.expirationDate,
+      saving_type: ingredient.saving_type,
+      expiration_date: ingredient.expiration_date,
     }),
   });
   if (!response.ok) {
