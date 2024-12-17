@@ -25,42 +25,42 @@ html {
   font-size: 16px; /* 1rem = 16px */
 }
 
-h2 {
+/* h2 {
   @apply text-2xl font-bold py-2 px-2;
 }
 
 h3 {
   @apply text-xl font-bold py-1 px-1;
-}
+} */
 
 /* 작은 화면 (모바일) */
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   html {
     font-size: 14px; /* 1rem = 14px */
   }
 
-  h2 {
+  /* h2 {
     @apply text-2xl font-bold py-2 px-2;
   }
 
   h3 {
     @apply text-xl font-bold py-1 px-1;
-  }
+  } */
 }
 
 /* 중간 화면 (태블릿) */
-@media (min-width: 601px) and (max-width: 1024px) {
+@media (min-width: 501px) and (max-width: 1024px) {
   html {
     font-size: 15px; /* 1rem = 15px */
   }
-
+  /* 
   h2 {
     @apply text-2xl font-bold py-2 px-2;
   }
 
   h3 {
     @apply text-xl font-bold py-1 px-1;
-  }
+  } */
 }
 
 /* 큰 화면 (데스크탑) */
@@ -68,14 +68,14 @@ h3 {
   html {
     font-size: 18px; /* 1rem = 18px */
   }
-
+  /* 
   h2 {
     @apply text-2xl font-bold py-2 px-2;
   }
 
   h3 {
     @apply text-xl font-bold py-1 px-1;
-  }
+  } */
 }
 
 body {

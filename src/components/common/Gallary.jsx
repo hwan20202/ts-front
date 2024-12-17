@@ -26,13 +26,13 @@ const Gallary = ({ children, loadMore, loading, error }) => {
   } else {
     child = [
       ...React.Children.toArray(children), // children을 배열로 변환하여 추가
-      <button
-        key="load-more"
-        className={styles.gallary.loadMore}
-        onClick={loadMore}
-      >
-        Load More
-      </button>,
+      // <button
+      //   key="load-more"
+      //   className={styles.gallary.loadMore}
+      //   onClick={loadMore}
+      // >
+      //   Load More
+      // </button>,
     ];
   }
 

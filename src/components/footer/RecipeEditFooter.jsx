@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const styles = {
   container:
-    "fixed bottom-0 left-0 flex justify-center p-2 w-full max-w-body h-12 bg-white gap-2 border-t border-gray-100",
+    "sticky bottom-0 left-0 flex justify-center p-2 w-full max-w-body h-12 bg-white gap-2 border-t border-gray-100",
   textContainer: "flex justify-center items-center p-1 mx-4",
   text: " text-sm text-gray-500 whitespace-nowrap font-sans",
   button:

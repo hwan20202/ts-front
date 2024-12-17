@@ -11,7 +11,6 @@ import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import MainHeader from "./components/header/MainHeader.jsx";
 import RecipePage from "./pages/RecipePage.jsx";
-import NavBar from "./components/NavBar.jsx";
 import IconButton from "./components/common/IconButton.jsx";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 import RecipeProvider from "./context/RecipeProvider.jsx";
@@ -20,6 +19,18 @@ import RecipeHeader from "./components/header/RecipeHeader.jsx";
 import RecipeEdit from "./pages/RecipeEdit.jsx";
 import Research from "./pages/Research.jsx";
 import RecipeEditHeader from "./components/header/RecipeEditHeader.jsx";
+import InitialUserInfoProvider from "./context/InitialUserInfoProvider.jsx";
+import PreferenceInit from "./components/userInfo/preference/PreferenceInit.jsx";
+import DislikedAndAllergyInit from "./components/userInfo/dislikedAndAllergy/DislikedAndAllergyInit.jsx";
+import HealthInfoInit from "./components/userInfo/health/HealthInfoInit.jsx";
+
+const Page = ({ children }) => {
+  return (
+    <div className="w-full h-full flex justify-center items-center bg-white p-4">
+      {children}
+    </div>
+  );
+};
 
 function MainWrapper() {
   return (
@@ -38,6 +49,16 @@ function RecipeWrapper() {
   );
 }
 
+function InitUserInfoWrapper() {
+  return (
+    <InitialUserInfoProvider>
+      <Page>
+        <Outlet />
+      </Page>
+    </InitialUserInfoProvider>
+  );
+}
+
 function App() {
   return (
     <Router>
@@ -47,7 +68,6 @@ function App() {
           path="/recipe/share/:recipeId"
           element={<div className="text-black">share</div>}
         />
-        <Route path="/research" element={<Research />} />
         <Route path="/" element={<MainWrapper />}>
           <Route
             path="/"
@@ -65,7 +85,14 @@ function App() {
               </MainLayout>
             }
           />
-
+          <Route path="/user/init" element={<InitUserInfoWrapper />}>
+            <Route path="/user/init/health" element={<HealthInfoInit />} />
+            <Route path="/user/init/preference" element={<PreferenceInit />} />
+            {/* <Route
+              path="/user/init/dislikedAndAllergy"
+              element={<DislikedAndAllergyInit />}
+            /> */}
+          </Route>
           <Route path="/recipe" element={<RecipeWrapper />}>
             <Route
               path="/recipe/:tag/:recipeId"

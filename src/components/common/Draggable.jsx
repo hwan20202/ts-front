@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import createElementCopy from "../../utils/createElementCopy";
 
-const Draggable = ({ children, onDragStart, onDragEnd }) => {
+const Draggable = ({ children, onDragStart, onDragEnd, className }) => {
   const origin = useRef(null);
   const copy = useRef(null);
   const [offsetX, setOffsetX] = useState(0);
@@ -100,7 +100,7 @@ const Draggable = ({ children, onDragStart, onDragEnd }) => {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="touch-none rounded-md hover:cursor-grabbing hover:scale-105 hover:shadow-md transition-all duration-200"
+      className={`touch-none rounded-md hover:cursor-grabbing hover:scale-105 hover:shadow-md transition-all duration-200 ${className}`}
     >
       {children}
     </div>

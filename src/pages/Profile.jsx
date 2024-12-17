@@ -1,9 +1,12 @@
 import RecipeGallary from "../components/RecipeGallary.jsx";
 import useRecipeList from "../hooks/useRecipeList.jsx";
 import { recipePath } from "../services/fetchRecipe.jsx";
-import Preference from "../components/Preference.jsx";
+import Preference from "../components/userInfo/Preference.jsx";
 import SideSheet from "../components/common/SideSheet.jsx";
 import { useState } from "react";
+import PreferenceView from "../components/userInfo/preference/PreferenceView.jsx";
+import DislikedAndAllergyView from "../components/userInfo/dislikedAndAllergy/DislikedAndAllergyView.jsx";
+import HealthInfoView from "../components/userInfo/health/HealthInfoView.jsx";
 
 const styles = {
   container: "flex flex-col justify-center items-center h-screen",
@@ -28,8 +31,33 @@ const Section = ({ title, children, buttonLabel, onButtonClick }) => (
   </div>
 );
 
+const SettingSection = ({ title, description, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+  return (
+    <div
+      className="w-full flex flex-col gap-2 shadow-sm hover:shadow-lg rounded-md cursor-pointer m-1 px-4 py-2"
+      onClick={handleClick}
+    >
+      <div className="">
+        <span className="text-md font-bold text-black">{title}</span>
+      </div>
+      <div className="">
+        <span className="text-xs text-gray-400">{description}</span>
+      </div>
+      <SideSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        {children}
+      </SideSheet>
+    </div>
+  );
+};
+
 const Profile = () => {
   const [isPreferenceSheetOpen, setIsPreferenceSheetOpen] = useState(false);
+  const [isAllergySheetOpen, setIsAllergySheetOpen] = useState(false);
+  const [isHealthInfoSheetOpen, setIsHealthInfoSheetOpen] = useState(false);
 
   const {
     recipes: bookmarkedRecipes,
@@ -62,19 +90,26 @@ const Profile = () => {
     <div>
       <Section title="사용자 프로필">
         <div className="flex flex-col items-center text-black leading-none">
-          <span>이름</span>
-          <span>닉네임</span>
-          <button onClick={() => setIsPreferenceSheetOpen(true)}>
-            선호도 설정
-          </button>
+          <SettingSection
+            title="신체정보 설정"
+            description="영양맞춤 레시피를 추천받기 위해 신체정보를 설정해주세요."
+          >
+            <HealthInfoView />
+          </SettingSection>
+          <SettingSection
+            title="알러지 및 싫어하는 재료 설정"
+            description="알러지 및 싫어하는 재료를 설정해주세요."
+          >
+            <DislikedAndAllergyView />
+          </SettingSection>
+          <SettingSection
+            title="선호도 설정"
+            description="선호도를 설정해주세요."
+          >
+            <PreferenceView />
+          </SettingSection>
         </div>
       </Section>
-      <SideSheet
-        isOpen={isPreferenceSheetOpen}
-        onClose={() => setIsPreferenceSheetOpen(false)}
-      >
-        <Preference />
-      </SideSheet>
 
       <Section title="내 레시피">
         <RecipeGallary

@@ -7,6 +7,7 @@ const Droppable = ({
   children,
   onDragEnter,
   onDragLeave,
+  className,
 }) => {
   const ref = useRef(null);
 
@@ -45,7 +46,7 @@ const Droppable = ({
       onDrop={handleDrop}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
-      className="droppable touch-none relative"
+      className={`droppable touch-none relative ${className}`}
     >
       {children}
     </div>

@@ -16,8 +16,8 @@ export const putBookmarkedRecipe = async (recipeId) => {
 
 // 레시피 조리 완료
 
-export const putEatenRecipe = async (recipeId, type) => {
-  const endpoint = `${serverUrl}/api/recipe/${recipeId}/eat?type=${type}`;
+export const putEatenRecipe = async ({ id, tag }) => {
+  const endpoint = `${serverUrl}/api/recipe/${id}/eat?type=${tag}`;
   const response = await fetch(endpoint, {
     method: "PUT",
     credentials: "include",
@@ -35,32 +35,32 @@ export const putEatenRecipe = async (recipeId, type) => {
 class EditedRecipeResponse {
   constructor({
     title,
-    mainImg,
-    typeKey,
-    methodKey,
+    main_img,
+    type_key,
+    method_key,
     servings,
-    cookingTime,
+    cooking_time,
     difficulty,
     ingredients,
-    cookingOrder,
-    cookingImg,
+    cooking_order,
+    cooking_img,
     hashtag,
     tips,
-    recipeType,
+    recipe_type,
   }) {
     this.title = title;
-    this.mainImg = mainImg;
-    this.typeKey = typeKey;
-    this.methodKey = methodKey;
+    this.main_img = main_img;
+    this.type_key = type_key;
+    this.method_key = method_key;
     this.servings = servings;
-    this.cookingTime = cookingTime;
+    this.cooking_time = cooking_time;
     this.difficulty = difficulty;
     this.ingredients = ingredients;
-    this.cookingOrder = cookingOrder;
-    this.cookingImg = cookingImg;
+    this.cooking_order = cooking_order;
+    this.cooking_img = cooking_img;
     this.hashtag = hashtag;
     this.tips = tips;
-    this.recipeType = recipeType;
+    this.recipe_type = recipe_type;
   }
 }
 

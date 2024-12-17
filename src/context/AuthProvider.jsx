@@ -6,14 +6,6 @@ import { fetchUserLogOut } from "../utils/fetchUserLogOut.jsx";
 
 const AuthContext = createContext(undefined);
 
-const logout = async () => {
-  const result = await fetchUserLogOut();
-  if (result.success) {
-    console.log("logout");
-    navigate("/login");
-  }
-};
-
 const checkSessionValidity = async () => {
   const result = await fetchUserInfo();
   if (result.success) return result.success;
@@ -44,6 +36,13 @@ export const AuthProvider = ({ children }) => {
 
     validateSession();
   }, []);
+
+  const logout = async () => {
+    const result = await fetchUserLogOut();
+    if (result.success) {
+      navigate("/login");
+    }
+  };
 
   return (
     <AuthContext.Provider value={{ logout, isLoggedIn }}>

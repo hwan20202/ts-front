@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 const styles = {
   form: "flex w-full",
   input:
-    "outline-none w-full bg-white border border-gray-300 rounded-md p-2 mr-2 font-semibold text-gray-500",
+    "outline-none w-full bg-white border border-gray-300 rounded-sm px-2 mr-1 text-sm font-semibold text-gray-500",
   inputFocus: "focus:border focus:border-green-300 focus:bg-gray-50",
-  button: "outline-none text-green-300 border-gray-300 border p-2 rounded-md",
+  button: "outline-none text-green-300 border-gray-300 border p-2 rounded-sm",
   buttonFocus:
     "focus:border focus:border-green-300 focus:bg-green-300 focus:text-white focus:font-bold",
 };

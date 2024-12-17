@@ -11,7 +11,7 @@ const useRecipeEdit = (initialRecipe) => {
 
   useEffect(() => {
     if (!initialRecipe) return;
-    setRecipe(new Recipe(initialRecipe));
+    setRecipe(new Recipe({ ...initialRecipe }));
     setLoading(false);
   }, [initialRecipe]);
 
@@ -35,16 +35,16 @@ const useRecipeEdit = (initialRecipe) => {
   };
 
   const editCookingImg = ({ index, img }) => {
-    const newCookingImg = [...recipe.cookingImg];
+    const newCookingImg = [...recipe.cooking_img];
     newCookingImg[index] = img;
-    setRecipe(new Recipe({ ...recipe, cookingImg: newCookingImg }));
+    setRecipe(new Recipe({ ...recipe, cooking_img: newCookingImg }));
   };
 
   const editCookingOrder = ({ index, order }) => {
     console.log(index, order);
-    const newCookingOrder = [...recipe.cookingOrder];
+    const newCookingOrder = [...recipe.cooking_order];
     newCookingOrder[index] = order;
-    setRecipe(new Recipe({ ...recipe, cookingOrder: newCookingOrder }));
+    setRecipe(new Recipe({ ...recipe, cooking_order: newCookingOrder }));
   };
 
   return {
