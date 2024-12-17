@@ -9,12 +9,9 @@ const styles = {
     "text-sm font-bold text-gray-700 bg-white w-full py-2 hover:bg-gray-100 rounded-md",
 };
 
-const Step = {
-  FIRST: "AI 변환 유형 선택",
-};
-
 const RecipeTransform = ({ start, setStart, recipeId }) => {
   const [step, setStep] = useState(0);
+  const [selectedType, setSelectedType] = useState(null);
   const [children, setChildren] = useState(null);
   const { generateByAI, simplifyByAI } = useRecipe();
 
@@ -33,41 +30,13 @@ const RecipeTransform = ({ start, setStart, recipeId }) => {
     },
   };
 
-  useEffect(() => {
-    if (start) {
-      setStep(Step.FIRST);
-    }
-  }, [start]);
-
-  useEffect(() => {
-    if (step === Step.FIRST) {
-      setChildren(
-        <div>
-          <h6 className={styles.title}>AI로 변환하기</h6>
-          <ul className={styles.list}>
-            {Object.values(type).map(({ name, handleClick }, index) => (
-              <li key={index}>
-                <button
-                  className={styles.button}
-                  onClick={() => {
-                    handleClick(recipeId);
-                    navigate(`/recipe/${recipeId}/edit`);
-                  }}
-                >
-                  {name}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    }
-  }, [step]);
-
   return (
     <div>
       <BottomSheet isOpen={start} onClose={() => setStart(false)}>
-        {children}
+        <div>
+          <h6 className={styles.title}>AI로 변환하기</h6>
+          <button className={styles.button} onClick={() => {}}></button>
+        </div>
       </BottomSheet>
     </div>
   );
