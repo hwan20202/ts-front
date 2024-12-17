@@ -7,9 +7,6 @@ import { fetchUserLogOut } from "../utils/fetchUserLogOut.jsx";
 const AuthContext = createContext(undefined);
 
 const checkSessionValidity = async () => {
-  const jsessionId = sessionStorage.getItem("JSESSIONID");
-  if (!jsessionId) return false;
-
   const result = await fetchUserInfo();
   if (result.success) return result.success;
   else return false;
