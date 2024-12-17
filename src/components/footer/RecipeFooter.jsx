@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import RecipeTransform from "../RecipeTransform";
 import { putEatenRecipe } from "../../services/fetchUserRecipe";
+import { useRecipe } from "../../context/RecipeProvider";
+
 const styles = {
   container:
     "sticky bottom-0 left-0 flex justify-center p-2 w-full max-w-body h-12 bg-white gap-2 border-t border-gray-100",
@@ -15,12 +17,13 @@ const styles = {
 };
 
 const RecipeFooter = () => {
-  const { recipeId } = useParams();
+  // const { recipeId } = useParams();
+  const { recipe } = useRecipe();
   const [isAITransformModalOpen, setIsAITransformModalOpen] = useState(false);
 
   const handleEatComplete = () => {
     alert("조리 완료");
-    putEatenRecipe(recipeId, "original");
+    putEatenRecipe({ ...recipe });
   };
 
   return (
@@ -42,7 +45,7 @@ const RecipeFooter = () => {
       <RecipeTransform
         start={isAITransformModalOpen}
         setStart={setIsAITransformModalOpen}
-        recipeId={recipeId}
+        recipeId={recipe.id}
       />
     </>
   );

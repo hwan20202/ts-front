@@ -31,16 +31,12 @@ const RecipePage = () => {
     return;
   }
 
-  console.log(recipe);
-
   return (
     <div className={style.page}>
       <RecipeProfile image={recipe?.main_img || ""} />
       {/* <RecipeHeader recipeName={recipe.name} /> */}
       <RecipeDescription {...recipe} />
-      {/* Section 1 */}
       <IngredientList ingredients={recipe.ingredients} className="mt-5" />
-      {/* Section 2 */}
       <CookingStepList
         orders={recipe.cooking_order}
         images={recipe.cooking_img}

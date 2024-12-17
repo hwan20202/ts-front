@@ -17,6 +17,7 @@ const SideSheet = ({ isOpen, onClose, children }) => {
         className={`${styles.container} ${
           isOpen ? styles.open : styles.closed
         }`}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="relative p-4">
           <button onClick={onClose} className={styles.closeButton}>

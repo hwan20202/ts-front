@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import BottomSheet from "./common/BottomSheet";
 import { useRecipe } from "../context/RecipeProvider";
-import { useNavigate } from "react-router-dom";
 
 const styles = {
   title: "text-md font-bold text-gray-500 leading-none mb-4",
@@ -18,7 +17,6 @@ const RecipeTransform = ({ start, setStart, recipeId }) => {
   const [step, setStep] = useState(0);
   const [children, setChildren] = useState(null);
   const { generateByAI, simplifyByAI } = useRecipe();
-  const navigate = useNavigate();
 
   const type = {
     generateByAI: {

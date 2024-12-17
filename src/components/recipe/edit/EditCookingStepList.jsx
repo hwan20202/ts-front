@@ -31,7 +31,7 @@ const EditCookingStepItem = ({
   return (
     <div className={styles.step.container} key={index}>
       <div className={styles.step.stepNumber}>{`${index + 1} 단계`}</div>
-      <div
+      {/* <div
         className="w-full h-24 flex justify-center items-center border-2 border-gray-300 rounded-md"
         onClick={handleFileInputClick}
       >
@@ -43,7 +43,7 @@ const EditCookingStepItem = ({
           ref={fileInputRef}
           onChange={(e) => onImgChange({ index, img: e.target.files[0] })}
         />
-      </div>
+      </div> */}
       <textarea
         type="text"
         defaultValue={order}
@@ -85,6 +85,7 @@ const EditCookingStepList = ({
                   : ""
               }
               key={index}
+              index={index}
               onChange={handleOrderChange}
               onImgChange={handleImgChange}
             />

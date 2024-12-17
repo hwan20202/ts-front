@@ -2,8 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import Ingredient from "../models/Ingredient";
 import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 import { initKakao } from "../utils/kakaoUtlis";
-const SavingTypeEnum = createSavingTypeEnum();
-
+import { getIsSetPreferences } from "../services/fetchUserPreferenece";
 import {
   getMyIngredients,
   postMyIngredient,
@@ -13,6 +12,8 @@ import {
 import { postEditedRecipe } from "../services/fetchUserRecipe";
 import { postUserPreferences } from "../services/fetchUserInfo";
 import { useAuth } from "./AuthProvider";
+import { useNavigate } from "react-router-dom";
+
 const UserContext = createContext();
 
 const useUserContext = () => {
@@ -21,13 +22,14 @@ const useUserContext = () => {
 
 const UserProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
+  const [isSetPreferences, setIsSetPreferences] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [expiringIngredients, setExpiringIngredients] = useState([]);
+  const navigate = useNavigate();
 
   const fetchIngredients = async () => {
     const data = await getMyIngredients();
     if (data) {
-      console.log(data);
       const ingredients = data.map((ingredient) => {
         return new Ingredient({
           ...ingredient,
@@ -37,10 +39,22 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchIsSetPreferences = async () => {
+    const data = await getIsSetPreferences();
+    if (data) {
+      setIsSetPreferences(data);
+    }
+  };
+
   useEffect(() => {
     if (!isLoggedIn) return;
     fetchIngredients();
-    // initKakao();
+    fetchIsSetPreferences();
+    initKakao();
+
+    // if (!isSetPreferences) {
+    //   navigate("/user/init/preference");
+    // }
   }, [isLoggedIn]);
 
   const addIngredient = (ingredient) => {
@@ -54,7 +68,7 @@ const UserProvider = ({ children }) => {
         const newIngredient = new Ingredient({
           ...data,
         });
-        setIngredients([...ingredients, newIngredient]);
+        setIngredients((prev) => [...prev, newIngredient]);
       }
     };
     fetchPostIngredient();
@@ -76,8 +90,8 @@ const UserProvider = ({ children }) => {
         ...ingredient,
       });
       if (data) {
-        setIngredients(
-          ingredients.map((i) =>
+        setIngredients((prev) =>
+          prev.map((i) =>
             i.id === ingredient.id ? new Ingredient({ ...ingredient }) : i
           )
         );
@@ -85,18 +99,6 @@ const UserProvider = ({ children }) => {
     };
     fetchPutIngredient();
   };
-
-  // 북마크
-
-  // const addBookmarkedRecipe = (recipeId) => {
-  //   const fetchPutBookmarkedRecipe = async () => {
-  //     const data = await putBookmarkedRecipe(recipeId);
-  //     if (data) {
-  //       fetchBookmarkedRecipes();
-  //     }
-  //   };
-  //   fetchPutBookmarkedRecipe();
-  // };
 
   // 레시피 편집
 

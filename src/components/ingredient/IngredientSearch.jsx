@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import SearchBar from "../common/SearchBar.jsx";
 import Ingredient from "../../models/Ingredient";
 import { useIngredient } from "../../hooks/useIngredient";
+import ToggleButton from "../common/ToggleButton.jsx";
 
 const ingredientSearchStyle = {
   container: "w-full",
@@ -15,31 +16,35 @@ const searchBarStyle = {
 };
 
 const colorStyles = {
-  itemBackground: "bg-gray-600",
-  itemHoverBackground: "hover:bg-gray-500",
-  selectedItemBackground: "bg-blue-600",
-  confirmButtonBackground: "bg-green-500",
+  itemBackground: "bg-white",
+  itemText: "text-gray-500",
+  itemHoverBackground: "hover:bg-gray-100",
+  // selectedItemBackground: "bg-gray-500",
+  // selectedItemText: "text-white",
+  confirmButtonBackground: "bg-green-400",
   confirmButtonHoverBackground: "hover:bg-green-600",
   confirmButtonDisabledBackground: "disabled:bg-gray-400",
 };
 
 const baseStyles = {
-  container: "flex mt-2 max-h-[200px] overflow-y-auto",
-  item: "shrink-0 inline-flex items-center justify-center text-white h-8 rounded-full m-1 px-3 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400",
-  confirmButton: "w-full text-white rounded-md py-2 mt-4",
+  container: "flex mt-2 max-h-[200px] overflow-y-auto border-b",
+  item: "leading-none py-3 px-2 text-left",
+  // item: "shrink-0 inline-flex items-center justify-center text-white h-8 rounded-full m-1 px-3 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400",
+  confirmButton:
+    "w-full text-white text-sm font-semibold rounded-sm py-0.5 mt-2",
 };
 
 const resultContainerStyle = {
   container: baseStyles.container,
-  item: `${baseStyles.item} ${colorStyles.itemBackground} ${colorStyles.itemHoverBackground}`,
-  selectedItem: `${baseStyles.item} ${colorStyles.selectedItemBackground}`,
+  item: `${baseStyles.item} ${colorStyles.itemBackground} ${colorStyles.itemHoverBackground} ${colorStyles.itemText}`,
+  selectedItem: `${baseStyles.item}`,
   confirmButton: `${baseStyles.confirmButton} ${colorStyles.confirmButtonBackground} ${colorStyles.confirmButtonHoverBackground} ${colorStyles.confirmButtonDisabledBackground}`,
 };
 
 const ResultContainer = ({ resultList, onClick }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
-  const toggleSelectItem = (item) => {
+  const handleSetSelectedItems = (item) => {
     setSelectedItems((prevSelected) => {
       const newSelectedItems = prevSelected.includes(item)
         ? prevSelected.filter((i) => i !== item)
@@ -54,19 +59,20 @@ const ResultContainer = ({ resultList, onClick }) => {
 
   return (
     <div className={resultContainerStyle.container}>
-      <div className="inline-flex flex-col">
+      <div className="inline-flex flex-col w-full">
         {resultList.map((item, index) => (
-          <button
+          <ToggleButton
             key={index}
-            onClick={() => toggleSelectItem(item)}
-            className={`${
-              selectedItems.includes(item)
-                ? resultContainerStyle.selectedItem
-                : resultContainerStyle.item
-            }`}
+            id={`toggle-${index}`}
+            onSetTrue={() => handleSetSelectedItems(item)}
+            onSetFalse={() => handleSetSelectedItems(item)}
+            trueClassName={`${resultContainerStyle.item} text-base fa-solid fa-circle-check text-orange-500`}
+            falseClassName={`${resultContainerStyle.item} text-base fa-regular fa-circle-check text-gray-300`}
           >
-            {item.food_name}
-          </button>
+            <span className="mx-1 text-sm text-gray-500 font-semibold">
+              {item.food_name}
+            </span>
+          </ToggleButton>
         ))}
       </div>
     </div>

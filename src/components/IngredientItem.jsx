@@ -7,8 +7,8 @@ import Ingredient from "../models/Ingredient";
 const styles = {
   ingredientItem: {
     container:
-      "grid grid-cols-[1fr_2fr] items-center rounded-full my-1 cursor-pointer",
-    text: "text-md font-semibold text-gray-400",
+      "grid grid-cols-2 items-center rounded-sm cursor-pointer px-4 border-b-0.5",
+    text: "text-sm font-semibold text-gray-500 my-2",
   },
 };
 
@@ -33,16 +33,21 @@ const IngredientItem = ({ ingredient, onSave, onDelete }) => {
   }, [savingType, days]);
 
   return (
-    <div className={styles.ingredientItem.container}>
-      <span className={styles.ingredientItem.text} onClick={onDelete}>
-        {ingredient.food_name}
-      </span>
-      <IngredientEditBox
-        defaultSavingType={savingType}
-        defaultDays={days}
-        setSavingType={setSavingType}
-        setDays={setDays}
-      />
+    <div className="flex justify-between items-center">
+      <div className={styles.ingredientItem.container}>
+        <span className={styles.ingredientItem.text}>
+          {ingredient.food_name}
+        </span>
+        <IngredientEditBox
+          defaultSavingType={savingType}
+          defaultDays={days}
+          setSavingType={setSavingType}
+          setDays={setDays}
+        />
+      </div>
+      <button onClick={onDelete}>
+        <i className="fa-regular fa-circle-xmark text-gray-400 mx-1"></i>
+      </button>
     </div>
   );
 };

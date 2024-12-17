@@ -10,17 +10,17 @@ import { createSavingTypeEnum } from "../../utils/createSavingTypeEnum.jsx";
 const styles = {
   register: {
     container:
-      "flex border leading-none p-2 mt-2 rounded-md bg-gray-100 h-full flex flex-col justify-between",
+      "flex leading-none mt-5 rounded-sm  h-full flex flex-col justify-between",
     button:
-      "w-full bg-green-300 text-white rounded-md hover:bg-green-400 py-2 mt-4",
-    buttonDisabled:
-      "w-full bg-gray-300 text-white rounded-md hover:bg-gray-300 py-2 mt-4",
-    noDataText: "text-gray-400 m-2 font-semibold",
+      "w-full bg-green-300 text-white text-sm font-semibold rounded-sm hover:bg-green-400 py-0.5 mt-2",
+    buttonDisabled: "hover:bg-gray-300",
+    noDataText:
+      "w-full py-5 my-2 rounded-sm bg-gray-100 text-sm text-center text-gray-400 font-semibold",
   },
   modal: {
     selectedIngredientsList: {
       container:
-        "flex p-2 mt-2 rounded-md bg-gray-100 h-full flex flex-col justify-between",
+        "flex mt-2 border-t rounded-sm h-full flex flex-col justify-between",
       noDataText: "text-gray-500",
     },
   },
@@ -35,15 +35,15 @@ const SelectedIngredientsList = ({ ingredients, setIngredients }) => {
   });
 
   const handleSaveIngredient = (ingredient) => {
-    setIngredients(
-      ingredients.map((i) =>
-        i.food_name === ingredient.food_name ? ingredient : i
-      )
+    setIngredients((prev) =>
+      prev.map((i) => (i.food_name === ingredient.food_name ? ingredient : i))
     );
   };
 
   const handleDeleteIngredient = (ingredient) => {
-    setIngredients(ingredients.filter((i) => i.name !== ingredient.name));
+    setIngredients((prev) =>
+      prev.filter((i) => i.food_name !== ingredient.food_name)
+    );
   };
 
   return (
@@ -54,7 +54,7 @@ const SelectedIngredientsList = ({ ingredients, setIngredients }) => {
             <IngredientItem
               ingredient={ingredient}
               onSave={handleSaveIngredient}
-              onDelete={handleDeleteIngredient}
+              onDelete={() => handleDeleteIngredient(ingredient)}
             />
             <hr />
           </div>
@@ -107,9 +107,8 @@ const IngredientRegisterModal = ({
             label="등록"
             disabled={ingredients.length === 0}
             className={
-              ingredients.length === 0
-                ? styles.register.buttonDisabled
-                : styles.register.button
+              styles.register.button +
+              (ingredients.length === 0 ? styles.register.buttonDisabled : "")
             }
           />
         </div>

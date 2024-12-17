@@ -3,14 +3,23 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Recipe from "../models/Recipe";
 
-const Card = ({ id, tag, main_img, title, hashtag }) => {
+const Card = ({
+  id,
+  tag,
+  main_img,
+  title,
+  hashtag,
+  cooking_time,
+  difficulty,
+  cooking_order,
+}) => {
   const styles2 = {
-    card: "flex-shrink-0 bg-white rounded-lg text-center text-gray-500 w-48 h-48",
+    card: "relative flex-shrink-0 bg-white rounded-lg text-center text-gray-500 w-48 h-48",
     cardHover: "hover:bg-gray-100",
     imgContainer: "w-full h-2/3 overflow-hidden rounded-lg",
     img: "w-full h-full object-cover object-center",
     info: "w-full h-1/3 mt-4",
-    title: "p-0 text-left text-sm font-bold",
+    title: "p-0 text-left text-sm font-bold overflow-hidden whitespace-nowrap",
     description: "text-left text-xs",
   };
 
@@ -27,6 +36,13 @@ const Card = ({ id, tag, main_img, title, hashtag }) => {
       </div>
       <div className={styles2.info}>
         <h2 className={styles2.title}>{title}</h2>
+        <div className="absolute top-0 flex justify-center items-center bg-green-400 text-white font-bold rounded-lg p-1">
+          <span className="text-xs">{cooking_time}</span>
+          <div className="w-1 h-1 bg-white rounded-full mx-1"></div>
+          <span className="text-xs">{difficulty}</span>
+          <div className="w-1 h-1 bg-white rounded-full mx-1"></div>
+          <span className="text-xs">{cooking_order.length}단계</span>
+        </div>
         <p className={styles2.description}>{hashtag.join(", ")}</p>
       </div>
     </div>
