@@ -8,7 +8,7 @@ WORKDIR /app
 ARG VITE_APP_KAKAO_KEY
 ENV VITE_APP_KAKAO_KEY=${VITE_APP_KAKAO_KEY}
 
-# Copy package.json and package-lock.json for npm install
+# Copy package.json and package-lock.json for npm install 
 COPY package.json package-lock.json ./
 
 # Install dependencies
