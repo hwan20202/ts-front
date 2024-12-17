@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { getRecipeList } from "../services/fetchRecipe";
-
+import { useAuth } from "../context/AuthProvider";
 const useRecipeList = ({ path }) => {
+  const { isLoggedIn } = useAuth();
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -17,6 +18,7 @@ const useRecipeList = ({ path }) => {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) return;
     fetchRecipes();
   }, []);
 
