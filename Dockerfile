@@ -4,17 +4,21 @@ FROM node:alpine as build
 # Set the working directory inside the container
 WORKDIR /app
 
+# Accept environment variables as arguments
+ARG VITE_APP_KAKAO_KEY
+ENV VITE_APP_KAKAO_KEY=${VITE_APP_KAKAO_KEY}
+
 # Copy package.json and package-lock.json for npm install
 COPY package.json package-lock.json ./
 
-# Install dependencies (including Vite)
+# Install dependencies
 RUN npm install
 
 # Copy the rest of the application files
 COPY . .
 
-# Build the React application using npm run build (Vite should be run via npm)
-RUN npm run build
+# Build the React application using the environment variable
+RUN VITE_APP_KAKAO_KEY=${VITE_APP_KAKAO_KEY} npm run build
 
 # Stage 2: Serve the built files using nginx
 FROM nginx:alpine
