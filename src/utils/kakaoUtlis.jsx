@@ -5,6 +5,7 @@ export const initKakao = () => {
   // init 해주기 전에 clean up 을 해준다.
   Kakao.cleanup();
   // 자신의 js 키를 넣어준다.
+  console.log(apiKey);
   Kakao.init(apiKey);
   // 잘 적용되면 true 를 뱉는다.
   console.log(Kakao.isInitialized());
