@@ -16,7 +16,7 @@ const styles = {
   buttonColorOrange: "bg-orange-300 text-white hover:bg-orange-400",
 };
 
-const RecipeFooter = () => {
+const RecipeFooter = ({ aiTransform, eatComplete }) => {
   const { recipe } = useRecipe();
   const [isAITransformModalOpen, setIsAITransformModalOpen] = useState(false);
 
@@ -30,7 +30,7 @@ const RecipeFooter = () => {
       <div className={styles.container}>
         <button
           className={`${styles.button} ${styles.buttonColorOrange}`}
-          onClick={() => setIsAITransformModalOpen(true)}
+          onClick={aiTransform}
         >
           AI 변환
         </button>
@@ -41,11 +41,11 @@ const RecipeFooter = () => {
           조리 완료
         </button>
       </div>
-      <RecipeTransform
+      {/* <RecipeTransform
         start={isAITransformModalOpen}
         setStart={setIsAITransformModalOpen}
         recipeId={recipe.id}
-      />
+      /> */}
     </>
   );
 };

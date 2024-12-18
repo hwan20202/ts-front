@@ -49,11 +49,11 @@ const RecipeProvider = ({ children }) => {
     setLoading(false);
   };
 
-  const generateByAI = async (recipeId) => {
+  const generateByAI = async ({ recipeId, dislikedIngredients }) => {
     setLoading(true);
     const result = await getRecipeGeneratedByAI({
       original_recipe_id: recipeId,
-      dislike_ingredients: [],
+      dislike_ingredients: dislikedIngredients,
       basic_seasoning: [],
       must_use_ingredients: [],
     });
