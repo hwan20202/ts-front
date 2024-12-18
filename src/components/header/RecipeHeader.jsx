@@ -17,7 +17,6 @@ const RecipeHeader = () => {
   };
 
   const edit = () => {
-    console.log("edit");
     editByUser();
     navigate(`/recipe/${recipeId}/edit`);
   };

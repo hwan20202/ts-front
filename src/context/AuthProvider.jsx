@@ -1,15 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { fetchUserInfo } from "../utils/fetchData.jsx";
 import { fetchUserLogOut } from "../utils/fetchUserLogOut.jsx";
-
+import { isLoggedIn } from "../utils/fetchData.jsx";
 const AuthContext = createContext(undefined);
 
 const checkSessionValidity = async () => {
-  const result = await fetchUserInfo();
-  if (result.success) return result.success;
-  else return false;
+  const result = await isLoggedIn();
+  return result.isAuthenticated;
 };
 
 export const useAuth = () => {
@@ -39,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     const result = await fetchUserLogOut();
-    if (result.success) {
+    if (result) {
       navigate("/login");
     }
   };

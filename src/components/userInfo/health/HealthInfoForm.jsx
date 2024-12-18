@@ -40,7 +40,6 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
           id="age"
           defaultValue={healthInfoController.getAge()}
           onChange={(e) => {
-            console.log(e.target.value);
             healthInfoController.setAge(e.target.value);
           }}
         >

@@ -48,8 +48,6 @@ const useUserPreference = () => {
       if (!preferencesResult || !spicyLevelResult) {
         throw new Error("초기 설정 실패");
       }
-      console.log(preferencesResult);
-      console.log(spicyLevelResult);
       return true;
     },
   };
