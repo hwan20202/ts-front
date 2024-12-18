@@ -20,7 +20,7 @@ const useRecipeList = ({ path }) => {
   useEffect(() => {
     if (!isLoggedIn) return;
     fetchRecipes();
-  }, []);
+  }, [isLoggedIn]);
 
   const loadMore = async () => {
     setLoading(true);
