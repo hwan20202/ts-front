@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import Ingredient from "../models/Ingredient";
-import { createSavingTypeEnum } from "../utils/createSavingTypeEnum";
 import { initKakao } from "../utils/kakaoUtlis";
 import { getIsSetPreferences } from "../services/fetchUserPreferenece";
 import {
@@ -23,6 +22,7 @@ const useUserContext = () => {
 const UserProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
   const [isSetPreferences, setIsSetPreferences] = useState(false);
+  const [isSetHealth, setIsSetHealth] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [expiringIngredients, setExpiringIngredients] = useState([]);
   const navigate = useNavigate();
@@ -46,10 +46,18 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchIsSetHealth = async () => {
+    const data = await getIsSetHealth();
+    if (data) {
+      setIsSetHealth(data);
+    }
+  };
+
   useEffect(() => {
     if (!isLoggedIn) return;
     fetchIngredients();
     fetchIsSetPreferences();
+    fetchIsSetHealth();
     initKakao();
 
     // if (!isSetPreferences) {
