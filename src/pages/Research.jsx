@@ -64,7 +64,6 @@ const Research = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const { postUserPreferences } = useUserContext();
   const submitTags = () => {
-    console.log(selectedTags);
     postUserPreferences(selectedTags);
   };
 

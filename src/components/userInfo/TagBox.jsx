@@ -6,7 +6,6 @@ const styles = {
 };
 
 const TagBox = ({ tags, selectedTags }) => {
-  console.log(tags);
   const { selections, toggle } = useSelect({
     selectionList: tags,
     initialSelected: selectedTags,

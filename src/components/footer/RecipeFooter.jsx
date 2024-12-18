@@ -17,7 +17,6 @@ const styles = {
 };
 
 const RecipeFooter = () => {
-  // const { recipeId } = useParams();
   const { recipe } = useRecipe();
   const [isAITransformModalOpen, setIsAITransformModalOpen] = useState(false);
 
@@ -57,40 +56,3 @@ RecipeFooter.propTypes = {
 };
 
 export default RecipeFooter;
-
-{
-  /*
-  <div
-            className="flex flex-col w-full bg-black p-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h6 className="text-white text-2xl font-bold">AI로 변환하기</h6>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <button
-                  className="text-white text-sm font-bold"
-                  onClick={() => console.log("알잘딱깔센 clicked")}
-                >
-                  <span>알잘딱깔센</span>
-                </button>
-              </li>
-              <li>
-                <button
-                  className="text-white text-sm font-bold"
-                  onClick={() => console.log("건강하게 clicked")}
-                >
-                  <span>건강하게</span>
-                </button>
-              </li>
-              <li>
-                <button
-                  className="text-white text-sm font-bold"
-                  onClick={() => console.log("간편하게 clicked")}
-                >
-                  <span>간편하게</span>
-                </button>
-              </li>
-            </ul>
-          </div>
-  */
-}

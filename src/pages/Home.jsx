@@ -58,7 +58,6 @@ const Home = () => {
   };
 
   const handleConfirm = (ingredients) => {
-    console.log(ingredients);
     ingredients.forEach((ingredient) => {
       addIngredient(ingredient);
     });

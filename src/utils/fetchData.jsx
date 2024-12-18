@@ -5,6 +5,16 @@ export const login = async () => {
   window.location.href = `${serverUrl}${path}`;
 };
 
+export const isLoggedIn = async () => {
+  const path = "/api/healthcheck/session";
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  const data = await response.json();
+  return data;
+};
+
 export const fetchUserInfo = async () => {
   const path = "/api/healthcheck/userinfo";
   try {

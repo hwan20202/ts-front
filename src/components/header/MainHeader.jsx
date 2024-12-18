@@ -42,7 +42,6 @@ const UserMenu = () => {
         label="로그아웃"
         onClick={() => {
           logout();
-          navigate("/");
         }}
       />
     </div>

@@ -64,35 +64,6 @@ const Preference = () => {
 
   return (
     <div className={styles.container}>
-      {/* <CategorySection
-        title="싫어하는 재료"
-        subtitle={dislikedIngredients.map((i) => i.foodName).join(" ")}
-        onEdit={true}
-      >
-        <InputSection
-          onSubmit={() => {
-            console.log("submit");
-          }}
-          type="text"
-          placeholder="재료 추가"
-          defaultValue={dislikedIngredients.map((i) => i.foodName).join(" ")}
-        />
-      </CategorySection> */}
-
-      {/* <CategorySection
-        title="알레르기"
-        subtitle={allergies.join(" ")}
-        onEdit={true}
-      >
-        <InputSection
-          onSubmit={() => {
-            console.log("submit");
-          }}
-          type="text"
-          placeholder="알레르기 추가"
-          defaultValue={allergies.join(" ")}
-        />
-      </CategorySection> */}
       {getCategory().map((category) => (
         <CategorySection
           title={getNameCategory(category)}

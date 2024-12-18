@@ -50,7 +50,6 @@ const RecipeProvider = ({ children }) => {
   };
 
   const generateByAI = async (recipeId) => {
-    // console.log("generateByAI clicked", recipeId);
     setLoading(true);
     const result = await getRecipeGeneratedByAI({
       original_recipe_id: recipeId,
@@ -58,7 +57,6 @@ const RecipeProvider = ({ children }) => {
       basic_seasoning: [],
       must_use_ingredients: [],
     });
-    console.log(result);
     const recipe = new Recipe({
       ...result.data.before,
       cooking_order: result.data.after.recipe_cooking_order || [],
@@ -74,10 +72,8 @@ const RecipeProvider = ({ children }) => {
   };
 
   const simplifyByAI = async (recipeId) => {
-    console.log("simplifyByAI clicked", recipeId);
     setLoading(true);
     const result = await getRecipeSimplifiedByAI({ recipeId: recipeId });
-    console.log(result);
     const recipe = new Recipe({
       ...result.data.before,
       cooking_order: result.data.after.recipe_cooking_order || [],
@@ -95,7 +91,6 @@ const RecipeProvider = ({ children }) => {
   const share = async () => {
     if (!recipe) return;
     const { id, tag } = recipe;
-    console.log("share clicked", id, tag);
     if (tag === "original") {
       shareByKakao(`recipe/original/${id}`);
     } else if (tag === "custom") {
@@ -107,7 +102,6 @@ const RecipeProvider = ({ children }) => {
         }
       );
       const data = await url.json();
-      console.log(data);
       const path = `recipe/share/${data.url}`;
       shareByKakao(path);
     }

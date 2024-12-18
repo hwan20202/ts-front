@@ -139,7 +139,6 @@ const MainLayout = ({ children }) => {
   const navigate = useNavigate();
 
   const redirect = (path) => {
-    console.log(`move to ${path}`);
     navigate(path);
   };
 

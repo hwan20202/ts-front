@@ -12,7 +12,6 @@ const Dropdown = ({ options, defaultValue, onChange, className }) => {
     <select
       defaultValue={defaultValue}
       onChange={(e) => {
-        console.log(e.target.value);
         onChange(e.target.value);
       }}
       className={`${styles.select} ${styles.text} ${className}`}
