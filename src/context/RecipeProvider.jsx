@@ -65,10 +65,11 @@ const RecipeProvider = ({ children }) => {
       ingredients: result.data.after.recipe_ingredients || [],
       title: result.data.after.recipe_menu_name || "",
       recipe_type: result.data.after.recipe_recipe_type || [],
-      tips: result.data.after.recipe_tips || [],
+      tips: result.data.after.recipe_tips.split(". ") || [],
     });
     setEditRecipe(recipe);
     setLoading(false);
+    return recipe;
   };
 
   const simplifyByAI = async (recipeId) => {

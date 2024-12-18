@@ -14,3 +14,10 @@ export const getIsSetPreferences = async () => {
   const result = await response.json();
   return result.is_checked;
 };
+
+export const getIsSetHealth = async () => {
+  const response = await fetch(`${serverUrl}/api/userinfo/me/health/status`, {
+    method: "GET",
+    credentials: "include",
+  });
+};
