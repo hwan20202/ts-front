@@ -30,6 +30,7 @@ const RecipePage = () => {
   const [isSimplifyAddInfoOpen, setIsSimplifyAddInfoOpen] = useState(false);
   const [isHealthyAddInfoOpen, setIsHealthyAddInfoOpen] = useState(false);
   const [dislikedIngredients, setDislikedIngredients] = useState([]);
+  const navigate = useNavigate();
   // const { }
 
   useEffect(() => {
@@ -46,6 +47,7 @@ const RecipePage = () => {
     simplifyByAI: {
       name: "간편하게",
       next: () => {
+        // if ()
         setIsSimplifyAddInfoOpen(true);
       },
     },
@@ -115,9 +117,9 @@ const RecipePage = () => {
         {/* 추가 정보 입력 컴포넌트 */}
         <h2 className={style.title}>싫어하는 재료</h2>
         <div className="flex flex-wrap gap-2">
-          {recipe.ingredients.map((ingredient) => (
+          {recipe.ingredients.map((ingredient, index) => (
             <ToggleButton
-              key={ingredient.id}
+              key={index}
               defaultToggle={true}
               onSetTrue={() => {
                 setDislikedIngredients((prev) =>
@@ -135,11 +137,15 @@ const RecipePage = () => {
           ))}
           <button
             className={style.button}
-            onClick={() => {
-              generateByAI({
+            onClick={async () => {
+              const newRecipe = await generateByAI({
                 recipeId: recipe.id,
                 dislikedIngredients,
               });
+              if (newRecipe) {
+                console.log(newRecipe);
+                navigate(`/recipe/${newRecipe.id}/edit`);
+              }
             }}
           >
             변환 시작
