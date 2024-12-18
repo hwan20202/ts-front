@@ -14,7 +14,6 @@ const style = {
 const RecipeEdit = () => {
   const navigate = useNavigate();
   const { editRecipe, loading } = useRecipe();
-  console.log(editRecipe);
   if (loading) {
     return (
       <div className="flex justify-center items-center w-full h-screen bg-white text-black">

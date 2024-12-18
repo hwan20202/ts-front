@@ -41,7 +41,6 @@ const useRecipeEdit = (initialRecipe) => {
   };
 
   const editCookingOrder = ({ index, order }) => {
-    console.log(index, order);
     const newCookingOrder = [...recipe.cooking_order];
     newCookingOrder[index] = order;
     setRecipe(new Recipe({ ...recipe, cooking_order: newCookingOrder }));

@@ -61,7 +61,6 @@ const useSelect = ({ selectionList = [], initialSelected = [] }) => {
   };
 
   const toggle = (selection) => {
-    console.log(selection);
     if (!(selection instanceof Selection)) {
       throw new Error("selection must be a Selection object");
     }

@@ -27,7 +27,6 @@ const InitialUserInfoProvider = ({ children }) => {
       if (!allergiesResult) {
         throw new Error("싫어하는 재료 설정 실패");
       }
-      console.log(allergiesResult);
       return true;
     },
   };
