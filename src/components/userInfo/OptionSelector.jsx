@@ -17,7 +17,7 @@ const OptionSelector = ({ options, selectedOptions, setSelectedOptions }) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 max-w-[300px]">
+    <div className="flex flex-wrap justify-center gap-4 max-w-[300px]">
       {options.map((option) => (
         <ToggleButton
           key={option}

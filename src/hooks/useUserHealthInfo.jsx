@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { putUserHealthInfo } from "../services/fetchUserInfo";
 
 const useUserHealthInfo = ({ age, height, weight, activityLevel }) => {
-  const [selectedAge, setSelectedAge] = useState(age || 2000);
+  const [selectedAge, setSelectedAge] = useState(age || 20);
   const [selectedHeight, setSelectedHeight] = useState(height || 160);
   const [selectedWeight, setSelectedWeight] = useState(weight || 60);
   const [selectedGender, setSelectedGender] = useState("male");
@@ -25,6 +26,7 @@ const useUserHealthInfo = ({ age, height, weight, activityLevel }) => {
       const healthInfoResult = await putUserHealthInfo({
         age: selectedAge,
         height: selectedHeight,
+        gender: selectedGender,
         weight: selectedWeight,
         activity_level: selectedActivityLevel,
       });

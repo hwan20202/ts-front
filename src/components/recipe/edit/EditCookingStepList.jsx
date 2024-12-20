@@ -14,58 +14,18 @@ const styles = {
   },
 };
 
-const EditCookingStepItem = ({
-  order,
-  index,
-  onImgChange = () => {},
-  onChange = () => {},
-}) => {
-  const fileInputRef = useRef(null);
-
-  const handleFileInputClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  return (
-    <div className={styles.step.container} key={index}>
-      <div className={styles.step.stepNumber}>{`${index + 1} 단계`}</div>
-      {/* <div
-        className="w-full h-24 flex justify-center items-center border-2 border-gray-300 rounded-md"
-        onClick={handleFileInputClick}
-      >
-        <i className="fa-solid fa-circle-plus"></i>
-        <input
-          type="file"
-          accept="image/*"
-          hidden
-          ref={fileInputRef}
-          onChange={(e) => onImgChange({ index, img: e.target.files[0] })}
-        />
-      </div> */}
-      <textarea
-        type="text"
-        defaultValue={order}
-        onChange={(e) => onChange({ index, order: e.target.value })}
-        className={styles.step.textarea}
-      />
-    </div>
-  );
-};
-
 const EditCookingStepList = ({
   cooking_order,
   cooking_img,
   editCookingImg,
   editCookingOrder,
+  addCookingOrder,
 }) => {
-  // add orders
-
   // delete orders
 
-  const handleImgChange = (index, img) => {
-    editCookingImg({ index, img });
+  // add orders
+  const handleAddOrder = (newOrder) => {
+    addCookingOrder(newOrder);
   };
 
   const handleOrderChange = (index, value) => {
@@ -75,22 +35,32 @@ const EditCookingStepList = ({
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>조리 순서</h2>
-      {cooking_order && cooking_order.length > 0
-        ? cooking_order.map((order, index) => (
-            <EditCookingStepItem
-              order={order}
-              img={
-                cooking_img && cooking_img.length >= index
-                  ? cooking_img[index]
-                  : ""
-              }
-              key={index}
-              index={index}
-              onChange={handleOrderChange}
-              onImgChange={handleImgChange}
-            />
-          ))
-        : "조리 순서 없음"}
+      <div className="flex flex-col gap-2">
+        {cooking_order && cooking_order.length > 0
+          ? cooking_order.map((order, index) => (
+              <div key={index}>
+                <div className={styles.step.stepNumber}>{`${
+                  index + 1
+                } 단계`}</div>
+                <textarea
+                  type="text"
+                  defaultValue={order}
+                  onChange={(e) =>
+                    editCookingOrder({ index, order: e.target.value })
+                  }
+                  className={styles.step.textarea}
+                />
+              </div>
+            ))
+          : "조리 순서 없음"}
+        <button
+          type="submit"
+          className="bg-green-500 text-white p-2 rounded-md mt-2"
+          onClick={() => handleAddOrder("")}
+        >
+          추가
+        </button>
+      </div>
     </div>
   );
 };

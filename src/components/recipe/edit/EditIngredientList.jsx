@@ -5,9 +5,8 @@ const style = {
   title: "text-left text-xl font-bold text-black p-0 mb-4",
   ingredient: {
     container:
-      "grid grid-cols-[3fr_3fr_2fr] items-center text-md font-semibold text-gray-500 py-1box-border",
-    first: "flex justify-start font-semibold",
-    second: "flex justify-center",
+      "flex items-center text-md font-semibold text-gray-500 py-1box-border",
+    first: "w-full flex justify-start font-semibold",
     third: "flex justify-end",
     button:
       "text-sm font-bold w-full py-1 rounded-md text-white hover:bg-green-400 hover:text-white",
@@ -29,14 +28,6 @@ const EditIngredientItem = ({
   return (
     <div className={style.ingredient.container} key={index}>
       <div className={style.ingredient.first}>{name}</div>
-      <div className={style.ingredient.second}>
-        {/* <input
-          type="text"
-          defaultValue={amount}
-          onChange={(e) => onChange({ index, amount: e.target.value })}
-          className={style.ingredient.input}
-        /> */}
-      </div>
       <div className={style.ingredient.third}>
         {/* 삭제 버튼 */}
         <i
@@ -59,8 +50,12 @@ const EditIngredientList = ({
   ingredients,
   onChange = () => {},
   onDelete = () => {},
+  onAdd = () => {},
 }) => {
   // add ingredient
+  const handleAddIngredient = (newIngredients) => {
+    onAdd(newIngredients);
+  };
 
   // delete ingredient
 
@@ -79,11 +74,30 @@ const EditIngredientList = ({
             <hr className={style.divider} />
           </div>
         ))}
-      <button
-        className={`${style.ingredient.button} ${style.ingredient.buttonColorGreen}`}
+      <form
+        className="flex items-center"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const newIngredients = e.target.ingredient.value
+            .split(" ")
+            .map((i) => i.trim());
+          handleAddIngredient(newIngredients);
+          e.target.ingredient.value = "";
+        }}
       >
-        재료 추가
-      </button>
+        <input
+          type="text"
+          name="ingredient"
+          className={style.ingredient.input}
+          placeholder="추가할 재료를 띄어쓰기로 구분해주세요"
+        />
+        <button
+          className="text-sm text-white font-bold w-full py-1 rounded-md bg-green-300 hover:bg-green-400"
+          type="submit"
+        >
+          추가
+        </button>
+      </form>
     </div>
   );
 };

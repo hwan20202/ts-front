@@ -1,7 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import Ingredient from "../models/Ingredient";
 import { initKakao } from "../utils/kakaoUtlis";
-import { getIsSetPreferences } from "../services/fetchUserPreferenece";
+import {
+  getIsSetPreferences,
+  getIsSetHealth,
+} from "../services/fetchUserPreferenece";
 import {
   getMyIngredients,
   postMyIngredient,
@@ -21,8 +24,8 @@ const useUserContext = () => {
 
 const UserProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
-  const [isSetPreferences, setIsSetPreferences] = useState(false);
-  const [isSetHealth, setIsSetHealth] = useState(false);
+  const [isSetPreferences, setIsSetPreferences] = useState(null);
+  const [isSetHealth, setIsSetHealth] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [expiringIngredients, setExpiringIngredients] = useState([]);
   const navigate = useNavigate();
@@ -54,16 +57,21 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn || isSetPreferences === null || isSetHealth === null)
+      return;
+
     fetchIngredients();
     fetchIsSetPreferences();
     fetchIsSetHealth();
     initKakao();
 
-    // if (!isSetPreferences) {
-    //   navigate("/user/init/preference");
-    // }
-  }, [isLoggedIn]);
+    if (!isSetPreferences) {
+      navigate("/user/init/preference");
+    }
+    if (!isSetHealth) {
+      navigate("/user/init/health");
+    }
+  }, [isLoggedIn, isSetPreferences, isSetHealth]);
 
   const addIngredient = (ingredient) => {
     const fetchPostIngredient = async () => {

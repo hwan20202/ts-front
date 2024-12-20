@@ -7,6 +7,7 @@ import useRecipeEdit from "../hooks/useRecipeEdit";
 import { useParams, useNavigate } from "react-router-dom";
 import RecipeEditFooter from "../components/footer/RecipeEditFooter";
 import { useRecipe } from "../context/RecipeProvider";
+import RecipeLoading from "./RecipeLoading";
 const style = {
   page: "flex flex-col w-full h-full justify-start",
 };
@@ -26,22 +27,19 @@ const RecipeEdit = () => {
     loading: loadingEdit,
     editIngredient,
     deleteIngredient,
+    addIngredient,
     editCookingImg,
     editCookingOrder,
+    addCookingOrder,
     editComplete,
   } = useRecipeEdit(editRecipe);
 
   if (loadingEdit) {
-    return (
-      <div className="flex justify-center items-center w-full h-screen bg-white text-black">
-        Loading...
-      </div>
-    );
+    return <RecipeLoading />;
   }
   if (!recipe) {
     return;
   }
-  console.log(recipe);
 
   return (
     <div className={style.page}>
@@ -51,11 +49,13 @@ const RecipeEdit = () => {
         {...recipe}
         onChange={editIngredient}
         onDelete={deleteIngredient}
+        onAdd={addIngredient}
       />
       <EditCookingStepList
         {...recipe}
         editCookingOrder={editCookingOrder}
         editCookingImg={editCookingImg}
+        addCookingOrder={addCookingOrder}
       />
       <RecipeEditFooter editComplete={editComplete} />
     </div>

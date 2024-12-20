@@ -7,6 +7,7 @@ export const recipePath = {
   my: "/api/recipe/custom/all",
   aiGenerate: "/api/recipe/custom/ai/generate",
   aiSimplify: "/api/recipe/custom/simplify",
+  aiHealthy: "/api/recipe/custom/nutrients",
 };
 
 // 레시피 조회
@@ -102,6 +103,34 @@ export const getRecipeSimplifiedByAI = async ({ recipeId }) => {
       return { success: true, data };
     } else {
       console.log("simplifyByAI error");
+      return { success: false };
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+export const getRecipeHealthyByAI = async ({ recipeId, mealCount }) => {
+  try {
+    const response = await fetch(
+      `${serverUrl}${recipePath.aiHealthy}/${recipeId}`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          meals_a_day: mealCount,
+          basic_seasoning: [],
+        }),
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, data };
+    } else {
+      console.log("healthyByAI error");
       return { success: false };
     }
   } catch (e) {
