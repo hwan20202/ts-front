@@ -9,12 +9,7 @@ const useInitialUserInfoContext = () => {
 };
 
 const InitialUserInfoProvider = ({ children }) => {
-  const { healthInfoController } = useUserHealthInfo({
-    age: 20,
-    height: 170,
-    weight: 60,
-    activityLevel: "active",
-  });
+  const { healthInfoController } = useUserHealthInfo({});
   const { preferenceController } = useUserPreference();
 
   const [allergies, setAllergies] = useState([]); // 알레르기

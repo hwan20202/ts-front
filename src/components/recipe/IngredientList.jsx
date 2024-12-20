@@ -4,8 +4,7 @@ import Button from "../common/Button.jsx";
 import { Link } from "react-router-dom";
 
 const style = {
-  container: "flex flex-col bg-white p-6",
-  title: "text-left text-xl font-bold text-black p-0 mb-4",
+  title: "text-left text-xl font-bold text-black p-0 my-4",
   ingredient: {
     container:
       "flex items-center justify-between text-gray-500 p-2 border border-gray-200 rounded-sm mb-1",
@@ -45,13 +44,13 @@ IngredientItem.propTypes = {
 const IngredientList = ({ ingredients }) => {
   const parsedIngredients = ingredients;
   return (
-    <div className={style.container}>
+    <>
       <h2 className={style.title}>요리 재료</h2>
       {parsedIngredients &&
         parsedIngredients.map((ingredient, index) => (
           <IngredientItem key={index} name={ingredient} />
         ))}
-    </div>
+    </>
   );
 };
 

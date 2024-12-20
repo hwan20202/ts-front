@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import scrollbarHide from "tailwind-scrollbar-hide";
+import aspectRatio from "@tailwindcss/aspect-ratio";
 
 export default {
   important: true,
@@ -31,5 +32,5 @@ export default {
       },
     },
   },
-  plugins: [scrollbarHide],
+  plugins: [scrollbarHide, aspectRatio],
 };

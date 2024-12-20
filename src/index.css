@@ -97,3 +97,41 @@ body {
     background-color: #f9f9f9;
   }
 }
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #ffffff;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
+
+.slider-container {
+  overflow: hidden;
+  width: 300px;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide {
+  background-color: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

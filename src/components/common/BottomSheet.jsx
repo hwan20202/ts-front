@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 const styles = {
@@ -11,6 +11,17 @@ const styles = {
 };
 
 const BottomSheet = ({ isOpen, onClose, children }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   return (
     <>
       {isOpen && <div className={styles.overlay} onClick={onClose}></div>}

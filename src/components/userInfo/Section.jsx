@@ -1,6 +1,6 @@
 import { useToggle } from "../../hooks/useToggle";
 import FoldableBoxProvider from "../../context/FoldableBoxProvider";
-import FoldableSection from "./FoldableSection";
+import FoldableSection from "../common/FoldableSection";
 import TitleSection from "./TitleSection";
 
 const styles = {

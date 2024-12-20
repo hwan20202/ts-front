@@ -2,7 +2,7 @@ import Gallary from "./common/Gallary";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Recipe from "../models/Recipe";
-
+import ImageWithSkeleton from "./common/ImageWithSkeleton";
 const Card = ({
   id,
   tag,
@@ -32,7 +32,8 @@ const Card = ({
   return (
     <div className={`${styles2.card} ${styles2.cardHover}`} onClick={onClick}>
       <div className={styles2.imgContainer}>
-        <img src={main_img} alt={title} className={styles2.img} />
+        {/* <img src={main_img} alt={title} className={styles2.img} /> */}
+        <ImageWithSkeleton src={main_img} alt={title} className={styles2.img} />
       </div>
       <div className={styles2.info}>
         <h2 className={styles2.title}>{title}</h2>

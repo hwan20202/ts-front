@@ -23,10 +23,10 @@ import InitialUserInfoProvider from "./context/InitialUserInfoProvider.jsx";
 import PreferenceInit from "./components/userInfo/preference/PreferenceInit.jsx";
 import DislikedAndAllergyInit from "./components/userInfo/dislikedAndAllergy/DislikedAndAllergyInit.jsx";
 import HealthInfoInit from "./components/userInfo/health/HealthInfoInit.jsx";
-
+import RecipeLoading from "./pages/RecipeLoading.jsx";
 const Page = ({ children }) => {
   return (
-    <div className="w-full h-full flex justify-center items-center bg-white p-4">
+    <div className="w-full h-full flex justify-center items-center bg-white p-36">
       {children}
     </div>
   );
@@ -63,6 +63,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/loading" element={<RecipeLoading />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/recipe/share/:recipeId"
