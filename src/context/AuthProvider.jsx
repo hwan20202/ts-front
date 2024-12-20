@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }) => {
       if (!isValidSession) {
         navigate("/login"); // 세션이 유효하지 않으면 로그인 페이지로 이동
       }
-      console.log(isValidSession);
       setIsLoggedIn(isValidSession);
     };
 

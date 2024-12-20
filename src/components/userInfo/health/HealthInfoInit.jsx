@@ -10,10 +10,14 @@ const HealthInfoInit = () => {
     navigate("/");
   };
   return (
-    <HealthInfoForm
-      healthInfoController={healthInfoController}
-      onComplete={handleComplete}
-    />
+    <div className="w-full h-screen flex flex-col gap-4 items-center justify-center">
+      <h2 className="text-2xl font-bold text-black">건강 정보 설정</h2>
+      <HealthInfoForm
+        healthInfoController={healthInfoController}
+        onComplete={handleComplete}
+      />
+      <button onClick={handleComplete}>완료</button>
+    </div>
   );
 };
 

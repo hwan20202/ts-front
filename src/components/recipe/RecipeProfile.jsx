@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import ImageWithSkeleton from "../common/ImageWithSkeleton";
 
 const style = {
   container:
@@ -9,7 +10,8 @@ const style = {
 const RecipeProfile = ({ image }) => {
   return (
     <div className={style.container}>
-      <img src={image} alt="recipe" className={style.image} />
+      {/* <img src={image} alt="recipe" className={style.image} /> */}
+      <ImageWithSkeleton src={image} alt="recipe" className={style.image} />
     </div>
   );
 };

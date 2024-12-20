@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import CookingOrder from "./view/CookingOrder";
+import ToggleButton from "../common/ToggleButton";
+import { useState } from "react";
 const styles = {
-  container: "flex flex-col bg-white p-6 min-h-[200px] text-black",
   step: {
     container: "flex flex-col justify-center items-start gap-2 p-2 rounded-lg",
     stepNumber: "text-sm text-gray-400 leading-none font-sans font-semibold",
@@ -12,29 +13,44 @@ const styles = {
 };
 
 const CookingStepList = ({ orders = [], images = [] }) => {
+  const [isImageOpen, setIsImageOpen] = useState(false);
+
   return (
-    <div className={styles.container}>
-      {orders && orders.length > 0
-        ? orders.map((order, index) => (
-            <div className={styles.step.container} key={index}>
-              <div className={styles.step.stepNumber}>{`${index + 1} / ${
-                orders.length
-              } 단계`}</div>
-              <div className="grid grid-cols-[5fr_6fr] gap-4">
-                <div className="flex rounded-md overflow-hidden">
-                  <img
-                    src={images && images.length >= index ? images[index] : ""}
-                    alt={`step ${index + 1}`}
-                  />
-                </div>
-                <div className="flex flex-col justify-start items-start">
-                  <span className={styles.step.content}>{order}</span>
-                </div>
-              </div>
+    <>
+      <div className="flex justify-end items-center">
+        <ToggleButton
+          isOpen={isImageOpen}
+          onSetTrue={() => setIsImageOpen(true)}
+          onSetFalse={() => setIsImageOpen(false)}
+          trueClassName="text-gray-500"
+          falseClassName="text-gray-500"
+        >
+          {isImageOpen ? (
+            <span className="text-sm leading-[1.8]">전체 이미지 닫기</span>
+          ) : (
+            <span className="text-sm leading-[1.8]">전체 이미지 보기</span>
+          )}
+        </ToggleButton>
+      </div>
+      {orders && orders.length > 0 ? (
+        orders.map((order, index) => (
+          <CookingOrder
+            key={index}
+            title={`${index + 1}단계`}
+            image={images[index]}
+            isImageOpenDefault={isImageOpen}
+          >
+            <div className="text-sm text-gray-500 leading-[1.8] bg-gray-200 px-4 py-2 w-full rounded-md mt-2">
+              {order}
             </div>
-          ))
-        : "조리 순서 없음"}
-    </div>
+          </CookingOrder>
+        ))
+      ) : (
+        <div className="text-sm text-gray-500 leading-[1.8] bg-gray-200 px-4 py-2 w-full rounded-md">
+          조리 순서 없음
+        </div>
+      )}
+    </>
   );
 };
 

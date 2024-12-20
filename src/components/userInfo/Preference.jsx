@@ -4,7 +4,7 @@ import useUserPreference from "../../hooks/useUserPreference";
 import { useToggle } from "../../hooks/useToggle";
 import { useEffect, useRef } from "react";
 import useSelect from "../../hooks/useSelect";
-import FoldableSection from "./FoldableSection";
+import FoldableSection from "../common/FoldableSection";
 import InputSection from "./InputSection";
 import FoldableBoxProvider from "../../context/FoldableBoxProvider";
 import TagBox from "./TagBox";

@@ -6,6 +6,7 @@ import Recipe from "../models/Recipe";
 import {
   getRecipeGeneratedByAI,
   getRecipeSimplifiedByAI,
+  getRecipeHealthyByAI,
 } from "../services/fetchRecipe";
 import { putBookmarkedRecipe } from "../services/fetchUserRecipe";
 
@@ -57,6 +58,10 @@ const RecipeProvider = ({ children }) => {
       basic_seasoning: [],
       must_use_ingredients: [],
     });
+    if (!result.success) {
+      setLoading(false);
+      return;
+    }
     const recipe = new Recipe({
       ...result.data.before,
       cooking_order: result.data.after.recipe_cooking_order || [],
@@ -65,16 +70,21 @@ const RecipeProvider = ({ children }) => {
       ingredients: result.data.after.recipe_ingredients || [],
       title: result.data.after.recipe_menu_name || "",
       recipe_type: result.data.after.recipe_recipe_type || [],
-      tips: result.data.after.recipe_tips.split(". ") || [],
+      tips:
+        result.data.after.recipe_tips.split(".").map((tip) => tip.trim()) || [],
     });
     setEditRecipe(recipe);
     setLoading(false);
     return recipe;
   };
 
-  const simplifyByAI = async (recipeId) => {
+  const simplifyByAI = async ({ recipeId }) => {
     setLoading(true);
     const result = await getRecipeSimplifiedByAI({ recipeId: recipeId });
+    if (!result.success) {
+      setLoading(false);
+      return;
+    }
     const recipe = new Recipe({
       ...result.data.before,
       cooking_order: result.data.after.recipe_cooking_order || [],
@@ -83,10 +93,38 @@ const RecipeProvider = ({ children }) => {
       ingredients: result.data.after.recipe_ingredients || [],
       title: result.data.after.recipe_menu_name || "",
       recipe_type: result.data.after.recipe_recipe_type || [],
-      tips: result.data.after.recipe_tips || [],
+      tips:
+        result.data.after.recipe_tips.split(".").map((tip) => tip.trim()) || [],
     });
     setEditRecipe(recipe);
     setLoading(false);
+    return recipe;
+  };
+
+  const healthyByAI = async ({ recipeId, mealCount }) => {
+    setLoading(true);
+    const result = await getRecipeHealthyByAI({
+      recipeId: recipeId,
+      mealCount: mealCount,
+    });
+    if (!result.success) {
+      setLoading(false);
+      return;
+    }
+    const recipe = new Recipe({
+      ...result.data.before,
+      cooking_order: result.data.after.recipe_cooking_order || [],
+      cooking_time: result.data.after.recipe_cooking_time || "",
+      difficulty: result.data.after.recipe_difficulty || "",
+      ingredients: result.data.after.recipe_ingredients || [],
+      title: result.data.after.recipe_menu_name || "",
+      recipe_type: result.data.after.recipe_recipe_type || [],
+      tips:
+        result.data.after.recipe_tips.split(".").map((tip) => tip.trim()) || [],
+    });
+    setEditRecipe(recipe);
+    setLoading(false);
+    return recipe;
   };
 
   const share = async () => {
@@ -126,6 +164,7 @@ const RecipeProvider = ({ children }) => {
         editByUser,
         generateByAI,
         simplifyByAI,
+        healthyByAI,
         loading,
         share,
         bookmark,

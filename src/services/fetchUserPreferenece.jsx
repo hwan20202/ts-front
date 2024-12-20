@@ -16,8 +16,14 @@ export const getIsSetPreferences = async () => {
 };
 
 export const getIsSetHealth = async () => {
-  const response = await fetch(`${serverUrl}/api/userinfo/me/health/status`, {
+  const path = "api/userinfo/me/health/status";
+  const response = await fetch(`${serverUrl}/${path}`, {
     method: "GET",
     credentials: "include",
   });
+  if (!response.ok) {
+    throw new Error("Failed to get is set health");
+  }
+  const result = await response.json();
+  return result.is_checked;
 };

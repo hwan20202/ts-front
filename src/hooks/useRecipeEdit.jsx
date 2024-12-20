@@ -22,6 +22,11 @@ const useRecipeEdit = (initialRecipe) => {
     navigate("/");
   };
 
+  const addIngredient = (items) => {
+    const newIngredients = [...recipe.ingredients, ...items];
+    setRecipe(new Recipe({ ...recipe, ingredients: newIngredients }));
+  };
+
   const editIngredient = ({ index, amount }) => {
     const newIngredients = [...recipe.ingredients];
     newIngredients[index].amount = amount;
@@ -46,14 +51,21 @@ const useRecipeEdit = (initialRecipe) => {
     setRecipe(new Recipe({ ...recipe, cooking_order: newCookingOrder }));
   };
 
+  const addCookingOrder = (item) => {
+    const newCookingOrder = [...recipe.cooking_order, item];
+    setRecipe(new Recipe({ ...recipe, cooking_order: newCookingOrder }));
+  };
+
   return {
     recipe,
     loading,
     editComplete,
     editIngredient,
     deleteIngredient,
+    addIngredient,
     editCookingImg,
     editCookingOrder,
+    addCookingOrder,
   };
 };
 
