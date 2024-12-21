@@ -9,7 +9,7 @@ import {
   getRecipeHealthyByAI,
 } from "../services/fetchRecipe";
 import { putBookmarkedRecipe } from "../services/fetchUserRecipe";
-
+import { getsharedRecipeUrl } from "../services/fetchRecipe";
 const RecipeContext = createContext();
 
 const toRecipe = ({
@@ -149,15 +149,8 @@ const RecipeProvider = ({ children }) => {
     if (tag === "original") {
       shareByKakao({ path: `recipe/original/${id}`, ...recipe });
     } else if (tag === "custom") {
-      const url = await fetch(
-        `http://localhost:8080/api/recipe/custom/share/${id}`,
-        {
-          method: "POST",
-          credentials: "include",
-        }
-      );
-      const data = await url.json();
-      const path = `recipe/share/${data.url}`;
+      const url = await getsharedRecipeUrl(id);
+      const path = `recipe/share/${url}`;
       shareByKakao({ path, ...recipe });
     }
   };

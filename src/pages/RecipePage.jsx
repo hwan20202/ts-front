@@ -14,6 +14,8 @@ import RecipeLoading from "./RecipeLoading.jsx";
 import WheelSelector from "../components/common/WheelSelector.jsx";
 import MenuSelect from "../components/common/MenuSelect.jsx";
 import Slider from "../components/common/Slider.jsx";
+import Popover from "../components/common/Popover.jsx";
+import Scrollable from "../components/common/Scrollable.jsx";
 const style = {
   page: "top-[100px] left-0 flex flex-col w-full h-content justify-start max-w-body",
   title: "text-md font-bold text-gray-500 leading-none mb-4",
@@ -31,48 +33,43 @@ const style = {
   },
 };
 
-// const Slider = ({ children, position = 0, height }) => {
-//   const [currentIndex, setCurrentIndex] = useState(position);
-//   const containerRef = useRef(null);
-//   const nextSlide = () => {
-//     setCurrentIndex((prev) => (prev + 1) % children.length);
-//   };
+const SelectMealCount = ({ children, onSelect }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [mealCount, setMealCount] = useState(1);
 
-//   const prevSlide = () => {
-//     setCurrentIndex((prev) => (prev - 1 + children.length) % children.length);
-//   };
+  useEffect(() => {
+    onSelect(mealCount);
+  }, [mealCount]);
 
-//   useEffect(() => {
-//     if (position > currentIndex) {
-//       for (let i = currentIndex; i < position; i++) {
-//         nextSlide();
-//       }
-//     } else if (position < currentIndex) {
-//       for (let i = currentIndex; i > position; i--) {
-//         prevSlide();
-//       }
-//     }
-//   }, [position]);
-
-//   useEffect(() => {
-//     if (containerRef.current) {
-//       containerRef.current.style.height = height;
-//     }
-//   }, [height]);
-
-//   return (
-//     <div className="slider-container w-full" ref={containerRef}>
-//       <div
-//         className="slider w-full"
-//         style={{
-//           transform: `translateX(-${currentIndex * 100}%)`,
-//         }}
-//       >
-//         {children}
-//       </div>
-//     </div>
-//   );
-// };
+  return (
+    <>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsVisible(!isVisible);
+        }}
+      >
+        {children}
+        <Popover isVisible={isVisible} offset={30} className="w-full h-full">
+          <Scrollable visibleCount={3} className="h-36 w-36 border-2">
+            {[1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+              <div
+                key={index}
+                className="leading-none p-2 text-center text-gray-800 bg-white"
+                onClick={() => {
+                  setMealCount(item);
+                  setIsVisible(false);
+                }}
+              >
+                {item} 끼
+              </div>
+            ))}
+          </Scrollable>
+        </Popover>
+      </div>
+    </>
+  );
+};
 
 const RecipePage = () => {
   const { tag, recipeId } = useParams();
@@ -165,14 +162,6 @@ const RecipePage = () => {
           />
         </div>
       </Slider>
-      {/* 
-      <IngredientList ingredients={recipe.ingredients} className="mt-5" />
-      {recipe.cooking_order && recipe.cooking_img && (
-        <CookingStepList
-          orders={recipe.cooking_order}
-          images={recipe.cooking_img}
-        />
-      )} */}
       <RecipeFooter
         aiTransform={() => {
           setIsSelectAITypeOpen(true);
@@ -254,29 +243,12 @@ const RecipePage = () => {
         }}
       >
         <h2 className={style.title}>추가 정보 입력</h2>
-        <div>
-          <Dropdown
-            options={["1끼", "2끼", "3끼", "4끼", "5끼", "6끼", "7끼", "8끼"]}
-            onChange={(value) => {
-              setMealCount(parseInt(value.replace("끼", "")));
-            }}
-          />
-          <WheelSelector
-            onSelect={(value) => {
-              setMealCount(parseInt(value.replace("끼", "")));
-            }}
-          >
-            {["1끼", "2끼", "3끼", "4끼", "5끼", "6끼", "7끼", "8끼"].map(
-              (value, index) => (
-                <div
-                  key={index}
-                  className="text-sm text-gray-500 h-10 flex items-center justify-center"
-                >
-                  {value}
-                </div>
-              )
-            )}
-          </WheelSelector>
+        <div className="flex justify-center">
+          <SelectMealCount onSelect={setMealCount}>
+            <div className="text-base font-bold leading-none text-gray-500 bg-gray-100 rounded-lg px-6 py-2">
+              {mealCount} 끼
+            </div>
+          </SelectMealCount>
         </div>
         <button
           className={style.button}
