@@ -10,6 +10,20 @@ export const recipePath = {
   aiHealthy: "/api/recipe/custom/nutrients",
 };
 
+export const getsharedRecipeUrl = async (recipeId) => {
+  const path = `/api/recipe/custom/share/${recipeId}`;
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  const data = await response.json();
+  if (data.success) {
+    return data.data.url;
+  } else {
+    return null;
+  }
+};
+
 // 레시피 조회
 
 export const getRecipe = async (tag, recipeId) => {
