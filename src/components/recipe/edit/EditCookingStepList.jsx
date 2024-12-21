@@ -2,22 +2,27 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
 const styles = {
-  container: "flex flex-col bg-white p-6 min-h-[200px] text-black",
-  title: "text-left text-xl font-bold text-black p-0 mb-4",
+  textColor: {
+    white: "text-white",
+    gray: "text-gray-500",
+    black: "text-gray-800",
+    green: "text-green-500",
+  },
+  container: "w-full flex flex-col bg-white p-6 min-h-[200px] shrink-0",
+  title: "text-left text-xl font-bold p-0 mb-4",
   step: {
     container:
-      "flex flex-col justify-center items-start gap-2 mb-4 bg-gray-100 p-4 rounded-lg font-semibold",
-    stepNumber: "text-md text-gray-400 leading-none font-sans font-semibold",
-    // content: "text-lg text-gray-500 leading-[2] font-sans font-semibold",
+      "flex flex-col justify-center items-start mb-4 p-4 rounded-lg font-semibold",
+    stepNumber: "text-md leading-none font-sans font-semibold mb-1",
     textarea:
-      "w-full text-gray-500 bg-gray-300 text-sm leading-[2] h-12 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-500 shadow-md",
+      "w-full  bg-gray-300 text-sm leading-[1.7] rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-500 shadow-md",
   },
 };
 
 const EditCookingStepList = ({
   cooking_order,
-  cooking_img,
-  editCookingImg,
+  // cooking_img,
+  // editCookingImg,
   editCookingOrder,
   addCookingOrder,
 }) => {
@@ -34,21 +39,25 @@ const EditCookingStepList = ({
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>조리 순서</h2>
-      <div className="flex flex-col gap-2">
+      <h2 className={styles.title + " " + styles.textColor.black}>조리 순서</h2>
+      <div className="flex flex-col gap-3">
         {cooking_order && cooking_order.length > 0
           ? cooking_order.map((order, index) => (
               <div key={index}>
-                <div className={styles.step.stepNumber}>{`${
-                  index + 1
-                } 단계`}</div>
+                <div
+                  className={
+                    styles.step.stepNumber + " " + styles.textColor.gray
+                  }
+                >{`${index + 1} 단계`}</div>
                 <textarea
                   type="text"
                   defaultValue={order}
                   onChange={(e) =>
                     editCookingOrder({ index, order: e.target.value })
                   }
-                  className={styles.step.textarea}
+                  className={
+                    styles.step.textarea + " " + styles.textColor.black
+                  }
                 />
               </div>
             ))

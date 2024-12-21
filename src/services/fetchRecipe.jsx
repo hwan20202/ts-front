@@ -32,9 +32,9 @@ export const getRecipe = async (tag, recipeId) => {
   }
 };
 
-export const getRecipeList = async (path) => {
+export const getRecipeList = async (path, page) => {
   try {
-    const response = await fetch(`${serverUrl}${path}`, {
+    const response = await fetch(`${serverUrl}${path}?page=${page}`, {
       method: "GET",
       credentials: "include",
     });
@@ -58,7 +58,6 @@ export const getRecipeList = async (path) => {
 export const getRecipeGeneratedByAI = async ({
   original_recipe_id,
   dislike_ingredients,
-  basic_seasoning,
   must_use_ingredients,
 }) => {
   try {
@@ -71,7 +70,6 @@ export const getRecipeGeneratedByAI = async ({
       body: JSON.stringify({
         original_recipe_id,
         dislike_ingredients,
-        basic_seasoning,
         must_use_ingredients,
       }),
     });
@@ -122,7 +120,6 @@ export const getRecipeHealthyByAI = async ({ recipeId, mealCount }) => {
         },
         body: JSON.stringify({
           meals_a_day: mealCount,
-          basic_seasoning: [],
         }),
       }
     );

@@ -37,13 +37,15 @@ const CookingOrder = ({
       </div>
       <FoldableBoxProvider>
         <FoldableSection isOpen={isImageOpen}>
-          <div className="flex justify-center aspect-w-16 aspect-h-9 items-center overflow-hidden rounded-md">
-            <ImageWithSkeleton
-              src={image}
-              alt={title}
-              className="w-full object-cover"
-            />
-          </div>
+          {image && (
+            <div className="flex justify-center aspect-w-16 aspect-h-9 items-center overflow-hidden rounded-md">
+              <ImageWithSkeleton
+                src={image}
+                alt={title}
+                className="w-full object-cover"
+              />
+            </div>
+          )}
         </FoldableSection>
       </FoldableBoxProvider>
       {children}
