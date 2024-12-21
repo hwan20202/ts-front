@@ -6,11 +6,13 @@ const useRecipeList = ({ path }) => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(0);
 
   const fetchRecipes = async () => {
-    const result = await getRecipeList(path);
+    const result = await getRecipeList(path, page);
     if (result.success) {
       setRecipes(result.data);
+      setPage((prev) => prev + 1);
       setLoading(false);
     } else {
       setError(true);
@@ -23,11 +25,12 @@ const useRecipeList = ({ path }) => {
   }, [isLoggedIn]);
 
   const loadMore = async () => {
-    setLoading(true);
-    const data = await getRecipeList(path);
+    // setLoading(true);
+    const data = await getRecipeList(path, page);
     if (data.success) {
-      setRecipes([...recipes, ...data.data]);
-      setLoading(false);
+      setRecipes((prev) => [...prev, ...data.data]);
+      setPage((prev) => prev + 1);
+      // setLoading(false);
     }
   };
 

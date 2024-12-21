@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const ImageWithSkeleton = ({
   src,
   alt,
-  skeletonHeight = "200px",
+  skeletonHeight = "100%",
   className,
 }) => {
   const [loaded, setLoaded] = useState(false);

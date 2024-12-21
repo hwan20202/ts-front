@@ -40,7 +40,10 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
   }, [gender]);
 
   return (
-    <div className="w-full max-w-[320px] h-screen flex flex-col gap-4 items-center justify-center text-black">
+    <form
+      className="w-full max-w-[320px] h-screen flex flex-col gap-4 items-center justify-center text-black"
+      onSubmit={handleNext}
+    >
       <Section>
         <label className={style.label} htmlFor="age">
           나이
@@ -64,6 +67,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
         </label>
         <div className="flex">
           <button
+            type="button"
             className={
               style.button +
               " " +
@@ -76,6 +80,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
             남
           </button>
           <button
+            type="button"
             className={
               style.button +
               " " +
@@ -144,10 +149,8 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
           ))}
         </select>
       </Section>
-      <button className={style.completeButton} onClick={handleNext}>
-        다음
-      </button>
-    </div>
+      <button className={style.completeButton}>다음</button>
+    </form>
   );
 };
 

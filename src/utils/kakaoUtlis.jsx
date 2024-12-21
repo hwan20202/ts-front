@@ -10,17 +10,32 @@ export const initKakao = () => {
   Kakao.isInitialized();
 };
 
-export const share = (path) => {
-  // const link = `http://ktb-project-domain.shop/${path}`;
-  const link = `http://localhost:5173/${path}`;
+export const share = ({ path, title, main_img, description }) => {
+  const link = `http://ktb-project-domain.shop/${path}`;
+  // const link = `http://localhost:5173/${path}`;
   Kakao.Share.createDefaultButton({
     container: "#kakaotalk-sharing-btn",
-    objectType: "text",
-    text: "기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오톡 공유는 다른 템플릿을 이용해 보낼 수 있습니다.",
-    link: {
-      mobileWebUrl: link,
-      webUrl: link,
+    objectType: "feed",
+    content: {
+      title: `"${title}" 레시피를 공유했습니다`,
+      description: "AI가 만든 레시피를 공유해보세요",
+      imageUrl: `${main_img}`,
+      link: {
+        mobileWebUrl: link,
+        webUrl: link,
+      },
     },
+    itemContent: {},
+    social: {},
+    buttons: [
+      {
+        title: `레시피 보러가기`,
+        link: {
+          mobileWebUrl: link,
+          webUrl: link,
+        },
+      },
+    ],
   });
   console.log("kakaoUtlis success!");
 };
