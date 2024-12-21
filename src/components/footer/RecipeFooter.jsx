@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
-import RecipeTransform from "../RecipeTransform";
 import { putEatenRecipe } from "../../services/fetchUserRecipe";
 import { useRecipe } from "../../context/RecipeProvider";
 
@@ -18,7 +16,6 @@ const styles = {
 
 const RecipeFooter = ({ aiTransform, eatComplete }) => {
   const { recipe } = useRecipe();
-  const [isAITransformModalOpen, setIsAITransformModalOpen] = useState(false);
 
   const handleEatComplete = () => {
     alert("조리 완료");
@@ -41,11 +38,6 @@ const RecipeFooter = ({ aiTransform, eatComplete }) => {
           조리 완료
         </button>
       </div>
-      {/* <RecipeTransform
-        start={isAITransformModalOpen}
-        setStart={setIsAITransformModalOpen}
-        recipeId={recipe.id}
-      /> */}
     </>
   );
 };

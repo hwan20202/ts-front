@@ -1,7 +1,7 @@
 import SelectSection from "./InitSection";
 import ToggleButton from "../common/ToggleButton";
 const styles = {
-  button: "px-4 py-2 rounded-lg",
+  button: "px-4 py-2 leading-none rounded-lg font-bold",
   disabled: "opacity-50",
   normal: "bg-gray-300",
   orange: "bg-orange-500 text-white",

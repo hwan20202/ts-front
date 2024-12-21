@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { getRecipe, getIsBookmarked } from "../services/fetchRecipe";
 import { share as shareByKakao } from "../utils/kakaoUtlis";
 import Recipe from "../models/Recipe";
-
+import { AiComment, AiResponse } from "../models/AiResponse";
 import {
   getRecipeGeneratedByAI,
   getRecipeSimplifiedByAI,
@@ -11,6 +11,26 @@ import {
 import { putBookmarkedRecipe } from "../services/fetchUserRecipe";
 
 const RecipeContext = createContext();
+
+const toRecipe = ({
+  recipe_cooking_order,
+  recipe_cooking_time,
+  recipe_difficulty,
+  recipe_ingredients,
+  recipe_menu_name,
+  recipe_recipe_type,
+  recipe_tips,
+}) => {
+  return {
+    cooking_order: recipe_cooking_order || [],
+    cooking_time: recipe_cooking_time || "",
+    difficulty: recipe_difficulty || "",
+    ingredients: recipe_ingredients || [],
+    title: recipe_menu_name || "",
+    recipe_type: recipe_recipe_type || [],
+    tips: recipe_tips.split(".").map((tip) => tip.trim()) || [],
+  };
+};
 
 const useRecipe = () => {
   return useContext(RecipeContext);
@@ -23,6 +43,7 @@ const RecipeProvider = ({ children }) => {
   const [recipe, setRecipe] = useState(null);
   // 편집 상세 (사용자 직접 입력, AI 변환 데이터)
   const [editRecipe, setEditRecipe] = useState(null);
+  const [aiEditRecipe, setAiEditRecipe] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -58,24 +79,23 @@ const RecipeProvider = ({ children }) => {
       basic_seasoning: [],
       must_use_ingredients: [],
     });
-    if (!result.success) {
+    if (!result.success || !result.data.after.recipe_cooking_order) {
       setLoading(false);
       return;
     }
     const recipe = new Recipe({
       ...result.data.before,
-      cooking_order: result.data.after.recipe_cooking_order || [],
-      cooking_time: result.data.after.recipe_cooking_time || "",
-      difficulty: result.data.after.recipe_difficulty || "",
-      ingredients: result.data.after.recipe_ingredients || [],
-      title: result.data.after.recipe_menu_name || "",
-      recipe_type: result.data.after.recipe_recipe_type || [],
-      tips:
-        result.data.after.recipe_tips.split(".").map((tip) => tip.trim()) || [],
+      ...toRecipe({ ...result.data.after }),
     });
-    setEditRecipe(recipe);
+
+    const aiComment = new AiComment({
+      ...result.data.after,
+    });
+    const aiResponse = new AiResponse(recipe, aiComment);
+    console.log(aiResponse);
+    setAiEditRecipe(aiResponse);
     setLoading(false);
-    return recipe;
+    return aiResponse;
   };
 
   const simplifyByAI = async ({ recipeId }) => {
@@ -87,18 +107,16 @@ const RecipeProvider = ({ children }) => {
     }
     const recipe = new Recipe({
       ...result.data.before,
-      cooking_order: result.data.after.recipe_cooking_order || [],
-      cooking_time: result.data.after.recipe_cooking_time || "",
-      difficulty: result.data.after.recipe_difficulty || "",
-      ingredients: result.data.after.recipe_ingredients || [],
-      title: result.data.after.recipe_menu_name || "",
-      recipe_type: result.data.after.recipe_recipe_type || [],
-      tips:
-        result.data.after.recipe_tips.split(".").map((tip) => tip.trim()) || [],
+      ...toRecipe({ ...result.data.after }),
     });
-    setEditRecipe(recipe);
+    const aiComment = new AiComment({
+      ...result.data.after,
+    });
+    const aiResponse = new AiResponse(recipe, aiComment);
+    console.log(aiResponse);
+    setAiEditRecipe(aiResponse);
     setLoading(false);
-    return recipe;
+    return aiResponse;
   };
 
   const healthyByAI = async ({ recipeId, mealCount }) => {
@@ -113,25 +131,23 @@ const RecipeProvider = ({ children }) => {
     }
     const recipe = new Recipe({
       ...result.data.before,
-      cooking_order: result.data.after.recipe_cooking_order || [],
-      cooking_time: result.data.after.recipe_cooking_time || "",
-      difficulty: result.data.after.recipe_difficulty || "",
-      ingredients: result.data.after.recipe_ingredients || [],
-      title: result.data.after.recipe_menu_name || "",
-      recipe_type: result.data.after.recipe_recipe_type || [],
-      tips:
-        result.data.after.recipe_tips.split(".").map((tip) => tip.trim()) || [],
+      ...toRecipe({ ...result.data.after }),
     });
-    setEditRecipe(recipe);
+    const aiComment = new AiComment({
+      ...result.data.after,
+    });
+    const aiResponse = new AiResponse(recipe, aiComment);
+    console.log(aiResponse);
+    setAiEditRecipe(aiResponse);
     setLoading(false);
-    return recipe;
+    return aiResponse;
   };
 
   const share = async () => {
     if (!recipe) return;
     const { id, tag } = recipe;
     if (tag === "original") {
-      shareByKakao(`recipe/original/${id}`);
+      shareByKakao({ path: `recipe/original/${id}`, ...recipe });
     } else if (tag === "custom") {
       const url = await fetch(
         `http://localhost:8080/api/recipe/custom/share/${id}`,
@@ -142,7 +158,7 @@ const RecipeProvider = ({ children }) => {
       );
       const data = await url.json();
       const path = `recipe/share/${data.url}`;
-      shareByKakao(path);
+      shareByKakao({ path, ...recipe });
     }
   };
 
@@ -169,6 +185,7 @@ const RecipeProvider = ({ children }) => {
         share,
         bookmark,
         isBookmarked,
+        aiEditRecipe,
       }}
     >
       {children}

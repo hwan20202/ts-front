@@ -57,18 +57,17 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn || isSetPreferences === null || isSetHealth === null)
-      return;
+    if (!isLoggedIn) return;
 
     fetchIngredients();
     fetchIsSetPreferences();
     fetchIsSetHealth();
     initKakao();
 
-    if (!isSetPreferences) {
+    if (isSetPreferences !== null && !isSetPreferences) {
       navigate("/user/init/preference");
     }
-    if (!isSetHealth) {
+    if (isSetHealth !== null && !isSetHealth) {
       navigate("/user/init/health");
     }
   }, [isLoggedIn, isSetPreferences, isSetHealth]);

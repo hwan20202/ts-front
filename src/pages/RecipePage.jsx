@@ -12,6 +12,8 @@ import ToggleButton from "../components/common/ToggleButton.jsx";
 import Dropdown from "../components/common/Dropdown.jsx";
 import RecipeLoading from "./RecipeLoading.jsx";
 import WheelSelector from "../components/common/WheelSelector.jsx";
+import MenuSelect from "../components/common/MenuSelect.jsx";
+import Slider from "../components/common/Slider.jsx";
 const style = {
   page: "top-[100px] left-0 flex flex-col w-full h-content justify-start max-w-body",
   title: "text-md font-bold text-gray-500 leading-none mb-4",
@@ -29,73 +31,48 @@ const style = {
   },
 };
 
-const MenuSelect = ({ options, onChange }) => {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+// const Slider = ({ children, position = 0, height }) => {
+//   const [currentIndex, setCurrentIndex] = useState(position);
+//   const containerRef = useRef(null);
+//   const nextSlide = () => {
+//     setCurrentIndex((prev) => (prev + 1) % children.length);
+//   };
 
-  return (
-    <div className="flex bg-white rounded-t-xl overflow-hidden mt-4">
-      {options.map((option, index) => (
-        <button
-          key={index}
-          className={`w-full px-4 py-2 transition-all duration-300 ${
-            selectedOption === option
-              ? "text-orange-500 border-b-2 border-orange-500"
-              : "text-gray-500 border-b-2 border-gray-300"
-          }`}
-          onClick={() => {
-            setSelectedOption(option);
-            onChange(option);
-          }}
-        >
-          <span className="font-bold text-lg">{option}</span>
-        </button>
-      ))}
-    </div>
-  );
-};
+//   const prevSlide = () => {
+//     setCurrentIndex((prev) => (prev - 1 + children.length) % children.length);
+//   };
 
-const Slider = ({ children, position = 0, height }) => {
-  const [currentIndex, setCurrentIndex] = useState(position);
-  const containerRef = useRef(null);
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % children.length);
-  };
+//   useEffect(() => {
+//     if (position > currentIndex) {
+//       for (let i = currentIndex; i < position; i++) {
+//         nextSlide();
+//       }
+//     } else if (position < currentIndex) {
+//       for (let i = currentIndex; i > position; i--) {
+//         prevSlide();
+//       }
+//     }
+//   }, [position]);
 
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + children.length) % children.length);
-  };
+//   useEffect(() => {
+//     if (containerRef.current) {
+//       containerRef.current.style.height = height;
+//     }
+//   }, [height]);
 
-  useEffect(() => {
-    if (position > currentIndex) {
-      for (let i = currentIndex; i < position; i++) {
-        nextSlide();
-      }
-    } else if (position < currentIndex) {
-      for (let i = currentIndex; i > position; i--) {
-        prevSlide();
-      }
-    }
-  }, [position]);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.style.height = height;
-    }
-  }, [height]);
-
-  return (
-    <div className="slider-container w-full" ref={containerRef}>
-      <div
-        className="slider w-full"
-        style={{
-          transform: `translateX(-${currentIndex * 100}%)`,
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="slider-container w-full" ref={containerRef}>
+//       <div
+//         className="slider w-full"
+//         style={{
+//           transform: `translateX(-${currentIndex * 100}%)`,
+//         }}
+//       >
+//         {children}
+//       </div>
+//     </div>
+//   );
+// };
 
 const RecipePage = () => {
   const { tag, recipeId } = useParams();
@@ -109,7 +86,6 @@ const RecipePage = () => {
   } = useRecipe();
   const [isSelectAITypeOpen, setIsSelectAITypeOpen] = useState(false);
   const [isGenerateAddInfoOpen, setIsGenerateAddInfoOpen] = useState(false);
-  const [isSimplifyAddInfoOpen, setIsSimplifyAddInfoOpen] = useState(false);
   const [isHealthyAddInfoOpen, setIsHealthyAddInfoOpen] = useState(false);
   const [dislikedIngredients, setDislikedIngredients] = useState([]);
   const [mealCount, setMealCount] = useState(1);
@@ -165,8 +141,8 @@ const RecipePage = () => {
       <RecipeDescription {...recipe} />
       <MenuSelect
         options={["재료 보기", "조리 순서 보기"]}
-        onChange={(option) => {
-          setCurrentSlide(option === "재료 보기" ? 0 : 1);
+        onChange={(index) => {
+          setCurrentSlide(index);
         }}
       />
       <Slider
