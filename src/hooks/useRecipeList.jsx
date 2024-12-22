@@ -25,12 +25,12 @@ const useRecipeList = ({ path }) => {
   }, [isLoggedIn]);
 
   const loadMore = async () => {
-    // setLoading(true);
+    setLoading(true);
     const data = await getRecipeList(path, page);
     if (data.success) {
       setRecipes((prev) => [...prev, ...data.data]);
       setPage((prev) => prev + 1);
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
