@@ -1,4 +1,4 @@
-import Gallary from "./common/Gallary";
+import XScrollable from "./common/XScrollable";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Recipe from "../models/Recipe";
@@ -50,13 +50,55 @@ const Card = ({
   );
 };
 
+const SkeletonCard = () => {
+  return (
+    <div className="relative flex-shrink-0 rounded-lg text-center w-48 h-48">
+      <div className="w-full h-2/3 overflow-hidden rounded-lg">
+        <div className="w-full h-full animate-pulse"></div>
+      </div>
+      <div className="w-full h-1/3 mt-4">
+        <div className="w-full h-full flex flex-col gap-2">
+          <div className="w-full h-4 animate-pulse"></div>
+          <div className="w-3/4 h-4 animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LoadMore = ({ loading, onClick }) => {
+  const handleClick = () => {
+    onClick();
+  };
+
+  return (
+    <div
+      className="w-48 h-48 bg-gray-200 flex justify-center items-center rounded-lg flex-shrink-0"
+      onClick={handleClick}
+    >
+      <i
+        className={`text-5xl fa-solid fa-rotate-left ${
+          loading ? "fa-spin-reverse" : ""
+        }`}
+      ></i>
+    </div>
+  );
+};
+
 const RecipeGallary = ({ recipes, loadRecipes, loading, error }) => {
   return (
-    <Gallary loadMore={loadRecipes} loading={loading} error={error}>
-      {recipes &&
-        recipes.length > 0 &&
-        recipes.map((recipe, index) => <Card key={index} {...recipe} />)}
-    </Gallary>
+    <XScrollable onScrollEnd={() => {}}>
+      <div className="flex gap-3 py-5">
+        {recipes &&
+          recipes.length > 0 &&
+          recipes.map((recipe, index) => <Card key={index} {...recipe} />)}
+        {loading &&
+          Array.from({ length: 10 }).map((_, index) => (
+            <SkeletonCard key={index} />
+          ))}
+        <LoadMore loading={loading} onClick={loadRecipes} />
+      </div>
+    </XScrollable>
   );
 };
 
