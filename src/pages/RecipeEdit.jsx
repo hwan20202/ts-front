@@ -121,6 +121,7 @@ const RecipeEdit = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const ref = useRef([null, null, null]);
   const [height, setHeight] = useState("100%");
+  const { isLoggedIn } = useAuth();
 
   const { recipeId } = useParams();
   const [aiResponse, setAiResponse] = useState(null);
@@ -144,6 +145,12 @@ const RecipeEdit = () => {
         : "100%"
     );
   }, [currentSlide]);
+
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const loadedAiResponse = loadDataFromSession(recipeId);
