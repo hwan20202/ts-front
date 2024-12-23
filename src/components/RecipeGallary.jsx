@@ -44,7 +44,7 @@ const Card = ({
           <div className="w-1 h-1 bg-white rounded-full mx-1"></div>
           <span className="text-xs">{cooking_order.length}단계</span>
         </div>
-        <p className={styles2.description}>{hashtag.join(", ")}</p>
+        <p className={styles2.description}>{hashtag?.join(", ")}</p>
       </div>
     </div>
   );
