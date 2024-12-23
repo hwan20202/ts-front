@@ -141,6 +141,7 @@ const RecipeProvider = ({ children }) => {
       shareByKakao({ path: `recipe/original/${id}`, ...recipe });
     } else if (tag === "custom") {
       const url = await getsharedRecipeUrl(id);
+      console.log(url);
       const path = `recipe/share/${url}`;
       shareByKakao({ path, ...recipe });
     }
