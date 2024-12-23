@@ -26,7 +26,13 @@ const UserProvider = ({ children }) => {
   const [ingredients, setIngredients] = useState([]);
   const [expiringIngredients, setExpiringIngredients] = useState([]);
   const navigate = useNavigate();
-
+  const [healthInfo, setHealthInfo] = useState({
+    age: null,
+    gender: null,
+    activityLevel: null,
+    height: null,
+    weight: null,
+  });
   const fetchIngredients = async () => {
     const data = await getMyIngredients();
     if (data) {
@@ -59,6 +65,13 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchHealthInfo = async () => {
+    const healthInfo = await HealthInfoService.getUserHealthInfo();
+    if (healthInfo) {
+      setHealthInfo(healthInfo);
+    }
+  };
+
   useEffect(() => {
     if (isSetPreferences === false) {
       navigate("/user/init/preference");
@@ -78,6 +91,7 @@ const UserProvider = ({ children }) => {
     checkIsSetPreferences();
     checkIsSetHealth();
     initKakao();
+    fetchHealthInfo();
 
     if (isSetPreferences !== null && !isSetPreferences) {
       navigate("/user/init/preference");
@@ -162,6 +176,7 @@ const UserProvider = ({ children }) => {
 
         submitUserPreferences,
         setIsSetPreferences,
+        healthInfo,
       }}
     >
       {children}

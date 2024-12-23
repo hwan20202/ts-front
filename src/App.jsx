@@ -143,7 +143,20 @@ function App() {
 }
 
 const SharedOnlyRecipeHeader = () => {
-  return <Header>SharedRecipeHeader</Header>;
+  return (
+    <Header>
+      <div className="w-full flex flex-row-reverse items-center">
+        <button
+          className="text-xs whitespace-nowrap font-bold text-white bg-green-500 px-2 py-1 rounded-md gap-1"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <i class="fa-solid fa-right-to-bracket"></i> 로그인
+        </button>
+      </div>
+    </Header>
+  );
 };
 
 const SharedOnlyRecipeFooter = () => {

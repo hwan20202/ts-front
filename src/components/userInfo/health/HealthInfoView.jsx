@@ -1,17 +1,12 @@
 import useUserHealthInfo from "../../../hooks/useUserHealthInfo.jsx";
 import HealthInfoForm from "./HealthInfoForm.jsx";
-import { HealthInfoService } from "../../../services/HealthInfoService.js";
+import { useUserContext } from "../../../context/UserProvider.jsx";
+import { useEffect } from "react";
 
 const HealthInfoView = () => {
-  const { gender, activity_level, height, weight } =
-    HealthInfoService.getUserHealthInfo();
-  const { healthInfoController } = useUserHealthInfo({
-    age: 20,
-    gender,
-    activityLevel: activity_level,
-    height,
-    weight,
-  });
+  const { healthInfo } = useUserContext();
+  const { healthInfoController } = useUserHealthInfo({ ...healthInfo });
+
   return (
     <div className="flex min-w-[300px] p-1">
       <HealthInfoForm healthInfoController={healthInfoController} />

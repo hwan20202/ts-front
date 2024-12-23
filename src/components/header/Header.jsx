@@ -7,8 +7,8 @@ const styles = {
     "fixed top-0 z-50 flex w-full justify-center items-center p-2 max-w-body",
 };
 
-const Header = ({ children }) => {
-  return <div className={styles.header}>{children}</div>;
+const Header = ({ children, className }) => {
+  return <div className={`${styles.header} ${className}`}>{children}</div>;
 };
 
 Header.propTypes = {

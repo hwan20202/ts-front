@@ -109,6 +109,7 @@ const RecipeFooter = () => {
         const newRecipe = await simplifyByAI({
           recipeId: recipe.id,
         });
+        setIsSelectAITypeOpen(false);
         if (newRecipe) {
           navigate(`/recipe/ai/${newRecipe.getRecipeId()}/edit`);
         }
@@ -193,6 +194,7 @@ const RecipeFooter = () => {
               if (newRecipe) {
                 navigate(`/recipe/ai/${newRecipe.getRecipeId()}/edit`);
               }
+              setIsGenerateAddInfoOpen(false);
             }}
           >
             변환 시작
@@ -207,7 +209,10 @@ const RecipeFooter = () => {
         }}
       >
         <h2 className={styles.title}>추가 정보 입력</h2>
-        <div className="flex justify-center">
+        <h4 className="text-sm text-gray-500">
+          오늘 하루 남은 식사 횟수를 선택해주세요
+        </h4>
+        <div className="flex justify-center my-4">
           <SelectMealCount onSelect={setMealCount}>
             <div className="text-base font-bold leading-none text-gray-500 bg-gray-100 rounded-lg px-6 py-2">
               {mealCount} 끼
@@ -215,7 +220,7 @@ const RecipeFooter = () => {
           </SelectMealCount>
         </div>
         <button
-          className={styles.button}
+          className={`${styles.button} ${styles.buttonHover.orange} ${styles.buttonColorOrange}`}
           onClick={async () => {
             const newRecipe = await healthyByAI({
               recipeId: recipe.id,
@@ -227,6 +232,7 @@ const RecipeFooter = () => {
               console.log("healthyByAI failed");
               alert("변환에 실패했습니다. 다시 시도해주세요.");
             }
+            setIsHealthyAddInfoOpen(false);
           }}
         >
           변환 시작

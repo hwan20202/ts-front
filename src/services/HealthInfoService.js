@@ -23,8 +23,9 @@ export class HealthInfoService {
     if (!response.ok) {
       throw new Error("Failed to get user health info");
     }
-    const { gender, activity_level, height, weight } = await response.json();
-    return { gender, activity_level, height, weight };
+    const { gender, activity_level, height, weight, age } =
+      await response.json();
+    return { gender, activity_level, height, weight, age };
   }
 
   static async putUserHealthInfo(healthInfo) {
