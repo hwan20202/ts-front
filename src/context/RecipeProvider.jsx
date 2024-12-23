@@ -131,7 +131,7 @@ const RecipeProvider = ({ children }) => {
     const aiResponse = createAiResponse(result);
     saveDataToSession(result.data.custom_recipe_id, aiResponse);
     setLoading(false);
-    return;
+    return aiResponse;
   };
 
   const share = async () => {
