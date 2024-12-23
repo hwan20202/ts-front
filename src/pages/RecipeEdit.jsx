@@ -15,6 +15,7 @@ import MenuSelect from "../components/common/MenuSelect";
 import Slider from "../components/common/Slider";
 import { loadDataFromSession } from "../utils/sessionUtils";
 import { useRef } from "react";
+import { useAuth } from "../context/AuthProvider";
 
 const style = {
   page: "flex flex-col w-full h-full justify-start",

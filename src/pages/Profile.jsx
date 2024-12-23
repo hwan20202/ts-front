@@ -92,7 +92,7 @@ const Profile = () => {
   }, [isLoggedIn]);
 
   return (
-    <div>
+    <div className="pt-10 bg-white">
       <Section title="사용자 프로필">
         <div className="flex flex-col items-center text-black leading-none">
           <SettingSection
