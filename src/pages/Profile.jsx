@@ -86,7 +86,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (isLoggedIn === false) {
       navigate("/login");
     }
   }, [isLoggedIn]);
