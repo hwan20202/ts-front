@@ -3,7 +3,8 @@ import OptionSelector from "../OptionSelector";
 import SelectSection from "../InitSection";
 import ToggleButton from "../../common/ToggleButton";
 import { useNavigate } from "react-router-dom";
-import { getFakePreferencesTags } from "../../../services/fetchUserInfo";
+import { getPreferencesTagsAll } from "../../../services/fetchUserInfo";
+import { useUserContext } from "../../../context/UserProvider";
 import InputSection from "../InputSection";
 const styles = {
   input: "w-full bg-white outline-none text-gray-500",
@@ -47,14 +48,17 @@ const ButtonBox = ({ items, setItems }) => {
 const PreferenceInit = () => {
   const { preferenceController, allergyController } =
     useInitialUserInfoContext();
-  const { getValues } = getFakePreferencesTags();
+  const { getValues } = getPreferencesTagsAll();
   const navigate = useNavigate();
-
+  const { setIsSetPreferences } = useUserContext();
   const handleNext = () => {
     preferenceController.complete();
     allergyController.complete();
+    setIsSetPreferences(true);
     navigate("/");
   };
+
+  console.log(getValues("methodKey"));
 
   const preferenceConfig = {
     step1: {

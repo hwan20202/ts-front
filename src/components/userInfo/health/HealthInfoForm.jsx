@@ -25,12 +25,18 @@ const Section = ({ children }) => {
   );
 };
 
-const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
+const HealthInfoForm = ({
+  healthInfoController,
+  onComplete = () => {
+    console.log("onComplete");
+  },
+}) => {
   const activityLevels = healthInfoController.activityLevelsEnum();
   const [gender, setGender] = useState(healthInfoController.getGender());
   const navigate = useNavigate();
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    e.preventDefault();
     healthInfoController.complete();
     onComplete();
   };

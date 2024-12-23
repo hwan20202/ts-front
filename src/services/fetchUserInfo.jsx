@@ -2,92 +2,89 @@ import Ingredient from "../models/Ingredient";
 
 const serverUrl = import.meta.env.VITE_APP_SERVER_URL || "";
 
-const fakePreferencesTags = {
-  methodKey: [
-    "구이",
-    "볶음",
-    "찜",
-    "튀김",
-    "조림",
-    "삶기",
-    "부침",
-    "무침",
-    "생식",
-    "전",
-  ],
-  recipeType: [
-    "주식",
-    "반찬",
-    "국/스프",
-    "죽",
-    "디저트",
-    "샐러드",
-    "음료",
-    "간편식",
-    "해산물",
-  ],
-  style: ["한식", "양식", "중식", "일식", "퓨전", "전통식"],
-  flavor: [
-    "매운맛1단계",
-    "매운맛2단계",
-    "매운맛3단계",
-    "매운맛4단계",
-    "매운맛5단계",
-    "담백한맛",
-    "새콤달콤한맛",
-  ],
-  nutrition: ["건강식", "고단백", "채식", "저칼로리", "고섬유", "저당식"],
-  healthObjective: ["소화촉진", "장건강", "체중조절", "특별식", "가벼운"],
+const preferencesTags = {
+  구이: "methodKey",
+  볶음: "methodKey",
+  찜: "methodKey",
+  튀김: "methodKey",
+  조림: "methodKey",
+  삶기: "methodKey",
+  부침: "methodKey",
+  무침: "methodKey",
+  생식: "methodKey",
+  전: "methodKey",
+  주식: "recipeType",
+  반찬: "recipeType",
+  "국/스프": "recipeType",
+  죽: "recipeType",
+  디저트: "recipeType",
+  샐러드: "recipeType",
+  음료: "recipeType",
+  간편식: "recipeType",
+  해산물: "recipeType",
+  한식: "style",
+  양식: "style",
+  중식: "style",
+  일식: "style",
+  퓨전: "style",
+  전통식: "style",
+  매운맛1단계: "flavor",
+  매운맛2단계: "flavor",
+  매운맛3단계: "flavor",
+  매운맛4단계: "flavor",
+  매운맛5단계: "flavor",
+  담백한맛: "flavor",
+  새콤달콤한맛: "flavor",
+  건강식: "nutrition",
+  고단백: "nutrition",
+  채식: "nutrition",
+  저칼로리: "nutrition",
+  고섬유: "nutrition",
+  저당식: "nutrition",
+  소화촉진: "healthObjective",
+  장건강: "healthObjective",
+  체중조절: "healthObjective",
+  특별식: "healthObjective",
+  가벼운: "healthObjective",
 };
 
-export const getFakePreferencesTags = () => {
-  const tags = fakePreferencesTags;
-  const categories = Object.keys(tags);
-  const values = [];
-  categories.map((category) => values.push(...tags[category]));
-  const categoryNamesEnum = {
-    nutrition: "영양",
-    healthObjective: "건강목표",
-    recipeType: "요리 종류",
-    style: "스타일",
-    flavor: "맛",
-    methodKey: "요리법",
-  };
+const preferenceCategories = {
+  methodKey: "조리 방법",
+  recipeType: "요리 종류",
+  style: "스타일",
+  flavor: "맛",
+  nutrition: "영양",
+  healthObjective: "건강목표",
+};
+
+export const getPreferencesTagsAll = () => {
+  const tags = Object.keys(preferencesTags);
+  const categories = Object.keys(preferenceCategories);
 
   return {
     getTags() {
-      return tags;
+      return Object.entries(preferencesTags);
     },
     getCategory() {
       return categories;
     },
     getValues(category) {
       if (!category) {
-        return values;
+        return null;
       }
-      return fakePreferencesTags[category];
+      return Object.entries(preferencesTags)
+        .filter(([key, value]) => value === category)
+        .map(([key, value]) => key);
+    },
+    getEntriesByKey(key) {
+      return Object.entries(preferencesTags).find(
+        ([_key, _value]) => _key === key
+      );
     },
     getNameCategory(category) {
-      return categoryNamesEnum[category];
+      return preferenceCategories[category];
     },
   };
-};
-
-export const postUserPreferences = async (tags) => {
-  const path = `/api/userinfo/prefer`;
-  const response = await fetch(`${serverUrl}${path}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ types: tags }),
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Failed to post user preferences");
-  }
-  const data = await response.json();
-  return data;
 };
 
 export const putUserPreferSpicyLevel = async (value) => {
@@ -106,35 +103,6 @@ export const putUserPreferSpicyLevel = async (value) => {
   }
   const data = await response.json();
   return data;
-};
-
-export const getUserHealthInfo = async () => {
-  const path = `/api/userinfo/me/health/status`;
-  const response = await fetch(`${serverUrl}${path}`, {
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Failed to get user health info");
-  }
-  const data = await response.json();
-  return data;
-};
-
-export const putUserHealthInfo = async (healthInfo) => {
-  console.log(healthInfo);
-  const path = `/api/userinfo/setting/physical`;
-  const response = await fetch(`${serverUrl}${path}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ ...healthInfo }),
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Failed to post user health info");
-  }
-  return response.ok;
 };
 
 export const getFakeAllergies = () => {
