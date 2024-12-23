@@ -63,7 +63,6 @@ function InitUserInfoWrapper() {
 
 function ConditionalRecipeLayout({ children }) {
   const { isLoggedIn } = useAuth();
-  console.log(isLoggedIn);
   if (isLoggedIn === null) {
     return <RecipeLoading />;
   }
@@ -79,7 +78,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/loading" element={<RecipeLoading />} />
-        <Route path="/login" element={<Login />} />
+
         {/* <Route
           path="/recipe/share/:recipeId"
           element={
@@ -89,6 +88,7 @@ function App() {
           }
         /> */}
         <Route path="/" element={<MainWrapper />}>
+          <Route path="/login" element={<Login />} />
           <Route
             path="/"
             element={

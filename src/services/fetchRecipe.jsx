@@ -16,9 +16,9 @@ export const getsharedRecipeUrl = async (recipeId) => {
     method: "POST",
     credentials: "include",
   });
-  const data = await response.json();
-  if (data.success) {
-    return data.data.url;
+  if (response.ok) {
+    const data = await response.json();
+    return data.url;
   } else {
     return null;
   }
@@ -27,16 +27,15 @@ export const getsharedRecipeUrl = async (recipeId) => {
 // 레시피 조회
 // tag: [custom, original]
 export const getRecipe = async (tag, recipeId) => {
-  console.log(tag, recipeId);
   const path = `/api/recipe/${tag}/${recipeId}`;
   try {
     let response;
-    if (tag === "custom" || tag === "shared") {
+    if (tag === "custom") {
       response = await fetch(`${serverUrl}${path}`, {
         method: "GET",
         credentials: "include",
       });
-    } else if (tag === "original") {
+    } else if (tag === "original" || tag === "share") {
       response = await fetch(`${serverUrl}${path}`, {
         method: "GET",
       });
