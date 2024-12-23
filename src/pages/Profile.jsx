@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import RecipeGallary from "../components/RecipeGallary.jsx";
 import useRecipeList from "../hooks/useRecipeList.jsx";
 import { recipePath } from "../services/fetchRecipe.jsx";
 import SideSheet from "../components/common/SideSheet.jsx";
-import { useState } from "react";
 import PreferenceView from "../components/userInfo/preference/PreferenceView.jsx";
 import DislikedAndAllergyView from "../components/userInfo/dislikedAndAllergy/DislikedAndAllergyView.jsx";
 import HealthInfoView from "../components/userInfo/health/HealthInfoView.jsx";
@@ -58,10 +58,6 @@ const SettingSection = ({ title, description, children }) => {
 const Profile = () => {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
-  if (!isLoggedIn) {
-    navigate("/login");
-  }
-
   const {
     recipes: bookmarkedRecipes,
     loading: bookmarkedLoading,
@@ -88,6 +84,12 @@ const Profile = () => {
   } = useRecipeList({
     path: recipePath.my,
   });
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>

@@ -51,9 +51,11 @@ const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  if (!isLoggedIn) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
 
   const openModal = () => {
     setIsOpen(true);
