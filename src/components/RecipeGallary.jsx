@@ -14,7 +14,7 @@ const Card = ({
   cooking_order,
 }) => {
   const styles2 = {
-    card: "relative flex-shrink-0 bg-white rounded-lg text-center text-gray-500 w-48 h-48",
+    card: "relative z-]=0 flex-shrink-0 bg-white rounded-lg text-center text-gray-500 w-48 h-48",
     cardHover: "hover:bg-gray-100",
     imgContainer: "w-full h-2/3 overflow-hidden rounded-lg",
     img: "w-full h-full object-cover object-center",

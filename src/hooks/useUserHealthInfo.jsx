@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { putUserHealthInfo } from "../services/fetchUserInfo";
+import { HealthInfoService } from "../services/HealthInfoService";
 
-const useUserHealthInfo = ({ age, height, weight, activityLevel }) => {
+const useUserHealthInfo = ({ age, height, weight, gender, activityLevel }) => {
   const [selectedAge, setSelectedAge] = useState(age || 20);
   const [selectedHeight, setSelectedHeight] = useState(height || 160);
   const [selectedWeight, setSelectedWeight] = useState(weight || 60);
-  const [selectedGender, setSelectedGender] = useState("male");
+  const [selectedGender, setSelectedGender] = useState(gender || "male");
   const [selectedActivityLevel, setSelectedActivityLevel] = useState(
     activityLevel || "저활동적"
   );
@@ -23,7 +23,7 @@ const useUserHealthInfo = ({ age, height, weight, activityLevel }) => {
     setGender: setSelectedGender,
     setActivityLevel: setSelectedActivityLevel,
     complete: async () => {
-      const healthInfoResult = await putUserHealthInfo({
+      const healthInfoResult = await HealthInfoService.putUserHealthInfo({
         age: selectedAge,
         height: selectedHeight,
         gender: selectedGender,

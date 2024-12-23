@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { getFakePreferencesTags } from "../services/fetchUserInfo";
-import {
-  postUserPreferences,
-  putUserPreferSpicyLevel,
-} from "../services/fetchUserInfo";
+import { useState, useEffect } from "react";
+import { getPreferencesTagsAll } from "../services/fetchUserInfo";
+import { putUserPreferSpicyLevel } from "../services/fetchUserInfo";
+import { PreferenceService } from "../services/PreferenceService";
+import { use } from "react";
 
 const useUserPreference = () => {
-  const { getCategory, getValues, getTags } = getFakePreferencesTags();
+  const { getCategory, getValues, getTags, getEntriesByKey } =
+    getPreferencesTagsAll();
   const [preferredTags, setPreferredTags] = useState(getTags());
 
   const [selectedMethodKey, setSelectedMethodKey] = useState([]);
@@ -15,8 +15,17 @@ const useUserPreference = () => {
   const [selectedFlavor, setSelectedFlavor] = useState([]);
   const [selectedNutrition, setSelectedNutrition] = useState([]);
   const [selectedHealthObjective, setSelectedHealthObjective] = useState([]);
-
   const [allergies, setAllergies] = useState([]);
+
+  const [userPreferences, setUserPreferences] = useState(null);
+
+  useEffect(() => {
+    const fetchUserPreferences = async () => {
+      const preferences = await PreferenceService.getUserPreferences();
+      setUserPreferences(preferences);
+    };
+    fetchUserPreferences();
+  }, []);
 
   const preferenceController = {
     getSelectedMethodKey: () => selectedMethodKey,
@@ -32,7 +41,7 @@ const useUserPreference = () => {
     setSelectedNutrition,
     setSelectedHealthObjective,
     complete: async () => {
-      const preferencesResult = await postUserPreferences([
+      const preferencesResult = await PreferenceService.postUserPreferences([
         ...selectedMethodKey,
         ...selectedRecipeType,
         ...selectedStyle,
@@ -52,7 +61,7 @@ const useUserPreference = () => {
     },
   };
 
-  return { preferredTags, allergies, preferenceController };
+  return { preferredTags, allergies, userPreferences, preferenceController };
 };
 
 export default useUserPreference;

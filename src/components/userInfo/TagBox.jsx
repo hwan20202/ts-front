@@ -1,3 +1,4 @@
+import { Children } from "react";
 import useSelect from "../../hooks/useSelect";
 
 const styles = {
@@ -5,15 +6,10 @@ const styles = {
   tag: "flex items-center justify-center rounded-sm leading-[1.5] px-1 mr-1 text-xs text-gray-600",
 };
 
-const TagBox = ({ tags, selectedTags }) => {
-  const { selections, toggle } = useSelect({
-    selectionList: tags,
-    initialSelected: selectedTags,
-  });
-
+const TagBox = ({ children }) => {
   return (
     <div className={styles.tagBox}>
-      {selections.map((tag) => (
+      {/* {selections.map((tag) => (
         <div
           key={tag.id}
           className={
@@ -25,7 +21,8 @@ const TagBox = ({ tags, selectedTags }) => {
         >
           {tag.value}
         </div>
-      ))}
+      ))} */}
+      {children}
     </div>
   );
 };
