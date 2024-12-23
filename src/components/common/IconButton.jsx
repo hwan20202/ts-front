@@ -12,7 +12,7 @@ const IconButton = ({
 }) => {
   return (
     <button
-      className={`flex items-center justify-center p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${className}`}
+      className={`flex items-center justify-center p-2 rounded-full outline-none focus:outline-none ${className}`}
       onClick={onClick}
       aria-label={label}
       disabled={disabled}

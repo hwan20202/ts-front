@@ -1,13 +1,16 @@
 import useUserHealthInfo from "../../../hooks/useUserHealthInfo.jsx";
 import HealthInfoForm from "./HealthInfoForm.jsx";
+import { HealthInfoService } from "../../../services/HealthInfoService.js";
 
 const HealthInfoView = () => {
-  //   const { age, height, weight, activityLevel } = useUserHealthInfo();
+  const { gender, activity_level, height, weight } =
+    HealthInfoService.getUserHealthInfo();
   const { healthInfoController } = useUserHealthInfo({
     age: 20,
-    height: 170,
-    weight: 60,
-    activityLevel: "active",
+    gender,
+    activityLevel: activity_level,
+    height,
+    weight,
   });
   return (
     <div className="flex min-w-[300px] p-1">

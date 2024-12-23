@@ -30,16 +30,16 @@ export default class Recipe {
     this.main_img = main_img;
     this.ingredients = ingredients;
     this.cooking_time = cooking_time;
-    this.cooking_img = cooking_img;
-    this.cooking_order = cooking_order;
+    this.cooking_img = cooking_img || [];
+    this.cooking_order = cooking_order || [];
     this.method_key = method_key;
     this.recipe_type = recipe_type;
     this.difficulty = difficulty;
     this.servings = servings;
     this.tips = tips;
     this.type_key = type_key;
-    if (cooking_img.length < cooking_order.length) {
-      this.cooking_img = cooking_order.map((index) =>
+    if (this.cooking_img.length < this.cooking_order.length) {
+      this.cooking_img = this.cooking_order.map((index) =>
         this.cooking_img[index] ? this.cooking_img[index] : ""
       );
     }

@@ -15,14 +15,15 @@ const TitleSection = ({
     <>
       <div className={styles.titleWrapper}>
         <div className={styles.title}>{children}</div>
-        <button
-          className={styles.editButton}
-          onClick={() => {
-            onButtonClick();
-          }}
-        >
-          {!onEdit ? "수정" : "완료"}
-        </button>
+        {!onEdit ? (
+          <button className={styles.editButton} onClick={onButtonClick}>
+            수정
+          </button>
+        ) : (
+          <button className={styles.editButton} onClick={onButtonClick}>
+            완료
+          </button>
+        )}
       </div>
       <div className={styles.subtitle + " " + (onEdit ? "invisible" : "")}>
         {subtitle}

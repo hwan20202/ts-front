@@ -17,13 +17,15 @@ import RecipeProvider from "./context/RecipeProvider.jsx";
 import UserProvider from "./context/UserProvider.jsx";
 import RecipeHeader from "./components/header/RecipeHeader.jsx";
 import RecipeEdit from "./pages/RecipeEdit.jsx";
-import Research from "./pages/Research.jsx";
 import RecipeEditHeader from "./components/header/RecipeEditHeader.jsx";
 import InitialUserInfoProvider from "./context/InitialUserInfoProvider.jsx";
 import PreferenceInit from "./components/userInfo/preference/PreferenceInit.jsx";
 import DislikedAndAllergyInit from "./components/userInfo/dislikedAndAllergy/DislikedAndAllergyInit.jsx";
 import HealthInfoInit from "./components/userInfo/health/HealthInfoInit.jsx";
 import RecipeLoading from "./pages/RecipeLoading.jsx";
+import RecipeFooter from "./components/footer/RecipeFooter.jsx";
+import { useAuth } from "./context/AuthProvider.jsx";
+import Header from "./components/header/Header.jsx";
 const Page = ({ children }) => {
   return (
     <div className="w-full h-full flex justify-center items-center bg-white p-36">
@@ -59,16 +61,33 @@ function InitUserInfoWrapper() {
   );
 }
 
+function ConditionalRecipeLayout({ children }) {
+  const { isLoggedIn } = useAuth();
+  console.log(isLoggedIn);
+  if (isLoggedIn === null) {
+    return <RecipeLoading />;
+  }
+  return isLoggedIn ? (
+    <RecipeLayout>{children}</RecipeLayout>
+  ) : (
+    <SharedOnlyRecipeLayout>{children}</SharedOnlyRecipeLayout>
+  );
+}
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/loading" element={<RecipeLoading />} />
         <Route path="/login" element={<Login />} />
-        <Route
+        {/* <Route
           path="/recipe/share/:recipeId"
-          element={<div className="text-black">share</div>}
-        />
+          element={
+            <RecipeLayout>
+              <RecipePage />
+            </RecipeLayout>
+          }
+        /> */}
         <Route path="/" element={<MainWrapper />}>
           <Route
             path="/"
@@ -96,15 +115,20 @@ function App() {
           </Route>
           <Route path="/recipe" element={<RecipeWrapper />}>
             <Route
+              // tag: [original, custom]
               path="/recipe/:tag/:recipeId"
               element={
-                <RecipeLayout>
+                // <RecipeLayout>
+                //   <RecipePage />
+                // </RecipeLayout>
+                <ConditionalRecipeLayout>
                   <RecipePage />
-                </RecipeLayout>
+                </ConditionalRecipeLayout>
               }
             />
             <Route
-              path="/recipe/:recipeId/edit"
+              // type: [user, generate, nutrition, simplify]
+              path="/recipe/:type/:recipeId/edit"
               element={
                 <RecipeEditLayout>
                   <RecipeEdit />
@@ -118,11 +142,30 @@ function App() {
   );
 }
 
+const SharedOnlyRecipeHeader = () => {
+  return <Header>SharedRecipeHeader</Header>;
+};
+
+const SharedOnlyRecipeFooter = () => {
+  return <div>SharedRecipeFooter</div>;
+};
+
+const SharedOnlyRecipeLayout = ({ children }) => {
+  return (
+    <>
+      <SharedOnlyRecipeHeader />
+      {children}
+      <SharedOnlyRecipeFooter />
+    </>
+  );
+};
+
 const RecipeLayout = ({ children }) => {
   return (
     <>
       <RecipeHeader />
       {children}
+      <RecipeFooter />
     </>
   );
 };

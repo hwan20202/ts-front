@@ -1,12 +1,13 @@
 import RecipeGallary from "../components/RecipeGallary.jsx";
 import useRecipeList from "../hooks/useRecipeList.jsx";
 import { recipePath } from "../services/fetchRecipe.jsx";
-import Preference from "../components/userInfo/Preference.jsx";
 import SideSheet from "../components/common/SideSheet.jsx";
 import { useState } from "react";
 import PreferenceView from "../components/userInfo/preference/PreferenceView.jsx";
 import DislikedAndAllergyView from "../components/userInfo/dislikedAndAllergy/DislikedAndAllergyView.jsx";
 import HealthInfoView from "../components/userInfo/health/HealthInfoView.jsx";
+import { useAuth } from "../context/AuthProvider.jsx";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   container: "flex flex-col justify-center items-center h-screen",
@@ -55,9 +56,11 @@ const SettingSection = ({ title, description, children }) => {
 };
 
 const Profile = () => {
-  const [isPreferenceSheetOpen, setIsPreferenceSheetOpen] = useState(false);
-  const [isAllergySheetOpen, setIsAllergySheetOpen] = useState(false);
-  const [isHealthInfoSheetOpen, setIsHealthInfoSheetOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  if (!isLoggedIn) {
+    navigate("/login");
+  }
 
   const {
     recipes: bookmarkedRecipes,
@@ -94,7 +97,9 @@ const Profile = () => {
             title="신체정보 설정"
             description="영양맞춤 레시피를 추천받기 위해 신체정보를 설정해주세요."
           >
-            <HealthInfoView />
+            <HealthInfoView
+              onComplete={() => setIsHealthInfoSheetOpen(false)}
+            />
           </SettingSection>
           <SettingSection
             title="알러지 및 싫어하는 재료 설정"

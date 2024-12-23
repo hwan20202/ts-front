@@ -7,12 +7,15 @@ import useRecipeEdit from "../hooks/useRecipeEdit";
 import { useParams, useNavigate } from "react-router-dom";
 import RecipeEditFooter from "../components/footer/RecipeEditFooter";
 import { useRecipe } from "../context/RecipeProvider";
+import { removeDataFromSession } from "../utils/sessionUtils";
 import RecipeLoading from "./RecipeLoading";
 import FoldableSection from "../components/common/FoldableSection";
 import FoldableBoxProvider from "../context/FoldableBoxProvider";
 import MenuSelect from "../components/common/MenuSelect";
 import Slider from "../components/common/Slider";
+import { loadDataFromSession } from "../utils/sessionUtils";
 import { useRef } from "react";
+
 const style = {
   page: "flex flex-col w-full h-full justify-start",
   comment:
@@ -115,10 +118,12 @@ const RecipeTips = ({ recipe_tips }) => {
 
 const RecipeEdit = () => {
   const navigate = useNavigate();
-  const { editRecipe, aiEditRecipe } = useRecipe();
   const [currentSlide, setCurrentSlide] = useState(0);
   const ref = useRef([null, null, null]);
   const [height, setHeight] = useState("100%");
+
+  const { recipeId } = useParams();
+  const [aiResponse, setAiResponse] = useState(null);
 
   const {
     recipe,
@@ -130,7 +135,7 @@ const RecipeEdit = () => {
     editCookingOrder,
     addCookingOrder,
     editComplete,
-  } = useRecipeEdit(aiEditRecipe.recipe);
+  } = useRecipeEdit(recipeId);
 
   useEffect(() => {
     setHeight(
@@ -140,11 +145,22 @@ const RecipeEdit = () => {
     );
   }, [currentSlide]);
 
-  if (loadingEdit) {
-    return <RecipeLoading />;
-  }
+  useEffect(() => {
+    const loadedAiResponse = loadDataFromSession(recipeId);
+    setAiResponse(loadedAiResponse);
+  }, [recipeId]);
+
+  const handleEditComplete = async () => {
+    editComplete();
+    alert("내 레시피에 저장 및 추가되었습니다.");
+    removeDataFromSession(recipeId);
+    navigate(`/recipe/custom/${recipeId}`, { replace: true });
+  };
   if (!recipe) {
     return;
+  }
+  if (loadingEdit) {
+    return <RecipeLoading />;
   }
 
   return (
@@ -153,7 +169,7 @@ const RecipeEdit = () => {
       <RecipeDescription {...recipe} />
       <MenuSelect
         options={
-          aiEditRecipe.aiComment
+          aiResponse?.aiComment
             ? ["레시피 포인트", "재료 보기", "조리 순서 보기"]
             : ["재료 보기", "조리 순서 보기"]
         }
@@ -162,21 +178,19 @@ const RecipeEdit = () => {
         }}
       />
       <Slider position={currentSlide} height={height}>
-        {aiEditRecipe.aiComment && (
+        {aiResponse?.aiComment && (
           <div className="w-full flex flex-col bg-white px-6 shrink-0">
             <div
               ref={(el) => (ref.current[0] = el)}
               className="flex flex-col gap-4 bg-white p-4"
             >
-              <RecipeComment {...aiEditRecipe.aiComment} />
+              <RecipeComment {...aiResponse.aiComment} />
             </div>
           </div>
         )}
         <div className="w-full flex flex-col bg-white px-6 shrink-0">
           <div ref={(el) => (ref.current[1] = el)}>
-            {aiEditRecipe.aiComment && (
-              <RecipeTips {...aiEditRecipe.aiComment} />
-            )}
+            {aiResponse?.aiComment && <RecipeTips {...aiResponse.aiComment} />}
             <EditIngredientList
               {...recipe}
               onChange={editIngredient}
@@ -193,7 +207,7 @@ const RecipeEdit = () => {
         />
       </Slider>
 
-      <RecipeEditFooter editComplete={editComplete} />
+      <RecipeEditFooter editComplete={handleEditComplete} />
     </div>
   );
 };

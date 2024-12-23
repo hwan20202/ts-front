@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import renderElement from "../../utils/renderElement.jsx";
 
 const styles = {
-  header: "sticky top-0 flex w-full justify-center items-center bg-white",
+  header:
+    "fixed top-0 z-50 flex w-full justify-center items-center p-2 max-w-body",
 };
 
 const Header = ({ children }) => {

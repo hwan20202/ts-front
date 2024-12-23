@@ -2,17 +2,14 @@ import { createContext, useContext, useState, useEffect } from "react";
 import Ingredient from "../models/Ingredient";
 import { initKakao } from "../utils/kakaoUtlis";
 import {
-  getIsSetPreferences,
-  getIsSetHealth,
-} from "../services/fetchUserPreferenece";
-import {
   getMyIngredients,
   postMyIngredient,
   putMyIngredient,
   deleteMyIngredient,
 } from "../services/fetchDashboard";
 import { postEditedRecipe } from "../services/fetchUserRecipe";
-import { postUserPreferences } from "../services/fetchUserInfo";
+import { PreferenceService } from "../services/PreferenceService";
+import { HealthInfoService } from "../services/HealthInfoService";
 import { useAuth } from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
 
@@ -42,26 +39,44 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const fetchIsSetPreferences = async () => {
-    const data = await getIsSetPreferences();
-    if (data) {
-      setIsSetPreferences(data);
+  const checkIsSetPreferences = async () => {
+    if (!isLoggedIn) return;
+    const isSetPreferences = await PreferenceService.isSetPreferences();
+    if (!isSetPreferences) {
+      setIsSetPreferences(false);
+    } else {
+      setIsSetPreferences(true);
     }
   };
 
-  const fetchIsSetHealth = async () => {
-    const data = await getIsSetHealth();
-    if (data) {
-      setIsSetHealth(data);
+  const checkIsSetHealth = async () => {
+    if (!isLoggedIn) return;
+    const isSetHealth = await HealthInfoService.isSetHealthInfo();
+    if (!isSetHealth) {
+      setIsSetHealth(false);
+    } else {
+      setIsSetHealth(true);
     }
   };
+
+  useEffect(() => {
+    if (isSetPreferences === false) {
+      navigate("/user/init/preference");
+    }
+  }, [isSetPreferences, isSetHealth]);
+
+  useEffect(() => {
+    if (isSetPreferences === true && isSetHealth === false) {
+      navigate("/user/init/health");
+    }
+  }, [isSetPreferences, isSetHealth]);
 
   useEffect(() => {
     if (!isLoggedIn) return;
 
     fetchIngredients();
-    fetchIsSetPreferences();
-    fetchIsSetHealth();
+    checkIsSetPreferences();
+    checkIsSetHealth();
     initKakao();
 
     if (isSetPreferences !== null && !isSetPreferences) {
@@ -70,7 +85,7 @@ const UserProvider = ({ children }) => {
     if (isSetHealth !== null && !isSetHealth) {
       navigate("/user/init/health");
     }
-  }, [isLoggedIn, isSetPreferences, isSetHealth]);
+  }, [isLoggedIn]);
 
   const addIngredient = (ingredient) => {
     const fetchPostIngredient = async () => {
@@ -130,7 +145,7 @@ const UserProvider = ({ children }) => {
   // 유저 선호도
 
   const submitUserPreferences = async (tags) => {
-    const data = await postUserPreferences(tags);
+    const data = await PreferenceService.postUserPreferences(tags);
     if (data) {
       return data;
     }
@@ -145,7 +160,8 @@ const UserProvider = ({ children }) => {
         deleteIngredient,
         expiringIngredients,
 
-        postUserPreferences,
+        submitUserPreferences,
+        setIsSetPreferences,
       }}
     >
       {children}

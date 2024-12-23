@@ -3,12 +3,16 @@ import { getRecipe, getIsBookmarked } from "../services/fetchRecipe";
 import { share as shareByKakao } from "../utils/kakaoUtlis";
 import Recipe from "../models/Recipe";
 import { AiComment, AiResponse } from "../models/AiResponse";
+import { saveDataToSession, loadDataFromSession } from "../utils/sessionUtils";
 import {
   getRecipeGeneratedByAI,
   getRecipeSimplifiedByAI,
   getRecipeHealthyByAI,
 } from "../services/fetchRecipe";
-import { putBookmarkedRecipe } from "../services/fetchUserRecipe";
+import {
+  putBookmarkedRecipe,
+  postEditedRecipe,
+} from "../services/fetchUserRecipe";
 import { getsharedRecipeUrl } from "../services/fetchRecipe";
 const RecipeContext = createContext();
 
@@ -28,7 +32,7 @@ const toRecipe = ({
     ingredients: recipe_ingredients || [],
     title: recipe_menu_name || "",
     recipe_type: recipe_recipe_type || [],
-    tips: recipe_tips.split(".").map((tip) => tip.trim()) || [],
+    tips: recipe_tips || [],
   };
 };
 
@@ -65,10 +69,19 @@ const RecipeProvider = ({ children }) => {
     setLoading(false);
   };
 
-  const editByUser = async () => {
+  const modifyRecipe = async () => {
     setLoading(true);
-    setEditRecipe(recipe);
+    const result = await postEditedRecipe(recipe);
     setLoading(false);
+    return result;
+  };
+
+  const createAiResponse = (result) => {
+    const recipeId = result.data.custom_recipe_id;
+    const aiComment = new AiComment({
+      ...result.data.after,
+    });
+    return new AiResponse(recipeId, aiComment);
   };
 
   const generateByAI = async ({ recipeId, dislikedIngredients }) => {
@@ -83,17 +96,9 @@ const RecipeProvider = ({ children }) => {
       setLoading(false);
       return;
     }
-    const recipe = new Recipe({
-      ...result.data.before,
-      ...toRecipe({ ...result.data.after }),
-    });
 
-    const aiComment = new AiComment({
-      ...result.data.after,
-    });
-    const aiResponse = new AiResponse(recipe, aiComment);
-    console.log(aiResponse);
-    setAiEditRecipe(aiResponse);
+    const aiResponse = createAiResponse(result);
+    saveDataToSession(result.data.custom_recipe_id, aiResponse);
     setLoading(false);
     return aiResponse;
   };
@@ -105,16 +110,9 @@ const RecipeProvider = ({ children }) => {
       setLoading(false);
       return;
     }
-    const recipe = new Recipe({
-      ...result.data.before,
-      ...toRecipe({ ...result.data.after }),
-    });
-    const aiComment = new AiComment({
-      ...result.data.after,
-    });
-    const aiResponse = new AiResponse(recipe, aiComment);
-    console.log(aiResponse);
-    setAiEditRecipe(aiResponse);
+
+    const aiResponse = createAiResponse(result);
+    saveDataToSession(result.data.custom_recipe_id, aiResponse);
     setLoading(false);
     return aiResponse;
   };
@@ -129,18 +127,11 @@ const RecipeProvider = ({ children }) => {
       setLoading(false);
       return;
     }
-    const recipe = new Recipe({
-      ...result.data.before,
-      ...toRecipe({ ...result.data.after }),
-    });
-    const aiComment = new AiComment({
-      ...result.data.after,
-    });
-    const aiResponse = new AiResponse(recipe, aiComment);
-    console.log(aiResponse);
-    setAiEditRecipe(aiResponse);
+
+    const aiResponse = createAiResponse(result);
+    saveDataToSession(result.data.custom_recipe_id, aiResponse);
     setLoading(false);
-    return aiResponse;
+    return;
   };
 
   const share = async () => {
@@ -170,7 +161,7 @@ const RecipeProvider = ({ children }) => {
         loadRecipe,
         editRecipe,
         setRecipe,
-        editByUser,
+        modifyRecipe,
         generateByAI,
         simplifyByAI,
         healthyByAI,

@@ -1,5 +1,5 @@
 import React from "react";
-import { getFakePreferencesTags } from "../../services/fetchUserInfo";
+import { getPreferencesTagsAll } from "../../services/fetchUserInfo";
 import useUserPreference from "../../hooks/useUserPreference";
 import { useToggle } from "../../hooks/useToggle";
 import { useEffect, useRef } from "react";
@@ -60,8 +60,9 @@ const CategorySection = ({ title, subtitle, children }) => {
 
 const Preference = () => {
   const { allergies } = useUserPreference();
-  const { getCategory, getValues, getNameCategory } = getFakePreferencesTags();
+  const { getCategory, getValues, getNameCategory } = getPreferencesTagsAll();
 
+  console.log(getCategory());
   return (
     <div className={styles.container}>
       {getCategory().map((category) => (
