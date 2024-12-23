@@ -63,7 +63,6 @@ function InitUserInfoWrapper() {
 
 function ConditionalRecipeLayout({ children }) {
   const { isLoggedIn } = useAuth();
-  console.log(isLoggedIn);
   if (isLoggedIn === null) {
     return <RecipeLoading />;
   }
