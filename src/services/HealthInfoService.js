@@ -25,7 +25,6 @@ export class HealthInfoService {
     }
     const { gender, activity_level, height, weight, age } =
       await response.json();
-    console.log(gender, activity_level, height, weight, age);
     return { gender, activity_level, height, weight, age };
   }
 

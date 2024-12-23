@@ -31,7 +31,6 @@ const HealthInfoForm = ({
     console.log("onComplete");
   },
 }) => {
-  console.log("healthInfoController", healthInfoController.getAge());
   const activityLevels = healthInfoController.activityLevelsEnum();
   const [gender, setGender] = useState(healthInfoController.getGender());
   const navigate = useNavigate();

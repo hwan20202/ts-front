@@ -2,7 +2,6 @@ import { useState } from "react";
 import { HealthInfoService } from "../services/HealthInfoService";
 
 const useUserHealthInfo = ({ age, height, weight, gender, activity_level }) => {
-  console.log(age, height, weight, gender, activity_level);
   const [selectedAge, setSelectedAge] = useState(age || 20);
   const [selectedHeight, setSelectedHeight] = useState(height || 160);
   const [selectedWeight, setSelectedWeight] = useState(weight || 60);
