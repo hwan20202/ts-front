@@ -19,7 +19,7 @@ const Logo = () => {
         className="w-10 h-10 filter-none invert"
         style={{ filter: "invert(1)" }}
       /> */}
-      <i class="text-lg fa-solid fa-house text-black"></i>
+      <i className="text-lg fa-solid fa-house text-black"></i>
     </div>
   );
 };
@@ -73,7 +73,7 @@ const UserMenu = () => {
 
 const MainHeader = () => {
   return (
-    <Header>
+    <Header className="bg-white">
       <div className="w-full flex justify-between items-center">
         <Logo />
         {/* <Title /> */}
