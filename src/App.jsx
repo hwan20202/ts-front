@@ -26,6 +26,7 @@ import RecipeLoading from "./pages/RecipeLoading.jsx";
 import RecipeFooter from "./components/footer/RecipeFooter.jsx";
 import { useAuth } from "./context/AuthProvider.jsx";
 import Header from "./components/header/Header.jsx";
+import { useRecipe } from "./context/RecipeProvider.jsx";
 const Page = ({ children }) => {
   return (
     <div className="w-full h-full flex justify-center items-center bg-white p-36">
@@ -174,11 +175,12 @@ const SharedOnlyRecipeLayout = ({ children }) => {
 };
 
 const RecipeLayout = ({ children }) => {
+  const { loading } = useRecipe();
   return (
     <>
-      <RecipeHeader />
+      {loading ? <></> : <RecipeHeader />}
       {children}
-      <RecipeFooter />
+      {loading ? <></> : <RecipeFooter />}
     </>
   );
 };

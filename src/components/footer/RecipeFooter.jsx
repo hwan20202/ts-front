@@ -106,10 +106,11 @@ const RecipeFooter = () => {
     simplifyByAI: {
       name: "간편하게",
       next: async () => {
+        setIsSelectAITypeOpen(false);
         const newRecipe = await simplifyByAI({
           recipeId: recipe.id,
         });
-        setIsSelectAITypeOpen(false);
+
         if (newRecipe) {
           navigate(`/recipe/ai/${newRecipe.getRecipeId()}/edit`);
         }
@@ -187,6 +188,7 @@ const RecipeFooter = () => {
           <button
             className={`${styles.button} ${styles.toggleButton.orange} ${styles.buttonHover.orange}`}
             onClick={async () => {
+              setIsGenerateAddInfoOpen(false);
               const newRecipe = await generateByAI({
                 recipeId: recipe.id,
                 dislikedIngredients,
@@ -194,7 +196,6 @@ const RecipeFooter = () => {
               if (newRecipe) {
                 navigate(`/recipe/ai/${newRecipe.getRecipeId()}/edit`);
               }
-              setIsGenerateAddInfoOpen(false);
             }}
           >
             변환 시작
@@ -222,6 +223,7 @@ const RecipeFooter = () => {
         <button
           className={`${styles.button} ${styles.buttonHover.orange} ${styles.buttonColorOrange}`}
           onClick={async () => {
+            setIsHealthyAddInfoOpen(false);
             const newRecipe = await healthyByAI({
               recipeId: recipe.id,
               mealCount,
@@ -232,7 +234,6 @@ const RecipeFooter = () => {
               console.log("healthyByAI failed");
               alert("변환에 실패했습니다. 다시 시도해주세요.");
             }
-            setIsHealthyAddInfoOpen(false);
           }}
         >
           변환 시작
