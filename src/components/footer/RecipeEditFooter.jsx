@@ -26,12 +26,6 @@ const RecipeEditFooter = ({
   return (
     <div className={styles.container}>
       <button
-        className={`${styles.button} ${styles.buttonColorOrange}`}
-        onClick={handleAITransform}
-      >
-        AI 재변환
-      </button>
-      <button
         className={`${styles.button} ${styles.buttonColorGreen}`}
         onClick={handleEditComplete}
       >
