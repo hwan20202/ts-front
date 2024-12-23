@@ -79,7 +79,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/loading" element={<RecipeLoading />} />
-        <Route path="/login" element={<Login />} />
+
         {/* <Route
           path="/recipe/share/:recipeId"
           element={
@@ -89,6 +89,7 @@ function App() {
           }
         /> */}
         <Route path="/" element={<MainWrapper />}>
+          <Route path="/login" element={<Login />} />
           <Route
             path="/"
             element={
