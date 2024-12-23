@@ -9,7 +9,8 @@ import { recipePath } from "../services/fetchRecipe.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider.jsx";
 const styles = {
-  container: "flex flex-col justify-center items-center overflow-y-auto pb-10",
+  container:
+    "flex flex-col justify-center items-center overflow-y-auto pb-10 pt-10 bg-white",
   wrapperContainer: "container mx-auto px-2 py-4 bg-white mb-4",
   headerBase: "flex justify-between items-center my-4",
   headerTitle: "text-md font-bold text-black",

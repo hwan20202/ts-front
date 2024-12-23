@@ -13,12 +13,13 @@ const Logo = () => {
         navigate("/");
       }}
     >
-      <img
+      {/* <img
         src={logo}
         alt="logo"
         className="w-10 h-10 filter-none invert"
         style={{ filter: "invert(1)" }}
-      />
+      /> */}
+      <i class="text-lg fa-solid fa-house text-black"></i>
     </div>
   );
 };
@@ -73,9 +74,9 @@ const UserMenu = () => {
 const MainHeader = () => {
   return (
     <Header>
-      <div className="w-full flex flex-row-reverse items-center">
-        {/* <Logo />
-        <Title /> */}
+      <div className="w-full flex justify-between items-center">
+        <Logo />
+        {/* <Title /> */}
         <UserMenu />
       </div>
     </Header>

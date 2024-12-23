@@ -9,17 +9,24 @@ const RecipeEditHeader = () => {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-1);
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
   };
 
   return (
     <Header>
       <div className="flex w-full justify-start items-center">
-        <IconButton
-          icon={<i className="fa-solid fa-arrow-left text-black"></i>}
-          onClick={goBack}
-          label="뒤로가기"
-        />
+        <div className="flex items-center">
+          <IconButton
+            icon={<i className="fa-solid fa-arrow-left text-black"></i>}
+            onClick={goBack}
+            label="뒤로가기"
+            className="text-lg text-gray-600 hover:text-gray-800 grow grow-hover bg-gray-100"
+          />
+        </div>
       </div>
     </Header>
   );
