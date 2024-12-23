@@ -92,19 +92,19 @@ const RecipeFooter = () => {
 
   const transformType = {
     generateByAI: {
-      name: "알잘딱깔센",
+      name: "냉장고 파먹기",
       next: () => {
         setIsGenerateAddInfoOpen(true);
       },
     },
     healthyByAI: {
-      name: "건강하게",
+      name: "영양 맞춤",
       next: () => {
         setIsHealthyAddInfoOpen(true);
       },
     },
     simplifyByAI: {
-      name: "간편하게",
+      name: "쉽게 만들기",
       next: async () => {
         setIsSelectAITypeOpen(false);
         const newRecipe = await simplifyByAI({
