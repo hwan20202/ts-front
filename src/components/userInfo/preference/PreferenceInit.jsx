@@ -58,8 +58,6 @@ const PreferenceInit = () => {
     navigate("/");
   };
 
-  console.log(getValues("methodKey"));
-
   const preferenceConfig = {
     step1: {
       title: "조리법",

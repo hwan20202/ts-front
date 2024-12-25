@@ -10,9 +10,11 @@ import {
 import { postEditedRecipe } from "../services/fetchUserRecipe";
 import { PreferenceService } from "../services/PreferenceService";
 import { HealthInfoService } from "../services/HealthInfoService";
+import { getUserInfo } from "../services/fetchUserInfo";
 import { useAuth } from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
-
+import useUserHealthInfo from "../hooks/useUserHealthInfo";
+import useUserPreference from "../hooks/useUserPreference";
 const UserContext = createContext();
 
 const useUserContext = () => {
@@ -21,18 +23,19 @@ const useUserContext = () => {
 
 const UserProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
+  const [username, setUsername] = useState("");
+  const [cookingLevel, setCookingLevel] = useState("");
+  const [spicyLevel, setSpicyLevel] = useState("");
+  const [allergies, setAllergies] = useState([]);
   const [isSetPreferences, setIsSetPreferences] = useState(null);
   const [isSetHealth, setIsSetHealth] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [expiringIngredients, setExpiringIngredients] = useState([]);
   const navigate = useNavigate();
-  const [healthInfo, setHealthInfo] = useState({
-    age: null,
-    gender: null,
-    activityLevel: null,
-    height: null,
-    weight: null,
-  });
+
+  const { healthInfoController } = useUserHealthInfo();
+  const { preferenceController, allergyController } = useUserPreference();
+
   const fetchIngredients = async () => {
     const data = await getMyIngredients();
     if (data) {
@@ -65,10 +68,18 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const fetchHealthInfo = async () => {
-    const healthInfo = await HealthInfoService.getUserHealthInfo();
-    if (healthInfo) {
-      setHealthInfo(healthInfo);
+  const fetchUserInfo = async () => {
+    const info = await getUserInfo();
+    if (info) {
+      healthInfoController.setAge(info.age);
+      healthInfoController.setGender(info.gender);
+      healthInfoController.setActivityLevel(info.activity_level);
+      healthInfoController.setHeight(info.height);
+      healthInfoController.setWeight(info.weight);
+      setUsername(info.username);
+      setCookingLevel(info.cooking_level);
+      setSpicyLevel(info.spicy_level);
+      allergyController.set(info.allergy);
     }
   };
 
@@ -87,11 +98,11 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     if (!isLoggedIn) return;
 
+    fetchUserInfo();
     fetchIngredients();
     checkIsSetPreferences();
     checkIsSetHealth();
     initKakao();
-    fetchHealthInfo();
 
     if (isSetPreferences !== null && !isSetPreferences) {
       navigate("/user/init/preference");
@@ -144,18 +155,6 @@ const UserProvider = ({ children }) => {
     fetchPutIngredient();
   };
 
-  // 레시피 편집
-
-  const updateEditingRecipe = (recipe) => {
-    const fetchPostEditingRecipe = async () => {
-      const data = await postEditedRecipe(recipe);
-      if (data) {
-        return data;
-      }
-    };
-    return fetchPostEditingRecipe();
-  };
-
   // 유저 선호도
 
   const submitUserPreferences = async (tags) => {
@@ -176,7 +175,13 @@ const UserProvider = ({ children }) => {
 
         submitUserPreferences,
         setIsSetPreferences,
-        healthInfo,
+        healthInfoController,
+        allergyController,
+        preferenceController,
+
+        username,
+        cookingLevel,
+        spicyLevel,
       }}
     >
       {children}

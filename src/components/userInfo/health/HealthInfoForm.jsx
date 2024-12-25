@@ -13,8 +13,10 @@ const style = {
     gray: "bg-gray-400",
     orange: "bg-orange-500",
   },
-  completeButton:
-    "w-full h-10 text-white leading-none transition-all duration-300 bg-orange-500 mt-4",
+  completeButton: {
+    base: "w-full h-10 text-white leading-none transition-all duration-300 bg-orange-400 mt-4",
+    hover: "hover:bg-orange-500",
+  },
 };
 
 const Section = ({ children }) => {
@@ -25,14 +27,9 @@ const Section = ({ children }) => {
   );
 };
 
-const HealthInfoForm = ({
-  healthInfoController,
-  onComplete = () => {
-    console.log("onComplete");
-  },
-}) => {
+const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
   const activityLevels = healthInfoController.activityLevelsEnum();
-  const [gender, setGender] = useState(healthInfoController.getGender());
+  const [gender, setGender] = useState(healthInfoController.selectedGender);
   const navigate = useNavigate();
 
   const handleNext = (e) => {
@@ -44,6 +41,10 @@ const HealthInfoForm = ({
   useEffect(() => {
     healthInfoController.setGender(gender);
   }, [gender]);
+
+  useEffect(() => {
+    setGender(healthInfoController.selectedGender);
+  }, [healthInfoController.selectedGender]);
 
   return (
     <form
@@ -61,7 +62,8 @@ const HealthInfoForm = ({
           id="age"
           min={1}
           max={100}
-          defaultValue={healthInfoController.getAge()}
+          placeholder="ㅡ"
+          defaultValue={healthInfoController.selectedAge}
           onChange={(e) => {
             healthInfoController.setAge(e.target.value);
           }}
@@ -77,10 +79,10 @@ const HealthInfoForm = ({
             className={
               style.button +
               " " +
-              (gender === "male" ? style.color.orange : style.color.gray)
+              (gender === "MALE" ? style.color.orange : style.color.gray)
             }
             onClick={() =>
-              gender === "male" ? setGender("female") : setGender("male")
+              gender === "MALE" ? setGender("FEMALE") : setGender("MALE")
             }
           >
             남
@@ -90,10 +92,10 @@ const HealthInfoForm = ({
             className={
               style.button +
               " " +
-              (gender === "female" ? style.color.orange : style.color.gray)
+              (gender === "FEMALE" ? style.color.orange : style.color.gray)
             }
             onClick={() =>
-              gender === "female" ? setGender("male") : setGender("female")
+              gender === "FEMALE" ? setGender("MALE") : setGender("FEMALE")
             }
           >
             여
@@ -109,9 +111,10 @@ const HealthInfoForm = ({
           className={style.input}
           type="number"
           id="height"
+          placeholder="ㅡ"
           min={120}
           max={200}
-          defaultValue={healthInfoController.getHeight()}
+          defaultValue={healthInfoController.selectedHeight}
           onChange={(e) => {
             healthInfoController.setHeight(e.target.value);
           }}
@@ -128,7 +131,8 @@ const HealthInfoForm = ({
           max={180}
           type="number"
           id="weight"
-          defaultValue={healthInfoController.getWeight()}
+          placeholder="ㅡ"
+          defaultValue={healthInfoController.selectedWeight}
           onChange={(e) => {
             healthInfoController.setWeight(e.target.value);
           }}
@@ -143,11 +147,12 @@ const HealthInfoForm = ({
           required
           className={`${style.select}`}
           id="activityLevel"
-          defaultValue={healthInfoController.getActivityLevel()}
+          value={healthInfoController.selectedActivityLevel || ""}
           onChange={(e) => {
             healthInfoController.setActivityLevel(e.target.value);
           }}
         >
+          <option value="">ㅡ</option>
           {activityLevels.map((level, index) => (
             <option key={index} value={level}>
               {level}
@@ -155,7 +160,11 @@ const HealthInfoForm = ({
           ))}
         </select>
       </Section>
-      <button className={style.completeButton}>다음</button>
+      <button
+        className={style.completeButton.base + " " + style.completeButton.hover}
+      >
+        저장
+      </button>
     </form>
   );
 };

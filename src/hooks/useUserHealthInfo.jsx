@@ -1,22 +1,20 @@
 import { useState } from "react";
 import { HealthInfoService } from "../services/HealthInfoService";
 
-const useUserHealthInfo = ({ age, height, weight, gender, activity_level }) => {
-  const [selectedAge, setSelectedAge] = useState(age || 20);
-  const [selectedHeight, setSelectedHeight] = useState(height || 160);
-  const [selectedWeight, setSelectedWeight] = useState(weight || 60);
-  const [selectedGender, setSelectedGender] = useState(gender || "male");
-  const [selectedActivityLevel, setSelectedActivityLevel] = useState(
-    activity_level || "저활동적"
-  );
+const useUserHealthInfo = () => {
+  const [selectedAge, setSelectedAge] = useState(null);
+  const [selectedHeight, setSelectedHeight] = useState(null);
+  const [selectedWeight, setSelectedWeight] = useState(null);
+  const [selectedGender, setSelectedGender] = useState(null);
+  const [selectedActivityLevel, setSelectedActivityLevel] = useState(null);
   const activityLevels = ["비활동적", "저활동적", "활동적", "매우 활동적"];
 
   const healthInfoController = {
-    getAge: () => selectedAge,
-    getHeight: () => selectedHeight,
-    getWeight: () => selectedWeight,
-    getGender: () => selectedGender,
-    getActivityLevel: () => selectedActivityLevel,
+    selectedAge,
+    selectedHeight,
+    selectedWeight,
+    selectedGender,
+    selectedActivityLevel,
     setAge: setSelectedAge,
     setHeight: setSelectedHeight,
     setWeight: setSelectedWeight,

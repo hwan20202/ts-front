@@ -85,3 +85,19 @@ export const postEditedRecipe = async (recipe) => {
     console.log(e.message);
   }
 };
+
+export const putEditedRecipe = async (recipe) => {
+  const path = `/api/recipe/custom/edit/${recipe.id}`;
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(new EditedRecipeResponse({ ...recipe })),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to put edited recipe");
+  }
+  return response;
+};

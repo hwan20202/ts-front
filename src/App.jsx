@@ -144,6 +144,7 @@ function App() {
 }
 
 const SharedOnlyRecipeHeader = () => {
+  const navigate = useNavigate();
   return (
     <Header>
       <div className="w-full flex flex-row-reverse items-center">
