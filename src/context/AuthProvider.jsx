@@ -25,10 +25,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const validateSession = async () => {
       const isValidSession = await checkSessionValidity();
-
-      // if (!isValidSession) {
-      //   navigate("/login"); // 세션이 유효하지 않으면 로그인 페이지로 이동
-      // }
       setIsLoggedIn(isValidSession);
     };
 

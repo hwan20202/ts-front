@@ -8,10 +8,11 @@ const style = {
     "leading-none p-2 bg-gray-300 text-center font-bold text-white text-sm focus:outline-none border-b-2 focus:border-orange-500",
   label:
     "w-full text-center text-gray-500 font-bold h-full flex items-center justify-center",
-  button: "w-full h-10 text-white leading-none transition-all duration-300",
+  button:
+    "w-full h-10 font-bold text-white leading-none transition-all duration-300",
   color: {
-    gray: "bg-gray-400",
-    orange: "bg-orange-500",
+    gray: "bg-gray-300",
+    selected: "bg-green-400",
   },
   completeButton: {
     base: "w-full h-10 text-white leading-none transition-all duration-300 bg-orange-400 mt-4",
@@ -57,7 +58,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
         </label>
         <input
           required
-          className={style.input}
+          className="input inputFocus text-center"
           type="number"
           id="age"
           min={1}
@@ -79,7 +80,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
             className={
               style.button +
               " " +
-              (gender === "MALE" ? style.color.orange : style.color.gray)
+              (gender === "MALE" ? style.color.selected : style.color.gray)
             }
             onClick={() =>
               gender === "MALE" ? setGender("FEMALE") : setGender("MALE")
@@ -92,7 +93,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
             className={
               style.button +
               " " +
-              (gender === "FEMALE" ? style.color.orange : style.color.gray)
+              (gender === "FEMALE" ? style.color.selected : style.color.gray)
             }
             onClick={() =>
               gender === "FEMALE" ? setGender("MALE") : setGender("FEMALE")
@@ -108,7 +109,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
         </label>
         <input
           required
-          className={style.input}
+          className="input inputFocus text-center"
           type="number"
           id="height"
           placeholder="ㅡ"
@@ -126,7 +127,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
         </label>
         <input
           required
-          className={style.input}
+          className="input inputFocus text-center"
           min={40}
           max={180}
           type="number"
@@ -145,7 +146,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
         </label>
         <select
           required
-          className={`${style.select}`}
+          className="input inputFocus text-center"
           id="activityLevel"
           value={healthInfoController.selectedActivityLevel || ""}
           onChange={(e) => {

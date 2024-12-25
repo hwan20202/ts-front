@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { useInitialUserInfoContext } from "../../../context/InitialUserInfoProvider";
 import HealthInfoForm from "./HealthInfoForm.jsx";
+import { useUserContext } from "../../../context/UserProvider";
 
 const HealthInfoInit = () => {
-  const { healthInfoController } = useInitialUserInfoContext();
+  const { healthInfoController } = useUserContext();
   const navigate = useNavigate();
   const handleComplete = () => {
     alert("건강 정보 설정 완료");
