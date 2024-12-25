@@ -54,11 +54,9 @@ function RecipeWrapper() {
 
 function InitUserInfoWrapper() {
   return (
-    <InitialUserInfoProvider>
-      <Page>
-        <Outlet />
-      </Page>
-    </InitialUserInfoProvider>
+    <Page>
+      <Outlet />
+    </Page>
   );
 }
 
@@ -109,19 +107,12 @@ function App() {
           <Route path="/user/init" element={<InitUserInfoWrapper />}>
             <Route path="/user/init/health" element={<HealthInfoInit />} />
             <Route path="/user/init/preference" element={<PreferenceInit />} />
-            {/* <Route
-              path="/user/init/dislikedAndAllergy"
-              element={<DislikedAndAllergyInit />}
-            /> */}
           </Route>
           <Route path="/recipe" element={<RecipeWrapper />}>
             <Route
               // tag: [original, custom]
               path="/recipe/:tag/:recipeId"
               element={
-                // <RecipeLayout>
-                //   <RecipePage />
-                // </RecipeLayout>
                 <ConditionalRecipeLayout>
                   <RecipePage />
                 </ConditionalRecipeLayout>

@@ -7,6 +7,7 @@ import ToggleButton from "../common/ToggleButton";
 import Popover from "../common/Popover";
 import Scrollable from "../common/Scrollable";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const styles = {
   container:
     "sticky bottom-0 left-0 flex justify-center p-2 w-full max-w-body h-12 bg-white gap-2 border-t border-gray-100",
@@ -72,6 +73,7 @@ const SelectMealCount = ({ children, onSelect }) => {
 };
 
 const RecipeFooter = () => {
+  const { tag } = useParams();
   const { recipe } = useRecipe();
   const [isSelectAITypeOpen, setIsSelectAITypeOpen] = useState(false);
   const [isGenerateAddInfoOpen, setIsGenerateAddInfoOpen] = useState(false);
@@ -88,6 +90,10 @@ const RecipeFooter = () => {
   const handleEatComplete = () => {
     alert("조리 완료");
     putEatenRecipe({ ...recipe });
+  };
+
+  const handleEdit = () => {
+    navigate(`/recipe/ai/${recipe.id}/edit`);
   };
 
   const transformType = {
@@ -121,12 +127,22 @@ const RecipeFooter = () => {
   return (
     <>
       <div className={styles.container}>
-        <button
-          className={`${styles.button} ${styles.buttonColorOrange}`}
-          onClick={() => setIsSelectAITypeOpen(true)}
-        >
-          AI 변환
-        </button>
+        {tag === "original" ? (
+          <button
+            className={`${styles.button} ${styles.buttonColorOrange}`}
+            onClick={() => setIsSelectAITypeOpen(true)}
+          >
+            AI 변환
+          </button>
+        ) : (
+          <button
+            className={`${styles.button} ${styles.buttonColorOrange}`}
+            onClick={handleEdit}
+          >
+            수정 하기
+          </button>
+        )}
+
         <button
           className={`${styles.button} ${styles.buttonColorGreen}`}
           onClick={handleEatComplete}

@@ -1,9 +1,7 @@
 import { getPreferencesTagsAll } from "../../../services/fetchUserInfo";
-import Section from "../Section";
-import TagBox from "../TagBox";
-import useUserPreference from "../../../hooks/useUserPreference";
 import ToggleButton from "../../common/ToggleButton";
 import { PreferenceService } from "../../../services/PreferenceService";
+import { useUserContext } from "../../../context/UserProvider";
 
 const styles = {
   container: "flex flex-col gap-3 min-w-[300px]",
@@ -21,19 +19,19 @@ const styles = {
 const PreferenceView = () => {
   const { getCategory, getValues, getNameCategory, getEntriesByKey } =
     getPreferencesTagsAll();
-  const { userPreferences } = useUserPreference();
+  const { preferenceController } = useUserContext();
 
-  if (!userPreferences) return null;
+  if (!preferenceController.userPreferences) return null;
 
-  const prefersWithType = userPreferences.map((prefer) =>
+  const prefersWithType = preferenceController.userPreferences.map((prefer) =>
     getEntriesByKey(prefer)
   );
 
-  const userPreferenceTags = prefersWithType.reduce((acc, prefer) => {
-    const [key, value] = prefer;
-    acc[value] = [...(acc[value] || []), key];
-    return acc;
-  }, {});
+  // const userPreferenceTags = prefersWithType.reduce((acc, prefer) => {
+  //   const [key, value] = prefer;
+  //   acc[value] = [...(acc[value] || []), key];
+  //   return acc;
+  // }, {});
 
   return (
     <div className={styles.container}>
@@ -44,12 +42,16 @@ const PreferenceView = () => {
             {getValues(category)?.map((tag, index) => (
               <ToggleButton
                 key={index}
-                defaultToggle={userPreferences.includes(tag)}
+                defaultToggle={preferenceController.userPreferences.includes(
+                  tag
+                )}
                 onSetTrue={() => {
-                  PreferenceService.postUserPreferences(tag);
+                  // PreferenceService.postUserPreferences(tag);
+                  preferenceController.addUserPreferences(tag);
                 }}
                 onSetFalse={() => {
-                  PreferenceService.deleteUserPreferences(tag);
+                  // PreferenceService.deleteUserPreferences(tag);
+                  preferenceController.removeUserPreferences(tag);
                 }}
                 trueClassName={`${styles.button.common} ${styles.button.selected} ${styles.button.hover}`}
                 falseClassName={`${styles.button.common} ${styles.button.default} ${styles.button.hover}`}

@@ -83,6 +83,11 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchUserPreferences = async () => {
+    const preferences = await PreferenceService.getUserPreferences();
+    preferenceController.setUserPreferences(preferences);
+  };
+
   useEffect(() => {
     if (isSetPreferences === false) {
       navigate("/user/init/preference");
@@ -100,6 +105,7 @@ const UserProvider = ({ children }) => {
 
     fetchUserInfo();
     fetchIngredients();
+    fetchUserPreferences();
     checkIsSetPreferences();
     checkIsSetHealth();
     initKakao();

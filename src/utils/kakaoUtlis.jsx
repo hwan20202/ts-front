@@ -11,7 +11,7 @@ export const initKakao = () => {
 };
 
 export const share = ({ path, title, main_img, description }) => {
-  const link = `http://ktb-project-domain.shop/${path}`;
+  const link = `https://ktb-project-domain.shop/${path}`;
   // const link = `http://localhost:5173/${path}`;
   Kakao.Share.createDefaultButton({
     container: "#kakaotalk-sharing-btn",
