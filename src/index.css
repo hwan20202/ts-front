@@ -143,3 +143,23 @@ input::-webkit-inner-spin-button {
 .grow:hover {
   transform: scale(1.1);
 }
+
+/* 일반 입력 스타일 */
+.input {
+  outline: none;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 0.125rem; /* rounded-sm */
+  padding: 0.5rem; /* px-2 */
+  margin-right: 0.25rem; /* mr-1 */
+  font-size: 1rem; /* text-sm */
+  font-weight: 600; /* font-semibold */
+  color: #6b7280; /* text-gray-500 */
+}
+
+/* 포커스 시 스타일 */
+.inputFocus {
+  border-color: #86efac; /* border-green-300 */
+  background-color: #f9fafb; /* bg-gray-50 */
+}

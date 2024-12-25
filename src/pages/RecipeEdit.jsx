@@ -197,7 +197,7 @@ const RecipeEdit = () => {
           </div>
         )}
         <div className="w-full flex flex-col bg-white px-6 shrink-0">
-          <div ref={(el) => (ref.current[1] = el)}>
+          <div ref={(el) => (ref.current[aiResponse?.aiComment ? 1 : 0] = el)}>
             {aiResponse?.aiComment && <RecipeTips {...aiResponse.aiComment} />}
             <EditIngredientList
               {...recipe}

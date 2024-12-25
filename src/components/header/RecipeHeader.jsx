@@ -10,7 +10,7 @@ const styles = {
 
 const RecipeHeader = () => {
   const navigate = useNavigate();
-  const { recipeId } = useParams();
+  const { tag, recipeId } = useParams();
   const { modifyRecipe, share, bookmark, isBookmarked } = useRecipe();
 
   const goBack = () => {
@@ -46,24 +46,28 @@ const RecipeHeader = () => {
             label="공유"
             className="text-lg text-gray-600 hover:text-gray-800 grow grow-hover bg-gray-100"
           />
-          <IconButton
-            icon={
-              <i
-                className={`${
-                  isBookmarked ? "fa-solid text-yellow-300" : "fa-regular "
-                } fa-bookmark`}
-              ></i>
-            }
-            onClick={bookmark}
-            label="저장"
-            className="text-lg text-gray-600 hover:text-gray-800 grow grow-hover bg-gray-100"
-          />
-          <IconButton
-            icon={<i className="fa-solid fa-pen"></i>}
-            onClick={edit}
-            label="편집"
-            className="text-lg text-gray-600 hover:text-gray-800 grow grow-hover bg-gray-100"
-          />
+          {tag === "original" && (
+            <IconButton
+              icon={
+                <i
+                  className={`${
+                    isBookmarked ? "fa-solid text-yellow-300" : "fa-regular "
+                  } fa-bookmark`}
+                ></i>
+              }
+              onClick={bookmark}
+              label="저장"
+              className="text-lg text-gray-600 hover:text-gray-800 grow grow-hover bg-gray-100"
+            />
+          )}
+          {tag === "original" && (
+            <IconButton
+              icon={<i className="fa-solid fa-pen"></i>}
+              onClick={edit}
+              label="편집"
+              className="text-lg text-gray-600 hover:text-gray-800 grow grow-hover bg-gray-100"
+            />
+          )}
         </div>
       </div>
     </Header>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getPreferencesTagsAll } from "../services/fetchUserInfo";
 import { putUserPreferSpicyLevel } from "../services/fetchUserInfo";
 import { PreferenceService } from "../services/PreferenceService";
-
+import { postUserAllergies } from "../services/fetchUserInfo";
 const useUserPreference = () => {
   const { getCategory, getValues, getTags, getEntriesByKey } =
     getPreferencesTagsAll();
@@ -19,22 +19,27 @@ const useUserPreference = () => {
 
   const [allergies, setAllergies] = useState([]);
 
-  useEffect(() => {
-    const fetchUserPreferences = async () => {
-      const preferences = await PreferenceService.getUserPreferences();
-      setUserPreferences(preferences);
-    };
+  // useEffect(() => {
+  //   const fetchUserPreferences = async () => {
+  //     const preferences = await PreferenceService.getUserPreferences();
+  //     setUserPreferences(preferences);
+  //   };
 
-    fetchUserPreferences();
-  }, []);
+  //   fetchUserPreferences();
+  // }, []);
 
   const preferenceController = {
-    getSelectedMethodKey: () => selectedMethodKey,
-    getSelectedRecipeType: () => selectedRecipeType,
-    getSelectedStyle: () => selectedStyle,
-    getSelectedFlavor: () => selectedFlavor,
-    getSelectedNutrition: () => selectedNutrition,
-    getSelectedHealthObjective: () => selectedHealthObjective,
+    userPreferences,
+    addUserPreferences: (tag) => PreferenceService.postUserPreferences(tag),
+    removeUserPreferences: (tag) =>
+      PreferenceService.deleteUserPreferences(tag),
+    selectedMethodKey,
+    selectedRecipeType,
+    selectedStyle,
+    selectedFlavor,
+    selectedNutrition,
+    selectedHealthObjective,
+    setUserPreferences,
     setSelectedMethodKey,
     setSelectedRecipeType,
     setSelectedStyle,
@@ -42,14 +47,17 @@ const useUserPreference = () => {
     setSelectedNutrition,
     setSelectedHealthObjective,
     complete: async () => {
-      const preferencesResult = await PreferenceService.postUserPreferences([
+      const preferences = [
         ...selectedMethodKey,
         ...selectedRecipeType,
         ...selectedStyle,
         ...selectedFlavor,
         ...selectedNutrition,
         ...selectedHealthObjective,
-      ]);
+      ];
+      const preferencesResult = await PreferenceService.postUserPreferences(
+        preferences
+      );
       const spicyLevel = selectedFlavor
         .filter((flavor) => flavor.includes("매운맛"))
         .map((flavor) => flavor.substring(3, 4))
@@ -58,6 +66,7 @@ const useUserPreference = () => {
       if (!preferencesResult || !spicyLevelResult) {
         throw new Error("초기 설정 실패");
       }
+      setUserPreferences(preferences);
       return true;
     },
   };
@@ -65,15 +74,21 @@ const useUserPreference = () => {
   const allergyController = {
     allergies,
     set: (allergies) => setAllergies(allergies),
-    add: (allergy) => setAllergies((prev) => [...prev, allergy]),
+    add: (allergy) => setAllergies((prev) => [...prev, ...allergy]),
     remove: (allergy) =>
       setAllergies((prev) => prev.filter((a) => a !== allergy)),
+    complete: async () => {
+      const allergiesResult = await postUserAllergies(allergies);
+      if (!allergiesResult) {
+        throw new Error("싫어하는 재료 설정 실패");
+      }
+      return true;
+    },
   };
 
   return {
     preferredTags,
     allergyController,
-    userPreferences,
     preferenceController,
   };
 };

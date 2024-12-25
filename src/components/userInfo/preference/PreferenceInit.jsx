@@ -1,4 +1,3 @@
-import { useInitialUserInfoContext } from "../../../context/InitialUserInfoProvider";
 import OptionSelector from "../OptionSelector";
 import SelectSection from "../InitSection";
 import ToggleButton from "../../common/ToggleButton";
@@ -46,8 +45,7 @@ const ButtonBox = ({ items, setItems }) => {
 };
 
 const PreferenceInit = () => {
-  const { preferenceController, allergyController } =
-    useInitialUserInfoContext();
+  const { preferenceController, allergyController } = useUserContext();
   const { getValues } = getPreferencesTagsAll();
   const navigate = useNavigate();
   const { setIsSetPreferences } = useUserContext();
@@ -63,42 +61,42 @@ const PreferenceInit = () => {
       title: "조리법",
       description: "선호하는 조리법을 선택해주세요.",
       options: getValues("methodKey"),
-      selectedOptions: preferenceController.getSelectedMethodKey(),
+      selectedOptions: preferenceController.selectedMethodKey,
       setSelectedOptions: preferenceController.setSelectedMethodKey,
     },
     step2: {
       title: "레시피 유형",
       description: "주로 어떤 목적으로 레시피를 찾으시는지 선택해주세요.",
       options: getValues("recipeType"),
-      selectedOptions: preferenceController.getSelectedRecipeType(),
+      selectedOptions: preferenceController.selectedRecipeType,
       setSelectedOptions: preferenceController.setSelectedRecipeType,
     },
     step3: {
       title: "스타일",
       description: "선호하는 스타일을 선택해주세요.",
       options: getValues("style"),
-      selectedOptions: preferenceController.getSelectedStyle(),
+      selectedOptions: preferenceController.selectedStyle,
       setSelectedOptions: preferenceController.setSelectedStyle,
     },
     step4: {
       title: "맛",
       description: "선호하는 맛을 선택해주세요.",
       options: getValues("flavor"),
-      selectedOptions: preferenceController.getSelectedFlavor(),
+      selectedOptions: preferenceController.selectedFlavor,
       setSelectedOptions: preferenceController.setSelectedFlavor,
     },
     step5: {
       title: "영양",
       description: "고려하고 싶은 영양소를 선택해주세요.",
       options: getValues("nutrition"),
-      selectedOptions: preferenceController.getSelectedNutrition(),
+      selectedOptions: preferenceController.selectedNutrition,
       setSelectedOptions: preferenceController.setSelectedNutrition,
     },
     step6: {
       title: "건강 목표",
       description: "건강 목표를 선택해주세요.",
       options: getValues("healthObjective"),
-      selectedOptions: preferenceController.getSelectedHealthObjective(),
+      selectedOptions: preferenceController.selectedHealthObjective,
       setSelectedOptions: preferenceController.setSelectedHealthObjective,
     },
   };
@@ -132,7 +130,7 @@ const PreferenceInit = () => {
       <SelectSection title="알레르기">
         <div className="flex flex-col gap-4 w-full h-full justify-center items-center">
           <ButtonBox
-            items={allergyController.getAllergies()}
+            items={allergyController.allergies}
             setItems={allergyController.setAllergies}
           />
           <form
@@ -144,10 +142,7 @@ const PreferenceInit = () => {
                 .split(" ")
                 .filter((ingredient) => ingredient.trim() !== "");
               if (newAllergies) {
-                allergyController.setAllergies([
-                  ...allergyController.getAllergies(),
-                  ...newAllergies,
-                ]);
+                allergyController.add(newAllergies);
               }
               e.target.allergies.value = "";
             }}

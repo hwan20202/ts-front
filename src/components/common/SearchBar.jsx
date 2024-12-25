@@ -29,7 +29,8 @@ const SearchBar = ({
         type="text"
         name="keyword"
         autoComplete="off"
-        className={`${styles.input} ${styles.inputFocus}`}
+        // className={`${styles.input} ${styles.inputFocus}`}
+        className="input inputFocus"
       />
       <button
         type="submit"
