@@ -15,10 +15,6 @@ const RecipeEditFooter = ({
   aiTransform = () => {},
   editComplete = () => {},
 }) => {
-  const handleAITransform = () => {
-    aiTransform();
-  };
-
   const handleEditComplete = () => {
     editComplete();
   };

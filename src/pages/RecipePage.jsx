@@ -4,18 +4,10 @@ import IngredientList from "../components/recipe/IngredientList.jsx";
 import RecipeProfile from "../components/recipe/RecipeProfile.jsx";
 import RecipeDescription from "../components/recipe/RecipeDescription.jsx";
 import CookingStepList from "../components/recipe/CookingStepList.jsx";
-import RecipeFooter from "../components/footer/RecipeFooter.jsx";
 import { useRecipe } from "../context/RecipeProvider.jsx";
-import { useNavigate } from "react-router-dom";
-import BottomSheet from "../components/common/BottomSheet.jsx";
-import ToggleButton from "../components/common/ToggleButton.jsx";
-import Dropdown from "../components/common/Dropdown.jsx";
 import RecipeLoading from "./RecipeLoading.jsx";
-import WheelSelector from "../components/common/WheelSelector.jsx";
 import MenuSelect from "../components/common/MenuSelect.jsx";
 import Slider from "../components/common/Slider.jsx";
-import Popover from "../components/common/Popover.jsx";
-import Scrollable from "../components/common/Scrollable.jsx";
 const style = {
   page: "top-0 left-0 flex flex-col w-full h-content justify-start max-w-body",
   title: "text-md font-bold text-gray-500 leading-none mb-4",

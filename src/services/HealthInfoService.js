@@ -14,29 +14,19 @@ export class HealthInfoService {
     return result.is_checked;
   }
 
-  static async getUserHealthInfo() {
-    const path = `/api/userinfo`;
-    const response = await fetch(`${serverUrl}${path}`, {
-      method: "GET",
-      credentials: "include",
-    });
-    if (!response.ok) {
-      throw new Error("Failed to get user health info");
-    }
-    const { gender, activity_level, height, weight, age } =
-      await response.json();
-    return { gender, activity_level, height, weight, age };
-  }
-
   static async putUserHealthInfo(healthInfo) {
-    console.log(healthInfo);
+    healthInfo.gender = healthInfo.gender.toUpperCase();
+
     const path = `/api/userinfo/setting/physical`;
     const response = await fetch(`${serverUrl}${path}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...healthInfo }),
+      body: JSON.stringify({
+        ...healthInfo,
+        gender: healthInfo.gender.toLowerCase(),
+      }),
       credentials: "include",
     });
     if (!response.ok) {

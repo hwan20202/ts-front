@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getRecipe } from "../services/fetchRecipe";
-import { postEditedRecipe } from "../services/fetchUserRecipe";
+import { putEditedRecipe } from "../services/fetchUserRecipe";
 import Recipe from "../models/Recipe";
 import { useNavigate } from "react-router-dom";
 
@@ -20,8 +20,9 @@ const useRecipeEdit = (recipeId) => {
   }, [recipeId]);
 
   const editComplete = () => {
-    const newIngredients = recipe.ingredients.map((i) => JSON.stringify(i));
-    postEditedRecipe({ ...recipe, ingredients: newIngredients });
+    // const newIngredients = recipe.ingredients.map((i) => JSON.stringify(i));
+    // postEditedRecipe({ ...recipe, ingredients: newIngredients });
+    putEditedRecipe({ ...recipe });
   };
 
   const addIngredient = (items) => {
