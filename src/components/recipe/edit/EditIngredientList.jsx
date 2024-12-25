@@ -17,7 +17,7 @@ const style = {
     buttonColorGreen: "bg-green-300  hover:bg-green-400",
     deleteIcon: "text-red-300 hover:text-red-500",
     input:
-      "w-full bg-gray-300 text-sm rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-500 shadow-md",
+      "w-full bg-gray-300 text-base rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-500 shadow-md",
   },
   divider: "border-t border-gray-200 my-1",
 };

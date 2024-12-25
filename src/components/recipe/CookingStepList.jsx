@@ -40,7 +40,7 @@ const CookingStepList = ({ orders = [], images = [] }) => {
             image={images[index]}
             isImageOpenDefault={isImageOpen}
           >
-            <div className="text-sm text-gray-500 leading-[1.8] bg-gray-200 px-4 py-2 w-full rounded-md mt-2">
+            <div className="text-base text-gray-800 leading-[1.8] bg-gray-200 px-4 py-2 w-full rounded-md mt-2">
               {order}
             </div>
           </CookingOrder>

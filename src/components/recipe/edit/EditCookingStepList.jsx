@@ -15,7 +15,7 @@ const styles = {
       "flex flex-col justify-center items-start mb-4 p-4 rounded-lg font-semibold",
     stepNumber: "text-md leading-none font-sans font-semibold mb-1",
     textarea:
-      "w-full  bg-gray-300 text-sm leading-[1.7] rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-500 shadow-md",
+      "w-full  bg-gray-300 text-base leading-[1.7] rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-500 shadow-md",
   },
 };
 
