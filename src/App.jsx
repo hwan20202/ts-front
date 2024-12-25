@@ -29,7 +29,7 @@ import Header from "./components/header/Header.jsx";
 import { useRecipe } from "./context/RecipeProvider.jsx";
 const Page = ({ children }) => {
   return (
-    <div className="w-full h-full flex justify-center items-center bg-white p-36">
+    <div className="w-full h-full flex justify-center items-center bg-white">
       {children}
     </div>
   );

@@ -7,7 +7,7 @@ const styles = {
   open: "translate-x-0",
   closed: "translate-x-full",
   overlay: "fixed z-40 inset-0 bg-black bg-opacity-50",
-  closeButton: "absolute top-2 left-2 text-gray-500 hover:text-gray-700",
+  closeButton: "absolute top-2 left-2 text-gray-500 hover:text-gray-700 p-4",
 };
 
 const SideSheet = ({ isOpen, onClose, children }) => {

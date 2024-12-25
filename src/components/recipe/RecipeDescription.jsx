@@ -6,7 +6,7 @@ const style = {
   subtitle: "text-gray-400 text-xs font-light p-0 mx-3 mb-4 font-semibold",
   descriptionContainer:
     "grid grid-cols-3 bg-gray-200 rounded-lg py-4 text-black",
-  description: "flex flex-col items-center",
+  description: "flex flex-col items-center text-lg font-semibold text-gray-600",
   border: "border-l border-r border-gray-300",
 };
 
@@ -29,16 +29,16 @@ const RecipeDescription = ({
       </h2>
       <div className={style.descriptionContainer}>
         <div className={style.description}>
-          <span className="text-sm">인원</span>
-          <span className="text-sm">{servings}</span>
+          <span className="text-base">인원</span>
+          <span>{servings}</span>
         </div>
         <div className={style.description + " " + style.border}>
-          <span className="text-sm">조리시간</span>
-          <span className="text-sm">{cooking_time || "-"}</span>
+          <span className="text-base">조리시간</span>
+          <span>{cooking_time || "-"}</span>
         </div>
         <div className={style.description}>
-          <span className="text-sm">난이도</span>
-          <span className="text-sm">{difficulty || "-"}</span>
+          <span className="text-base">난이도</span>
+          <span>{difficulty || "-"}</span>
         </div>
       </div>
     </div>

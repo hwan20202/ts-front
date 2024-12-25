@@ -9,16 +9,11 @@ const style = {
     container:
       "flex items-center justify-between text-gray-500 p-2 border border-gray-200 rounded-sm mb-1",
     containerHover: "hover:bg-gray-200",
-    name: "text-left text-xs font-bold",
+    name: "text-left text-base font-semibold text-gray-600",
   },
 };
 
 const IngredientItem = ({ name }) => {
-  // const purchase = () => {
-  //   const url = import.meta.env.VITE_APP_COUPANG_URL;
-  //   console.log(`purchase: ${name}`);
-  //   window.open(`${url}${name}`, "_blank");
-  // };
   const url = import.meta.env.VITE_APP_COUPANG_URL;
 
   return (

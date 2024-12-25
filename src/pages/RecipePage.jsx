@@ -9,7 +9,7 @@ import RecipeLoading from "./RecipeLoading.jsx";
 import MenuSelect from "../components/common/MenuSelect.jsx";
 import Slider from "../components/common/Slider.jsx";
 const style = {
-  page: "top-0 left-0 flex flex-col w-full h-content justify-start max-w-body",
+  page: "top-0 left-0 bg-white flex flex-col w-full h-content justify-start max-w-body pb-10",
   title: "text-md font-bold text-gray-500 leading-none mb-4",
   button: "text-sm font-bold text-gray-700 w-full py-2 rounded-md",
   buttonHover: {

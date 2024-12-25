@@ -4,13 +4,20 @@ import { useState } from "react";
 const styles = {
   categoryWrapper: "flex flex-col text-sm p-2 mb-2",
   titleWrapper: "flex justify-between",
-  title: "text-gray-700 font-bold text-lg",
+  title: "text-gray-700 font-bold text-xl",
   editButton: "text-xs font-semibold text-gray-500",
-  subtitle: "text-xs font-semibold text-gray-500 mb-2",
+  subtitle: "text-base font-semibold text-gray-500 mb-2",
 };
 
-const Section = ({ title, subtitle, children }) => {
+const Section = ({ title, subtitle, children, onComplete }) => {
   const [onEdit, setOnEdit] = useState(false);
+
+  const handleComplete = (e) => {
+    e.preventDefault();
+    onComplete(e);
+    setOnEdit(false);
+  };
+
   return (
     <div className={styles.categoryWrapper}>
       <div className={styles.titleWrapper}>
@@ -20,12 +27,7 @@ const Section = ({ title, subtitle, children }) => {
             수정
           </button>
         ) : (
-          <button
-            className={styles.editButton}
-            onClick={() => {
-              setOnEdit(false);
-            }}
-          >
+          <button className={styles.editButton} onClick={handleComplete}>
             완료
           </button>
         )}
