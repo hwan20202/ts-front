@@ -99,9 +99,7 @@ const Profile = () => {
             title="신체정보 설정"
             description="영양맞춤 레시피를 추천받기 위해 신체정보를 설정해주세요."
           >
-            <HealthInfoView
-              onComplete={() => setIsHealthInfoSheetOpen(false)}
-            />
+            <HealthInfoView />
           </SettingSection>
           <SettingSection
             title="알러지 및 싫어하는 재료 설정"

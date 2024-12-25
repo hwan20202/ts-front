@@ -118,6 +118,19 @@ export const getFakeAllergies = () => {
   ];
 };
 
+export const getUserInfo = async () => {
+  const path = `/api/userinfo`;
+  const response = await fetch(`${serverUrl}${path}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get user health info");
+  }
+  const data = await response.json();
+  return data;
+};
+
 export const postUserDislikedIngredients = async (ingredients) => {
   const path = `/api/userinfo/disliked`;
   const response = await fetch(`${serverUrl}${path}`, {

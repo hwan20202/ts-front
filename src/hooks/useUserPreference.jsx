@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { getPreferencesTagsAll } from "../services/fetchUserInfo";
 import { putUserPreferSpicyLevel } from "../services/fetchUserInfo";
 import { PreferenceService } from "../services/PreferenceService";
-import { use } from "react";
 
 const useUserPreference = () => {
   const { getCategory, getValues, getTags, getEntriesByKey } =
@@ -15,15 +14,17 @@ const useUserPreference = () => {
   const [selectedFlavor, setSelectedFlavor] = useState([]);
   const [selectedNutrition, setSelectedNutrition] = useState([]);
   const [selectedHealthObjective, setSelectedHealthObjective] = useState([]);
-  const [allergies, setAllergies] = useState([]);
 
   const [userPreferences, setUserPreferences] = useState(null);
+
+  const [allergies, setAllergies] = useState([]);
 
   useEffect(() => {
     const fetchUserPreferences = async () => {
       const preferences = await PreferenceService.getUserPreferences();
       setUserPreferences(preferences);
     };
+
     fetchUserPreferences();
   }, []);
 
@@ -61,7 +62,20 @@ const useUserPreference = () => {
     },
   };
 
-  return { preferredTags, allergies, userPreferences, preferenceController };
+  const allergyController = {
+    allergies,
+    set: (allergies) => setAllergies(allergies),
+    add: (allergy) => setAllergies((prev) => [...prev, allergy]),
+    remove: (allergy) =>
+      setAllergies((prev) => prev.filter((a) => a !== allergy)),
+  };
+
+  return {
+    preferredTags,
+    allergyController,
+    userPreferences,
+    preferenceController,
+  };
 };
 
 export default useUserPreference;

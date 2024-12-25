@@ -23,7 +23,6 @@ const Section = ({ title, subtitle, children }) => {
           <button
             className={styles.editButton}
             onClick={() => {
-              console.log("toggle");
               setOnEdit(false);
             }}
           >

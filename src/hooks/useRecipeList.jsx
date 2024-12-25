@@ -8,31 +8,28 @@ const useRecipeList = ({ path }) => {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(0);
 
-  const fetchRecipes = async () => {
-    const result = await getRecipeList(path, page);
-    if (result.success) {
-      setRecipes(result.data);
+  const loadMore = async () => {
+    setLoading(true);
+    const data = await getRecipeList(path, page);
+    if (!data.success) {
+      setError(true);
+      setLoading(false);
+      return false;
+    }
+    if (data.success && data.data?.length > 0) {
+      setRecipes((prev) => [...prev, ...data.data]);
       setPage((prev) => prev + 1);
       setLoading(false);
-    } else {
-      setError(true);
+      return true;
     }
+    setLoading(false);
+    return false;
   };
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    fetchRecipes();
+    loadMore();
   }, [isLoggedIn]);
-
-  const loadMore = async () => {
-    setLoading(true);
-    const data = await getRecipeList(path, page);
-    if (data.success) {
-      setRecipes((prev) => [...prev, ...data.data]);
-      setPage((prev) => prev + 1);
-      setLoading(false);
-    }
-  };
 
   return { recipes, loading, error, loadMore };
 };
