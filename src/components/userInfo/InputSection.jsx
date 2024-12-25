@@ -7,14 +7,14 @@ const styles = {
   focusInput: "focus:border-b-[0.5px] focus:border-b-green-500",
 };
 
-const InputSection = ({ onSubmit, type, placeholder, defaultValue }) => {
+const InputSection = ({ onSubmit, type, placeholder, defaultValue, name }) => {
   const { focusRef } = useFoldableBox();
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit();
+        onSubmit(e);
       }}
       className={styles.form}
     >
@@ -24,6 +24,7 @@ const InputSection = ({ onSubmit, type, placeholder, defaultValue }) => {
         placeholder={placeholder}
         defaultValue={defaultValue}
         className="input inputFocus"
+        name={name}
       />
     </form>
   );

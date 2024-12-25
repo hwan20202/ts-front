@@ -49,7 +49,7 @@ const HealthInfoForm = ({ healthInfoController, onComplete = () => {} }) => {
 
   return (
     <form
-      className="w-full max-w-[320px] h-screen flex flex-col gap-4 items-center justify-center text-black"
+      className="w-full max-w-[320px] flex flex-col gap-4 items-center justify-center text-black"
       onSubmit={handleNext}
     >
       <Section>

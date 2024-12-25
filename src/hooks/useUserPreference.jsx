@@ -77,8 +77,8 @@ const useUserPreference = () => {
     add: (allergy) => setAllergies((prev) => [...prev, ...allergy]),
     remove: (allergy) =>
       setAllergies((prev) => prev.filter((a) => a !== allergy)),
-    complete: async () => {
-      const allergiesResult = await postUserAllergies(allergies);
+    complete: async (allergy) => {
+      const allergiesResult = await postUserAllergies(allergy);
       if (!allergiesResult) {
         throw new Error("싫어하는 재료 설정 실패");
       }

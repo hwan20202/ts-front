@@ -51,7 +51,7 @@ const PreferenceInit = () => {
   const { setIsSetPreferences } = useUserContext();
   const handleNext = () => {
     preferenceController.complete();
-    allergyController.complete();
+    allergyController.complete(allergyController.allergies);
     setIsSetPreferences(true);
     navigate("/");
   };
@@ -106,7 +106,7 @@ const PreferenceInit = () => {
       <h1 className="text-2xl font-bold text-black text-center">
         선호 정보 설정
       </h1>
-      <h6 className="text-gray-500 text-center whitespace-pre-line leading-none">
+      <h6 className="text-gray-500 text-center whitespace-pre-line leading-none px-4">
         선호 정보를 설정하면 추천 레시피를 더 정확하게 추천해드립니다.
       </h6>
       {Object.values(preferenceConfig).map((config) => (
@@ -123,7 +123,7 @@ const PreferenceInit = () => {
         </SelectSection>
       ))}
       <h2 className="text-2xl font-bold text-black text-center">추가 정보</h2>
-      <h6 className="text-gray-500 text-center whitespace-pre-line leading-none">
+      <h6 className="text-gray-500 text-center whitespace-pre-line leading-none px-4">
         알레르기 정보를 추가하면 레시피 변환 시에 알레르기 정보를 고려해
         추천해드립니다.
       </h6>
