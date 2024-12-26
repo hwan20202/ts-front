@@ -63,12 +63,12 @@ const ExpiringSoonIngredientView = ({ ingredient }) => {
   return (
     <div className="flex items-center rounded-md px-1 justify-center bg-white gap-2">
       <div
-        className="flex w-full gap-2 text-xxs text-gray-500 justify-between items-center py-2 whitespace-nowrap"
+        className="flex w-full gap-2 text-sm text-gray-500 justify-between items-center py-2 whitespace-nowrap"
         onClick={toggleEdit}
       >
         <Dday
           dday={ingredient.getDaysUntilExpiration()}
-          className="text-xxs leading-none text-red-500 flex-shrink-0 border-2 border-red-400 rounded-full px-2"
+          className="text-sm leading-none text-red-500 flex-shrink-0 border-2 border-red-400 rounded-full px-2"
         />
         {ingredient.food_name}
         <button onClick={() => deleteIngredient(ingredient)}>
@@ -215,7 +215,7 @@ const ExpiringSoonContainer = ({ ingredients }) => {
     <ExpiringSoonSection title="유통기한 임박">
       <div className="flex flex-wrap text-black font-bold border border-red-300 p-2 rounded-sm gap-1">
         {ingredients.length === 0 ? (
-          <div className="w-full text-xs text-center font-lighta text-gray-300">
+          <div className="w-full text-sm text-center font-lighta text-gray-300">
             유통기한 임박한 재료가 없습니다.
           </div>
         ) : (
