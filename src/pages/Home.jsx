@@ -76,7 +76,7 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <Section title="오늘 뭐 먹지">
-        <SearchBar label="검색" onSearch={() => {}} />
+        {/* <SearchBar label="검색" onSearch={() => {}} /> */}
         <RecipeGallery
           recipes={recommendedRecipes}
           loadRecipes={loadMoreRecommendedRecipes}
