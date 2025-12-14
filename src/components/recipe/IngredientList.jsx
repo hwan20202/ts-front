@@ -1,0 +1,56 @@
+import React from "react";
+import PropTypes from "prop-types";
+import Button from "../common/Button.jsx";
+import { Link } from "react-router-dom";
+
+const style = {
+  title: "text-left text-xl font-bold text-black p-0 my-4",
+  ingredient: {
+    container:
+      "flex items-center justify-between text-gray-500 p-2 border border-gray-200 rounded-sm mb-1",
+    containerHover: "hover:bg-gray-200",
+    name: "text-left text-base font-semibold text-gray-600",
+  },
+};
+
+const IngredientItem = ({ name }) => {
+  const url = import.meta.env.VITE_APP_COUPANG_URL;
+
+  return (
+    <div
+      className={`${style.ingredient.container} ${style.ingredient.containerHover}`}
+    >
+      <Link
+        title={`쿠팡에서 ${name} 검색`}
+        to={`${url}${name}`}
+        target="_blank"
+        className={style.ingredient.name}
+      >
+        {name}
+      </Link>
+    </div>
+  );
+};
+
+IngredientItem.propTypes = {
+  name: PropTypes.string.isRequired,
+};
+
+const IngredientList = ({ ingredients }) => {
+  const parsedIngredients = ingredients;
+  return (
+    <>
+      <h2 className={style.title}>요리 재료</h2>
+      {parsedIngredients &&
+        parsedIngredients.map((ingredient, index) => (
+          <IngredientItem key={index} name={ingredient} />
+        ))}
+    </>
+  );
+};
+
+IngredientList.propTypes = {
+  ingredients: PropTypes.array.isRequired,
+};
+
+export default IngredientList;

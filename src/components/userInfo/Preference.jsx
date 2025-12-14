@@ -1,0 +1,83 @@
+import React from "react";
+import { getPreferencesTagsAll } from "../../services/fetchUserInfo";
+import { useToggle } from "../../hooks/useToggle";
+import { useEffect, useRef } from "react";
+import useSelect from "../../hooks/useSelect";
+import FoldableSection from "../common/FoldableSection";
+import InputSection from "./InputSection";
+import FoldableBoxProvider from "../../context/FoldableBoxProvider";
+import TagBox from "./TagBox";
+
+const styles = {
+  // container: "flex flex-col w-full p-1",
+  // categoryWrapper: "flex flex-col text-sm p-2 mb-2",
+  // titleWrapper: "flex justify-between",
+  // title: "text-gray-700 font-bold text-lg",
+  // editButton: "text-xs font-semibold text-gray-500",
+  // subtitle: "text-xs font-semibold text-gray-500 mb-2",
+};
+
+const TitleSection = ({
+  children,
+  onButtonClick,
+  subtitle,
+  onEdit = false,
+}) => {
+  return (
+    <>
+      <div className={styles.titleWrapper}>
+        <div className={styles.title}>{children}</div>
+        <button
+          className={styles.editButton}
+          onClick={() => {
+            onButtonClick();
+          }}
+        >
+          {!onEdit ? "수정" : "완료"}
+        </button>
+      </div>
+      <div className={styles.subtitle + " " + (onEdit ? "invisible" : "")}>
+        {subtitle}
+      </div>
+    </>
+  );
+};
+
+const CategorySection = ({ title, subtitle, children }) => {
+  const { isTrue, toggle } = useToggle(false);
+  return (
+    <div className={styles.categoryWrapper}>
+      <TitleSection onButtonClick={toggle} subtitle={subtitle} onEdit={isTrue}>
+        {title}
+      </TitleSection>
+      <FoldableBoxProvider>
+        <FoldableSection isOpen={isTrue}>{children}</FoldableSection>
+      </FoldableBoxProvider>
+    </div>
+  );
+};
+
+const Preference = () => {
+  const { getCategory, getValues, getNameCategory } = getPreferencesTagsAll();
+
+  console.log(getCategory());
+  return (
+    <div className={styles.container}>
+      {getCategory().map((category) => (
+        <CategorySection
+          title={getNameCategory(category)}
+          subtitle={getValues(category).join(" ")}
+          key={category}
+        >
+          {getValues(category).length > 0 && (
+            <div className={styles.tagBox}>
+              <TagBox tags={getValues(category)} selectedTags={[]} />
+            </div>
+          )}
+        </CategorySection>
+      ))}
+    </div>
+  );
+};
+
+export default Preference;

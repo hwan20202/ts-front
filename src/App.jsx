@@ -1,35 +1,219 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+  Outlet,
+} from "react-router-dom";
+import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+import Profile from "./pages/Profile.jsx";
+import MainHeader from "./components/header/MainHeader.jsx";
+import RecipePage from "./pages/RecipePage.jsx";
+import IconButton from "./components/common/IconButton.jsx";
+import { AuthProvider } from "./context/AuthProvider.jsx";
+import RecipeProvider from "./context/RecipeProvider.jsx";
+import UserProvider from "./context/UserProvider.jsx";
+import RecipeHeader from "./components/header/RecipeHeader.jsx";
+import RecipeEdit from "./pages/RecipeEdit.jsx";
+import RecipeEditHeader from "./components/header/RecipeEditHeader.jsx";
+import InitialUserInfoProvider from "./context/InitialUserInfoProvider.jsx";
+import PreferenceInit from "./components/userInfo/preference/PreferenceInit.jsx";
+import DislikedAndAllergyInit from "./components/userInfo/dislikedAndAllergy/DislikedAndAllergyInit.jsx";
+import HealthInfoInit from "./components/userInfo/health/HealthInfoInit.jsx";
+import RecipeLoading from "./pages/RecipeLoading.jsx";
+import RecipeFooter from "./components/footer/RecipeFooter.jsx";
+import { useAuth } from "./context/AuthProvider.jsx";
+import Header from "./components/header/Header.jsx";
+import { useRecipe } from "./context/RecipeProvider.jsx";
+const Page = ({ children }) => {
+  return (
+    <div className="w-full h-full flex justify-center items-center bg-white">
+      {children}
+    </div>
+  );
+};
+
+function MainWrapper() {
+  return (
+    <AuthProvider>
+      <UserProvider>
+        <Outlet />
+      </UserProvider>
+    </AuthProvider>
+  );
+}
+function RecipeWrapper() {
+  return (
+    <RecipeProvider>
+      <Outlet />
+    </RecipeProvider>
+  );
+}
+
+function InitUserInfoWrapper() {
+  return (
+    <Page>
+      <Outlet />
+    </Page>
+  );
+}
+
+function ConditionalRecipeLayout({ children }) {
+  const { isLoggedIn } = useAuth();
+  if (isLoggedIn === null) {
+    return <RecipeLoading />;
+  }
+  return isLoggedIn ? (
+    <RecipeLayout>{children}</RecipeLayout>
+  ) : (
+    <SharedOnlyRecipeLayout>{children}</SharedOnlyRecipeLayout>
+  );
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  return (
+    <Router>
+      <Routes>
+        <Route path="/loading" element={<RecipeLoading />} />
+
+        {/* <Route
+          path="/recipe/share/:recipeId"
+          element={
+            <RecipeLayout>
+              <RecipePage />
+            </RecipeLayout>
+          }
+        /> */}
+        <Route path="/" element={<MainWrapper />}>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <MainLayout>
+                <Profile />
+              </MainLayout>
+            }
+          />
+          <Route path="/user/init" element={<InitUserInfoWrapper />}>
+            <Route path="/user/init/health" element={<HealthInfoInit />} />
+            <Route path="/user/init/preference" element={<PreferenceInit />} />
+          </Route>
+          <Route path="/recipe" element={<RecipeWrapper />}>
+            <Route
+              // tag: [original, custom]
+              path="/recipe/:tag/:recipeId"
+              element={
+                <ConditionalRecipeLayout>
+                  <RecipePage />
+                </ConditionalRecipeLayout>
+              }
+            />
+            <Route
+              // type: [user, generate, nutrition, simplify]
+              path="/recipe/:type/:recipeId/edit"
+              element={
+                <RecipeEditLayout>
+                  <RecipeEdit />
+                </RecipeEditLayout>
+              }
+            />
+          </Route>
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
+
+const SharedOnlyRecipeHeader = () => {
+  const navigate = useNavigate();
+  return (
+    <Header>
+      <div className="w-full flex flex-row-reverse items-center">
+        <button
+          className="text-xs whitespace-nowrap font-bold text-white bg-green-500 px-2 py-1 rounded-md gap-1"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <i class="fa-solid fa-right-to-bracket"></i> 로그인
+        </button>
+      </div>
+    </Header>
+  );
+};
+
+const SharedOnlyRecipeFooter = () => {
+  return <div>SharedRecipeFooter</div>;
+};
+
+const SharedOnlyRecipeLayout = ({ children }) => {
+  return (
+    <>
+      <SharedOnlyRecipeHeader />
+      {children}
+      <SharedOnlyRecipeFooter />
+    </>
+  );
+};
+
+const RecipeLayout = ({ children }) => {
+  const { loading } = useRecipe();
+  return (
+    <>
+      {loading ? <></> : <RecipeHeader />}
+      {children}
+      {loading ? <></> : <RecipeFooter />}
+    </>
+  );
+};
+
+const RecipeEditLayout = ({ children }) => {
+  return (
+    <>
+      <RecipeEditHeader />
+      {children}
+    </>
+  );
+};
+
+const MainLayout = ({ children }) => {
+  const navigate = useNavigate();
+
+  const redirect = (path) => {
+    navigate(path);
+  };
+
+  const buttons = [
+    <IconButton
+      key="first"
+      icon={<i className="fa-solid fa-house"></i>}
+      onClick={() => redirect("/")}
+      label="Home"
+    />,
+    <IconButton
+      key="third"
+      icon={<i className="fa-solid fa-user"></i>}
+      onClick={() => redirect("/profile")}
+      label="Profile"
+    />,
+  ];
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <MainHeader />
+      {children}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
